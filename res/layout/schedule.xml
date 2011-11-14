@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scheduleLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/vbackground"
+    android:orientation="horizontal">
+    
+   <TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_vertical"
+    android:background="@drawable/body">
+
+	<TableRow
+	    android:layout_width="match_parent"
+	    android:layout_weight="0.2" >
+        <Button
+            android:id="@+id/underarmleft"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="Left Underarm"
+            android:background="#20ffffff"
+            android:textColor="#ffffff" />
+        <Button
+            android:id="@+id/underarmright"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="Rigth Underarm" 
+            android:background="#20ffffff"
+            android:textColor="#ffffff" />
+    </TableRow>
+    <TableRow
+        android:layout_weight="0.2">
+        <Button
+            android:id="@+id/forearmleft"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="Left Forearm" 
+            android:background="#20ffffff"
+            android:textColor="#ffffff" />
+        <Button
+            android:id="@+id/forearmright"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="Right Forearm" 
+            android:background="#20ffffff"
+            android:textColor="#ffffff" />
+    </TableRow>
+    <TableRow
+        android:layout_weight="0.2">
+        <Button
+            android:id="@+id/bikiniarea"
+            android:layout_span="2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="Bikini                                        Area"
+            android:background="#20ffffff" 
+            android:textColor="#ffffff" />
+    </TableRow>
+    <TableRow
+        android:layout_weight="0.2">
+        <Button
+            android:id="@+id/upperlegleft"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="Left Uppderleg" 
+            android:background="#20ffffff"
+            android:textColor="#ffffff" />
+        <Button
+            android:id="@+id/upperlegright"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="Right Uppderleg"
+            android:background="#20ffffff" 
+            android:textColor="#ffffff" />
+    </TableRow>
+    <TableRow
+        android:layout_weight="0.2">
+        <Button
+            android:id="@+id/lowerlegleft"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="Left Lowerleg"
+            android:background="#20ffffff"
+            android:textColor="#ffffff" />
+        <Button
+            android:id="@+id/lowerlegright"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="Right Lowerleg"
+            android:background="#20ffffff" 
+			android:textColor="#ffffff" />
+    </TableRow>
+    <TableRow>
+        <Button
+            android:layout_span="2"
+            android:id="@+id/scheduleproceed"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Proceed" />
+    </TableRow>
+	</TableLayout>
+	
+</LinearLayout>

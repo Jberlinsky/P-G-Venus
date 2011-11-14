@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tutorialLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_vertical"
+    android:paddingTop="50dp"
+    android:background="@drawable/vbackground"
+    android:orientation="vertical">
+	<TableRow>
+		<ImageButton
+		    android:id="@+id/scheduleButton"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="fill_vertical"
+		    android:layout_weight="0.5"
+		    android:src="@drawable/schedule" />
+
+		<ImageButton
+		    android:id="@+id/treatmentButton"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="fill_vertical"
+		    android:layout_weight="0.5"
+		    android:src="@drawable/treatment"/>
+        
+    </TableRow>
+    <TableRow android:paddingBottom="10dp">
+        <TextView
+            android:layout_column="0"
+            android:text="Schedule"
+            android:gravity="center"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:layout_column="1"
+            android:text="Treatment"
+            android:gravity="center"
+            android:layout_weight="0.5"/>
+    </TableRow>
+    
+    <TableRow>
+        <ImageButton
+            android:id="@+id/howtoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:src="@drawable/howto" />
+
+        <ImageButton
+            android:id="@+id/musicButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:src="@drawable/music"/>
+        
+    </TableRow>
+    <TableRow android:paddingBottom="10dp">
+        <TextView
+            android:layout_column="0"
+            android:text="How To Videos"
+            android:gravity="center"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:layout_column="1"
+            android:text="Playlist"
+            android:gravity="center"
+            android:layout_weight="0.5"/>
+    </TableRow>
+    <TableRow>
+        <ImageButton
+            android:id="@+id/settingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:src="@drawable/schedule" />
+
+        <ImageButton
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:src="@drawable/schedule" />
+        
+    </TableRow>
+	<TableRow android:paddingBottom="10dp">
+        <TextView
+            android:layout_column="0"
+            android:text="Setting"
+            android:gravity="center"
+            android:layout_weight="0.5"/>
+        <TextView
+            android:layout_column="1"
+            android:text="Start"
+            android:gravity="center"
+            android:layout_weight="0.5"/>
+    </TableRow>
+</TableLayout>

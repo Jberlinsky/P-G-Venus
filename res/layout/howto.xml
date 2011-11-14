@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/howtoLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/vbackground"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+    <TableRow
+        android:layout_weight="0.2"
+        android:paddingLeft="40dp">
+		<TextView
+	        android:id="@+id/title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_weight="0.00"
+	        android:text="How to Videos"/>
+	</TableRow>
+	<TableRow
+        android:layout_weight="0.2"
+        android:paddingLeft="40dp">
+		<ImageButton
+	        android:id="@+id/videoButton1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@android:color/transparent"
+	        android:layout_weight="0.00"
+	        android:src="@drawable/video" />
+		<TextView
+	        android:id="@+id/title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_weight="0.00"
+	        android:paddingLeft="40dp"
+	        android:text="Video 1"/>
+	</TableRow>
+	<TableRow
+        android:layout_weight="0.2"
+        android:paddingLeft="40dp">
+        <ImageButton
+	        android:id="@+id/videoButton1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@android:color/transparent"
+	        android:layout_weight="0.00"
+	        android:src="@drawable/video" />
+        <TextView
+	        android:id="@+id/title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_weight="0.00"
+	        android:paddingLeft="40dp"
+	        android:text="Video 2"/>
+	</TableRow>
+	<TableRow
+        android:layout_weight="0.2"
+        android:paddingLeft="40dp">
+		<ImageButton
+	        android:id="@+id/videoButton1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@android:color/transparent"
+	        android:layout_weight="0.00"
+	        android:src="@drawable/video" />
+		<TextView
+	        android:id="@+id/title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_weight="0.00"
+	        android:paddingLeft="40dp"
+	        android:text="Video 2"/>
+	</TableRow>
+    <TableRow
+        android:layout_weight="0.2"
+        android:paddingLeft="40dp">
+		<ImageButton
+	        android:id="@+id/videoButton1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@android:color/transparent"
+	        android:layout_weight="0.00"
+	        android:src="@drawable/video" />
+		<TextView
+	        android:id="@+id/title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_weight="0.00"
+	        android:paddingLeft="40dp"
+	        android:text="Video 2"/>
+	</TableRow>
+	<TableRow>
+        <Button android:id="@+id/visitWeb"
+            android:layout_span="2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Visit Website" />
+    </TableRow>
+</TableLayout>
