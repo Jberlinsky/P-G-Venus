@@ -1,6 +1,10 @@
 package com.venus.phone;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +12,9 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 public class ScheduleActivity extends Activity implements OnClickListener{
+
+	private static final int SHAVE_ID = 1;
+
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule);
@@ -130,6 +137,26 @@ public class ScheduleActivity extends Activity implements OnClickListener{
 			findViewById(R.id.saveReminder).setOnClickListener(this);
 			break;
 		case R.id.saveReminder:
+			// Do the reminder magic!
+			String ns = Context.NOTIFICATION_SERVICE;
+			NotificationManager mNotificationManager = (NotificationManager)getSystemService(ns);
+			int icon = android.R.drawable.ic_dialog_email;
+			CharSequence tickerText = "Reminder from Venus";
+			long when = System.currentTimeMillis();
+
+			Notification notification = new Notification(icon, tickerText, when);
+
+			Context context = getApplicationContext();
+			CharSequence contentTitle = "Time to Treat!";
+			CharSequence contentText = "You have a treatment scheduled with the Venus.";
+			
+			Intent notificationIntent = new Intent(this, ScheduleActivity.class);
+			PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+			notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+
+			mNotificationManager.notify(SHAVE_ID, notification);
+
 			Toast.makeText(this, "Reminder has been set!", Toast.LENGTH_SHORT).show();
 			setContentView(R.layout.schedule);
 		}
