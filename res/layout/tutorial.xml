@@ -4,28 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="fill_vertical"
-    android:paddingTop="50dp"
-    android:background="@drawable/vbackground"
+    android:background="#000000"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:orientation="vertical">
-	<TableRow>
-		<ImageButton
-		    android:id="@+id/scheduleButton"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="fill_vertical"
-		    android:layout_weight="0.5"
-		    android:src="@drawable/schedule" />
-
-		<ImageButton
-		    android:id="@+id/treatmentButton"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="fill_vertical"
-		    android:layout_weight="0.5"
-		    android:src="@drawable/treatment"/>
-        
-    </TableRow>
-    <TableRow android:paddingBottom="10dp">
+	<TableRow>
         <TextView
             android:layout_column="0"
             android:text="Schedule"
@@ -38,23 +21,28 @@
             android:layout_weight="0.5"/>
     </TableRow>
     
-    <TableRow>
-        <ImageButton
-            android:id="@+id/howtoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:src="@drawable/howto" />
+	<TableRow android:layout_weight="1" >
 
-        <ImageButton
-            android:id="@+id/musicButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:src="@drawable/music"/>
-        
+		<ImageButton
+		    android:id="@+id/scheduleButton"
+		    android:layout_column="0"
+		    android:layout_height="wrap_content"
+		    android:scaleType="fitXY"
+		    android:layout_weight="0.5"
+		    android:background="#000000"
+		    android:src="@drawable/schedule" />
+
+		<ImageButton
+		    android:id="@+id/treatmentButton"
+		    android:layout_column="1"
+		    android:layout_height="wrap_content"
+		    android:scaleType="fitXY"
+		    android:layout_weight="0.5"
+		    android:background="#000000"
+		    android:src="@drawable/treatment"/>
+
     </TableRow>
-    <TableRow android:paddingBottom="10dp">
+    <TableRow>
         <TextView
             android:layout_column="0"
             android:text="How To Videos"
@@ -62,36 +50,37 @@
             android:layout_weight="0.5"/>
         <TextView
             android:layout_column="1"
-            android:text="Playlist"
-            android:gravity="center"
-            android:layout_weight="0.5"/>
-    </TableRow>
-    <TableRow>
-        <ImageButton
-            android:id="@+id/settingButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:src="@drawable/schedule" />
-
-        <ImageButton
-            android:id="@+id/nextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:src="@drawable/schedule" />
-        
-    </TableRow>
-	<TableRow android:paddingBottom="10dp">
-        <TextView
-            android:layout_column="0"
             android:text="Setting"
             android:gravity="center"
             android:layout_weight="0.5"/>
-        <TextView
-            android:layout_column="1"
-            android:text="Start"
-            android:gravity="center"
-            android:layout_weight="0.5"/>
+    </TableRow>
+    <TableRow android:layout_weight="1">
+        <ImageButton
+            android:id="@+id/howtoButton"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+		    android:layout_weight="0.5"
+		    android:background="#000000"
+            android:src="@drawable/howto" />
+
+        <ImageButton
+            android:id="@+id/settingButton"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+		    android:layout_weight="0.5"
+		    android:background="#000000"
+            android:src="@drawable/setting"/>
+        
+    </TableRow>
+    <TableRow android:layout_weight="0.5">
+        <ImageButton
+            android:layout_span="2"
+            android:id="@+id/buygelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+		    android:layout_weight="0.5"
+		    android:background="#000000"
+            android:src="@drawable/buygel" />
     </TableRow>
 </TableLayout>

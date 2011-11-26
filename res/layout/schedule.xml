@@ -4,32 +4,29 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/vbackground"
-    android:orientation="horizontal">
-    
+    android:paddingRight="3dp"
+    android:paddingLeft="3dp">
+
    <TableLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="fill_vertical"
-    android:background="@drawable/body">
+       android:layout_width="match_parent"
+	   android:layout_height="fill_parent"	   
+       android:background="@drawable/body"
+       android:stretchColumns="0,1" >
 
 	<TableRow
 	    android:layout_width="match_parent"
-	    android:layout_weight="0.2" >
+	    android:layout_weight="0.2">
         <Button
             android:id="@+id/underarmleft"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:text="Left Underarm"
-            android:background="#20ffffff"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"/>
         <Button
             android:id="@+id/underarmright"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:text="Rigth Underarm" 
-            android:background="#20ffffff"
             android:textColor="#ffffff" />
     </TableRow>
     <TableRow
@@ -38,17 +35,14 @@
             android:id="@+id/forearmleft"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:text="Left Forearm" 
-            android:background="#20ffffff"
             android:textColor="#ffffff" />
         <Button
             android:id="@+id/forearmright"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_height="match_parent"            
             android:text="Right Forearm" 
-            android:background="#20ffffff"
+            
             android:textColor="#ffffff" />
     </TableRow>
     <TableRow
@@ -58,9 +52,8 @@
             android:layout_span="2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:text="Bikini                                        Area"
-            android:background="#20ffffff" 
+             
             android:textColor="#ffffff" />
     </TableRow>
     <TableRow
@@ -68,18 +61,15 @@
         <Button
             android:id="@+id/upperlegleft"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_height="match_parent"            
             android:text="Left Uppderleg" 
-            android:background="#20ffffff"
+            
             android:textColor="#ffffff" />
         <Button
             android:id="@+id/upperlegright"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_height="match_parent"            
             android:text="Right Uppderleg"
-            android:background="#20ffffff" 
             android:textColor="#ffffff" />
     </TableRow>
     <TableRow
@@ -88,27 +78,29 @@
             android:id="@+id/lowerlegleft"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:text="Left Lowerleg"
-            android:background="#20ffffff"
+            
             android:textColor="#ffffff" />
         <Button
             android:id="@+id/lowerlegright"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:text="Right Lowerleg"
-            android:background="#20ffffff" 
+             
 			android:textColor="#ffffff" />
     </TableRow>
+
     <TableRow>
         <Button
-            android:layout_span="2"
-            android:id="@+id/scheduleproceed"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="Proceed" />
+            android:id="@+id/scheduleProceed"
+            android:layout_column="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Next"
+            android:textColor="#000000"
+            android:textSize="15dp" />
+
     </TableRow>
 	</TableLayout>
 	

@@ -2,6 +2,7 @@ package com.venus.phone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,9 +18,8 @@ public class TutorialActivity extends Activity implements OnClickListener{
         findViewById(R.id.scheduleButton).setOnClickListener(this);
         findViewById(R.id.treatmentButton).setOnClickListener(this);
         findViewById(R.id.howtoButton).setOnClickListener(this);
-        findViewById(R.id.musicButton).setOnClickListener(this);
         findViewById(R.id.settingButton).setOnClickListener(this);
-        findViewById(R.id.nextButton).setOnClickListener(this);
+        findViewById(R.id.buygelButton).setOnClickListener(this);
         
 	}
 	
@@ -40,17 +40,13 @@ public class TutorialActivity extends Activity implements OnClickListener{
 			intent = new Intent(this, DiaryActivity.class).putExtra("tabNumber","3");
 			startActivity(intent);
 			break;
-		case R.id.musicButton:
+		case R.id.settingButton:
 			intent = new Intent(this, DiaryActivity.class).putExtra("tabNumber","4");
 			startActivity(intent);
 			break;
-		case R.id.settingButton:
-			intent = new Intent(this, DiaryActivity.class).putExtra("tabNumber","5");
-			startActivity(intent);
-			break;
-		case R.id.nextButton:
-			intent = new Intent(this, DiaryActivity.class).putExtra("tabNumber","1");
-			startActivity(intent);
+		case R.id.buygelButton:
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.gillettevenus.com/"));
+			startActivity(browserIntent);
 		}
 	}
 	
