@@ -12,6 +12,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import android.content.ContentResolver;
+import android.net.Uri;
+import android.database.Cursor;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.ContentValues;
+
 public class ScheduleActivity extends Activity implements OnClickListener{
 
 	private static final int SHAVE_ID = 1;
@@ -24,6 +31,64 @@ public class ScheduleActivity extends Activity implements OnClickListener{
 	boolean upperlegright = false;
 	boolean lowerlegleft = false;
 	boolean lowerlegright = false;
+
+	private static void addToCalendar(Context ctx, final String title, final long dtstart, final long dtend)
+    {
+        final ContentResolver cr = ctx.getContentResolver();
+        Cursor cursor;
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
+            cursor = cr.query(Uri.parse("content://com.android.calendar/calendars"), new String[]{ "_id", "displayname" }, null, null, null);
+        else
+            cursor = cr.query(Uri.parse("content://calendar/calendars"), new String[]{ "_id", "displayname" }, null, null, null);
+        if (cursor.moveToFirst())
+        {
+            final String[] calNames = new String[cursor.getCount()];
+            final int[] calIds = new int[cursor.getCount()];
+            for (int i = 0; i < calNames.length; i++)
+            {
+                calIds[i] = cursor.getInt(0);
+                calNames[i] = cursor.getString(1);
+                cursor.moveToNext();
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+            builder.setSingleChoiceItems(calNames, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        ContentValues cv = new ContentValues();
+                        cv.put("calendar_id", calIds[which]);
+                        cv.put("title", title);
+                        cv.put("dtstart", dtstart);
+                        cv.put("hasAlarm", 1);
+                        cv.put("dtend", dtend);
+
+                        Uri newEvent;
+                        if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
+                            newEvent = cr.insert(Uri.parse("content://com.android.calendar/events"), cv);
+                        else
+                            newEvent = cr.insert(Uri.parse("content://com.android.calendar/events"), cv);
+                        if (newEvent != null)
+                        {
+                            long id = Long.parseLong(newEvent.getLastPathSegment());
+                            ContentValues values = new ContentValues();
+                            values.put("event_id", id);
+                            values.put("method", 1);
+                            values.put("minutes", 15);
+                            if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8 )
+                                cr.insert( Uri.parse( "content://com.android.calendar/reminders" ), values );
+                            else
+                                cr.insert( Uri.parse( "content://calendar/reminders" ), values );
+                        }
+            dialog.cancel();
+                    }
+            });
+            builder.create().show();
+        }
+        cursor.close();
+    }
+                                        
+
 
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -260,6 +325,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
 			break;
 		case R.id.saveReminder:
 			// Do the reminder magic!
+			/*
 			String ns = Context.NOTIFICATION_SERVICE;
 			NotificationManager mNotificationManager = (NotificationManager)getSystemService(ns);
 			int icon = android.R.drawable.ic_dialog_email;
@@ -280,6 +346,10 @@ public class ScheduleActivity extends Activity implements OnClickListener{
 			mNotificationManager.notify(SHAVE_ID, notification);
 
 			Toast.makeText(this, "Reminder has been set!", Toast.LENGTH_SHORT).show();
+			*/
+
+            addToCalendar(this, "Venus Treatment", System.currentTimeMillis(), System.currentTimeMillis() + 1000*60*60*2);
+
 			setContentView(R.layout.schedule);
 			this.setListeners();
 			this.setVisual();
