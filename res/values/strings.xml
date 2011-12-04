@@ -1,7 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
     <string name="hello">Hello World, VenusDiaryActivity!</string>
     <string name="app_name">VenusDiary</string>
-
+    <string name="left_underarm">Left Underarm</string>
+    <string name="right_underarm">Right Underarm</string>
+    <string name="left_forearm">Left Forearm</string>
+    <string name="right_forearm">Right Forearm</string>
+    <string name="bikini_area">Bikini                                        Area</string>
+    <string name="left_upper_leg">Left Upper Leg</string>
+    <string name="right_upper_leg">Right Upper Leg</string>
+    <string name="left_lower_leg">Left Lower Leg</string>
+    <string name="right_lower_leg">Right Lower Leg</string>
+    <string name="proceed">Proceed</string>
+    <string-array name="sessions_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string name="none">None</string>
+    <string name="hint">Nothing</string>
+    <string name="set_email">Set your email address for reminders</string>
+    <string name="save">Save</string>
+    <string name="view_tutorial">View Application Tutorial</string>
 </resources>
