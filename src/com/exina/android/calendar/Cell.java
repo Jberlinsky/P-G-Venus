@@ -35,7 +35,7 @@ public class Cell {
 		mDayOfMonth = dayOfMon;
 		mBound = rect;
 		mPaint.setTextSize(textSize/*26f*/);
-		mPaint.setColor(Color.BLACK);
+		mPaint.setColor(Color.WHITE);
 		if(bold) mPaint.setFakeBoldText(true);
 		
 		dx = (int) mPaint.measureText(String.valueOf(mDayOfMonth)) / 2;
