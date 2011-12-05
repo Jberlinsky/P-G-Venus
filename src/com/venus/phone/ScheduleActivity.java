@@ -1,36 +1,438 @@
 package com.venus.phone;
 
+import java.util.Calendar;
+
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
-
-import android.content.ContentResolver;
-import android.net.Uri;
-import android.database.Cursor;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.ContentValues;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 public class ScheduleActivity extends Activity implements OnClickListener{
 
-    private static final int SHAVE_ID = 1;
-    boolean underarmleft = false;
-    boolean underarmright = false;
-    boolean forearmleft = false;
-    boolean forearmright = false;
-    boolean bikiniarea = false;
-    boolean upperlegleft = false;
-    boolean upperlegright = false;
-    boolean lowerlegleft = false;
-    boolean lowerlegright = false;
+    Spinner sessionSpinner;
+    private boolean isStartup;
+    private String startupNumber;
+
+    SelectionButton ba;
+    SelectionButton lua;
+    SelectionButton lfa;
+    SelectionButton lul;
+    SelectionButton lll;
+    SelectionButton rua;
+    SelectionButton rfa;
+    SelectionButton rul;
+    SelectionButton rll;
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.schedule);
+
+        /* Button names
+         *  underarmleft
+            underarmright
+            forearmleft
+            forearmright
+            bikiniarea
+            upperlegleft
+            upperlegright
+            lowerlegleft
+            lowerlegright
+            scheduleproceed
+            phaseProceed
+            phaseBack
+            setReminderBack
+            startupButton
+            maintenanceButton
+            saveReminder
+
+         */
+
+        /*Edit TExt
+         * setReminderEmail
+         */
+
+        /*Spinner
+         * alarmSoundSpinner
+         * daysBeforeSpinner
+         */
+
+        /* Checkbox
+         * emailCheckBox
+         * alertCheckBox
+         */
+
+      //Listener
+        this.setListeners();
+
+    }
+
+    private void setListeners() {
+        lua = (SelectionButton)findViewById(R.id.underarmleft);
+        lua.setOnClickListener(this);
+        rua = (SelectionButton)findViewById(R.id.underarmright);
+        rua.setOnClickListener(this);
+        lfa = (SelectionButton)findViewById(R.id.forearmleft);
+        lfa.setOnClickListener(this);
+        rfa = (SelectionButton)findViewById(R.id.forearmright);
+        rfa.setOnClickListener(this);
+        ba = (SelectionButton)findViewById(R.id.bikiniarea);
+        ba.setOnClickListener(this);
+        lul = (SelectionButton)findViewById(R.id.upperlegleft);
+        lul.setOnClickListener(this);
+        rul = (SelectionButton)findViewById(R.id.upperlegright);
+        rul.setOnClickListener(this);
+        lll = (SelectionButton)findViewById(R.id.lowerlegleft);
+        lll.setOnClickListener(this);
+        rll = (SelectionButton)findViewById(R.id.lowerlegright);
+        rll.setOnClickListener(this);
+
+        findViewById(R.id.scheduleProceed).setOnClickListener(this);
+    }
+
+    public void onClick( View v ) {
+        switch( v.getId() ) {
+        case R.id.underarmleft:
+            if( lua.isSelected ) {
+                lua.setUnselected();
+            } else {
+                lua.setSelectedCustom();
+                rua.setUnselected();
+                lfa.setUnselected();
+                rfa.setUnselected();
+                ba.setUnselected();
+                lul.setUnselected();
+                rul.setUnselected();
+                lll.setUnselected();
+                rll.setUnselected();
+            }
+            break;
+        case R.id.underarmright:
+            if( rua.isSelected ) {
+                rua.setUnselected();
+            } else {
+                rua.setSelectedCustom();
+                lua.setUnselected();
+                lfa.setUnselected();
+                rfa.setUnselected();
+                ba.setUnselected();
+                lul.setUnselected();
+                rul.setUnselected();
+                lll.setUnselected();
+                rll.setUnselected();
+            }
+            break;
+        case R.id.forearmleft:
+            if( lfa.isSelected ) {
+                lfa.setUnselected();
+            } else {
+                lfa.setSelectedCustom();
+                lua.setUnselected();
+                rua.setUnselected();
+                rfa.setUnselected();
+                ba.setUnselected();
+                lul.setUnselected();
+                rul.setUnselected();
+                lll.setUnselected();
+                rll.setUnselected();
+            }
+            break;
+        case R.id.forearmright:
+            if( rfa.isSelected ) {
+                rfa.setUnselected();
+            } else {
+                rfa.setSelectedCustom();
+                lua.setUnselected();
+                rua.setUnselected();
+                lfa.setUnselected();
+                ba.setUnselected();
+                lul.setUnselected();
+                rul.setUnselected();
+                lll.setUnselected();
+                rll.setUnselected();
+            }
+            break;
+        case R.id.bikiniarea:
+            if( ba.isSelected ) {
+                ba.setUnselected();
+            } else {
+                ba.setSelectedCustom();
+                lua.setUnselected();
+                rua.setUnselected();
+                lfa.setUnselected();
+                rfa.setUnselected();
+                lul.setUnselected();
+                rul.setUnselected();
+                lll.setUnselected();
+                rll.setUnselected();
+            }
+            break;
+        case R.id.upperlegleft:
+            if( lul.isSelected ) {
+                lul.setUnselected();
+            } else {
+                lul.setSelectedCustom();
+                lua.setUnselected();
+                rua.setUnselected();
+                lfa.setUnselected();
+                rfa.setUnselected();
+                ba.setUnselected();
+                rul.setUnselected();
+                lll.setUnselected();
+                rll.setUnselected();
+            }
+            break;
+        case R.id.upperlegright:
+            if( rul.isSelected ) {
+                rul.setUnselected();
+            } else {
+                rul.setSelectedCustom();
+                lua.setUnselected();
+                rua.setUnselected();
+                lfa.setUnselected();
+                rfa.setUnselected();
+                ba.setUnselected();
+                lul.setUnselected();
+                lll.setUnselected();
+                rll.setUnselected();
+            }
+            break;
+        case R.id.lowerlegleft:
+            if( lll.isSelected ) {
+                lll.setUnselected();
+            } else {
+                lll.setSelectedCustom();
+                lua.setUnselected();
+                rua.setUnselected();
+                lfa.setUnselected();
+                rfa.setUnselected();
+                ba.setUnselected();
+                lul.setUnselected();
+                rul.setUnselected();
+                rll.setUnselected();
+            }
+            break;
+        case R.id.lowerlegright:
+            if( rll.isSelected ) {
+                rll.setUnselected();
+            } else {
+                rll.setSelectedCustom();
+                lua.setUnselected();
+                rua.setUnselected();
+                lfa.setUnselected();
+                rfa.setUnselected();
+                ba.setUnselected();
+                lul.setUnselected();
+                rul.setUnselected();
+                lll.setUnselected();
+            }
+            break;
+        case R.id.startupButton:
+            isStartup = true;
+            //Visual//
+            findViewById(R.id.startupButton).setBackgroundColor(0xFFFFFFFF);
+            findViewById(R.id.maintenanceButton).setBackgroundColor(0x00000000);
+            findViewById(R.id.sessionSpinner).setVisibility(View.VISIBLE);
+            findViewById(R.id.sessionText).setVisibility(View.VISIBLE);
+            /////////
+            break;
+        case R.id.maintenanceButton:
+            isStartup = false;
+            //Visual//
+            findViewById(R.id.startupButton).setBackgroundColor(0x00000000);
+            findViewById(R.id.maintenanceButton).setBackgroundColor(0xFFFFFFFF);
+            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
+            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
+            break;
+        case R.id.scheduleProceed:
+            setContentView(R.layout.phase);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource( this,
+                                                                                  R.array.sessions_array,
+                                                                                  android.R.layout.simple_spinner_item );
+            adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+            sessionSpinner = (Spinner)findViewById( R.id.sessionSpinner );
+            sessionSpinner.setAdapter(adapter);
+            sessionSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
+                    startupNumber = parent.getItemAtPosition(pos).toString();
+
+                }
+                public void onNothingSelected( AdapterView<?> arg0 ) { }
+            } );
+
+            //Visual and listener//
+            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
+            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
+            findViewById(R.id.startupButton).setOnClickListener(this);
+            findViewById(R.id.maintenanceButton).setOnClickListener(this);
+            findViewById(R.id.phaseProceed).setOnClickListener(this);
+            findViewById(R.id.phaseBack).setOnClickListener(this);
+            break;
+        case R.id.phaseBack:
+            setContentView(R.layout.schedule);
+            //Visual and listener//
+            this.setListeners();
+            lua.setUnselected();
+            rua.setUnselected();
+            lfa.setUnselected();
+            rfa.setUnselected();
+            ba.setUnselected();
+            lul.setUnselected();
+            rul.setUnselected();
+            lll.setUnselected();
+            rll.setUnselected();
+            break;
+        case R.id.phaseProceed:
+            setContentView(R.layout.setreminder);
+            //Visual and listener//
+            findViewById(R.id.saveReminder).setOnClickListener(this);
+            findViewById(R.id.setReminderBack).setOnClickListener(this);
+            break;
+        case R.id.setReminderBack:
+            setContentView(R.layout.phase);
+            //Visual and listener//
+            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
+            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
+            findViewById(R.id.startupButton).setOnClickListener(this);
+            findViewById(R.id.maintenanceButton).setOnClickListener(this);
+            findViewById(R.id.phaseProceed).setOnClickListener(this);
+            findViewById(R.id.phaseBack).setOnClickListener(this);
+            break;
+        case R.id.saveReminder:
+            // Do the reminder magic!
+            /*
+            String ns = Context.NOTIFICATION_SERVICE;
+            NotificationManager mNotificationManager = (NotificationManager)getSystemService(ns);
+            int icon = android.R.drawable.ic_dialog_email;
+            CharSequence tickerText = "Reminder from Venus";
+            long when = System.currentTimeMillis();
+
+            Notification notification = new Notification(icon, tickerText, when);
+
+            Context context = getApplicationContext();
+            CharSequence contentTitle = "Time to Treat!";
+            CharSequence contentText = "You have a treatment scheduled with the Venus.";
+
+            Intent notificationIntent = new Intent(this, ScheduleActivity.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+            notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+
+            mNotificationManager.notify(SHAVE_ID, notification);
+
+            Toast.makeText(this, "Reminder has been set!", Toast.LENGTH_SHORT).show();
+            */
+
+            String bodyPart = null;
+            if( lua.isSelected ) {
+                bodyPart = getString( R.string.left_underarm );
+            } else if( rua.isSelected ) {
+                bodyPart = getString( R.string.right_underarm );
+            } else if( lfa.isSelected ) {
+                bodyPart = getString( R.string.left_forearm );
+            } else if( rfa.isSelected ) {
+                bodyPart = getString( R.string.right_forearm );
+            } else if( ba.isSelected ) {
+                bodyPart = getString( R.string.bikini_area );
+            } else if( lul.isSelected ) {
+                bodyPart = getString( R.string.left_upper_leg);
+            } else if( rul.isSelected ) {
+                bodyPart = getString( R.string.right_upper_leg );
+            } else if( lll.isSelected ) {
+                bodyPart = getString( R.string.left_lower_leg );
+            } else if( rll.isSelected ) {
+                bodyPart = getString( R.string.right_lower_leg );
+            }
+            //Is this start up or maintenance?
+            String desc = null;
+            int modifier = 0;
+            Calendar c = Calendar.getInstance();
+            if( isStartup ) {
+                desc = "This is treatment number " + startupNumber;
+                modifier = Calendar.WEEK_OF_YEAR;
+            } else {
+                desc = "Maintenance phase";
+                modifier = Calendar.MONTH;
+            }
+            c.add( modifier, 2 );
+            //Here we add an event through an intent.
+//            Intent calendarIntent = new Intent( Intent.ACTION_EDIT );
+//            calendarIntent.setType( "vnd.android.cursor.item/event" );
+//            calendarIntent.putExtra( "title", bodyPart + " treatment reminder" );
+//            calendarIntent.putExtra( "description", desc );
+//            calendarIntent.putExtra( "beginTime", c.getTimeInMillis() );
+//            calendarIntent.putExtra( "endTime", c.getTimeInMillis() + Constants.ONE_HOUR );
+//   l_intent.putExtra("allDay", 0);
+   //status: 0~ tentative; 1~ confirmed; 2~ canceled
+//   l_intent.putExtra("eventStatus", 1);
+   //0~ default; 1~ confidential; 2~ private; 3~ public
+//   l_intent.putExtra("visibility", 0);    //
+   //0~ opaque, no timing conflict is allowed; 1~ transparency, allow overlap of scheduling
+//   l_intent.putExtra("transparency", 0);
+   //0~ false; 1~ true
+//   l_intent.putExtra("hasAlarm", 1);
+//            try {
+//                startActivity( calendarIntent );
+//            } catch ( Exception e ) {
+//                Toast.makeText(this.getApplicationContext(), "Sorry, no compatible calendar is found!", Toast.LENGTH_LONG).show();
+//                Log.d( "TAG", e.getMessage() );
+//            }
+
+            addToCalendar(this, bodyPart + " treatment reminder", c.getTimeInMillis(), c.getTimeInMillis() + Constants.ONE_HOUR );
+
+            setContentView(R.layout.schedule);
+            this.setListeners();
+            lua.setUnselected();
+            rua.setUnselected();
+            lfa.setUnselected();
+            rfa.setUnselected();
+            ba.setUnselected();
+            lul.setUnselected();
+            rul.setUnselected();
+            lll.setUnselected();
+            rll.setUnselected();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private static void addToCalendar(Context ctx, final String title, final long dtstart, final long dtend)
     {
@@ -89,269 +491,5 @@ public class ScheduleActivity extends Activity implements OnClickListener{
 
 
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.schedule);
 
-        /* Button names
-         *  underarmleft
-            underarmright
-            forearmleft
-            forearmright
-            bikiniarea
-            upperlegleft
-            upperlegright
-            lowerlegleft
-            lowerlegright
-            scheduleproceed
-            phaseProceed
-            phaseBack
-            setReminderBack
-            startupButton
-            maintenanceButton
-            saveReminder
-
-         */
-
-        /*Edit TExt
-         * setReminderEmail
-         */
-
-        /*Spinner
-         * alarmSoundSpinner
-         * daysBeforeSpinner
-         */
-
-        /* Checkbox
-         * emailCheckBox
-         * alertCheckBox
-         */
-
-      //Visual
-        setVisual();
-
-      //Listener
-        this.setListeners();
-
-
-
-
-
-    }
-    private void setListeners() {
-        findViewById(R.id.underarmleft).setOnClickListener(this);
-        findViewById(R.id.underarmright).setOnClickListener(this);
-        findViewById(R.id.forearmleft).setOnClickListener(this);
-        findViewById(R.id.forearmright).setOnClickListener(this);
-        findViewById(R.id.bikiniarea).setOnClickListener(this);
-        findViewById(R.id.upperlegleft).setOnClickListener(this);
-        findViewById(R.id.upperlegright).setOnClickListener(this);
-        findViewById(R.id.lowerlegleft).setOnClickListener(this);
-        findViewById(R.id.lowerlegright).setOnClickListener(this);
-        findViewById(R.id.scheduleProceed).setOnClickListener(this);
-    }
-    private void setVisual() {
-        for (int i = R.id.underarmleft;i <= R.id.lowerlegright; i++)
-            changeAlpha(i, 0);
-    }
-
-    private void changeAlpha(int rid, int alpha)
-    {
-        findViewById(rid).setBackgroundColor(Color.parseColor("#ffffff"));
-        findViewById(rid).getBackground().setAlpha(alpha);
-    }
-
-    public void onClick(View v) {
-        //super.onClick(v);
-        switch(v.getId()) {
-
-        case R.id.underarmleft:
-
-            if (underarmleft)
-            {
-                changeAlpha(R.id.underarmleft,0);
-                underarmleft = false;
-            }
-            else
-            {
-                changeAlpha(R.id.underarmleft,60);
-                underarmleft = true;
-            }
-            break;
-        case R.id.underarmright:
-            if (underarmright)
-            {
-                changeAlpha(R.id.underarmright,0);
-                underarmright = false;
-            }
-            else
-            {
-                changeAlpha(R.id.underarmright,60);
-                underarmright = true;
-            }
-            break;
-        case R.id.forearmleft:
-            if (forearmleft)
-            {
-                changeAlpha(R.id.forearmleft,0);
-                forearmleft = false;
-            }
-            else
-            {
-                changeAlpha(R.id.forearmleft,60);
-                forearmleft = true;
-            }
-            break;
-        case R.id.forearmright:
-            if (forearmright)
-            {
-                changeAlpha(R.id.forearmright,0);
-                forearmright = false;
-            }
-            else
-            {
-                changeAlpha(R.id.forearmright,60);
-                forearmright = true;
-            }
-            break;
-        case R.id.bikiniarea:
-            if (bikiniarea)
-            {
-                changeAlpha(R.id.bikiniarea,0);
-                bikiniarea = false;
-            }
-            else
-            {
-                changeAlpha(R.id.bikiniarea,60);
-                bikiniarea = true;
-            }
-            break;
-        case R.id.upperlegleft:
-            if (upperlegleft)
-            {
-                changeAlpha(R.id.upperlegleft,0);
-                upperlegleft = false;
-            }
-            else
-            {
-                changeAlpha(R.id.upperlegleft,60);
-                upperlegleft = true;
-            }
-            break;
-        case R.id.upperlegright:
-            if (upperlegright)
-            {
-                changeAlpha(R.id.upperlegright,0);
-                upperlegright = false;
-            }
-            else
-            {
-                changeAlpha(R.id.upperlegright,60);
-                upperlegright = true;
-            }
-            break;
-        case R.id.lowerlegleft:
-            if (lowerlegleft)
-            {
-                changeAlpha(R.id.lowerlegleft,0);
-                lowerlegleft = false;
-            }
-            else
-            {
-                changeAlpha(R.id.lowerlegleft,60);
-                lowerlegleft = true;
-            }
-
-            break;
-        case R.id.lowerlegright:
-            if (lowerlegright)
-            {
-                changeAlpha(R.id.lowerlegright,0);
-                lowerlegright = false;
-            }
-            else
-            {
-                changeAlpha(R.id.lowerlegright,60);
-                lowerlegright = true;
-            }
-            break;
-        case R.id.startupButton:
-            //Visual//
-            findViewById(R.id.startupButton).setBackgroundColor(0xFFFFFFFF);
-            findViewById(R.id.maintenanceButton).setBackgroundColor(0x00000000);
-            findViewById(R.id.sessionSpinner).setVisibility(View.VISIBLE);
-            findViewById(R.id.sessionText).setVisibility(View.VISIBLE);
-            /////////
-            break;
-        case R.id.maintenanceButton:
-            //Visual//
-            findViewById(R.id.startupButton).setBackgroundColor(0x00000000);
-            findViewById(R.id.maintenanceButton).setBackgroundColor(0xFFFFFFFF);
-            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
-            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
-            break;
-        case R.id.scheduleProceed:
-            setContentView(R.layout.phase);
-            //Visual and listener//
-            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
-            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
-            findViewById(R.id.startupButton).setOnClickListener(this);
-            findViewById(R.id.maintenanceButton).setOnClickListener(this);
-            findViewById(R.id.phaseProceed).setOnClickListener(this);
-            findViewById(R.id.phaseBack).setOnClickListener(this);
-            break;
-        case R.id.phaseBack:
-            setContentView(R.layout.schedule);
-            //Visual and listener//
-            this.setListeners();
-            this.setVisual();
-            break;
-        case R.id.phaseProceed:
-            setContentView(R.layout.setreminder);
-            //Visual and listener//
-            findViewById(R.id.saveReminder).setOnClickListener(this);
-            findViewById(R.id.setReminderBack).setOnClickListener(this);
-            break;
-        case R.id.setReminderBack:
-            setContentView(R.layout.phase);
-            //Visual and listener//
-            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
-            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
-            findViewById(R.id.startupButton).setOnClickListener(this);
-            findViewById(R.id.maintenanceButton).setOnClickListener(this);
-            findViewById(R.id.phaseProceed).setOnClickListener(this);
-            findViewById(R.id.phaseBack).setOnClickListener(this);
-            break;
-        case R.id.saveReminder:
-            // Do the reminder magic!
-            /*
-            String ns = Context.NOTIFICATION_SERVICE;
-            NotificationManager mNotificationManager = (NotificationManager)getSystemService(ns);
-            int icon = android.R.drawable.ic_dialog_email;
-            CharSequence tickerText = "Reminder from Venus";
-            long when = System.currentTimeMillis();
-
-            Notification notification = new Notification(icon, tickerText, when);
-
-            Context context = getApplicationContext();
-            CharSequence contentTitle = "Time to Treat!";
-            CharSequence contentText = "You have a treatment scheduled with the Venus.";
-
-            Intent notificationIntent = new Intent(this, ScheduleActivity.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-
-            notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-
-            mNotificationManager.notify(SHAVE_ID, notification);
-
-            Toast.makeText(this, "Reminder has been set!", Toast.LENGTH_SHORT).show();
-            */
-
-            addToCalendar(this, "Venus Treatment", System.currentTimeMillis(), System.currentTimeMillis() + 1000*60*60*2);
-
-            setContentView(R.layout.schedule);
-            this.setListeners();
-            this.setVisual();
-        }
-    }
 }
