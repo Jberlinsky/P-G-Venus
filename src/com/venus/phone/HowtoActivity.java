@@ -11,16 +11,25 @@ public class HowtoActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.howto);
 
-        ((ImageButton)findViewById( R.id.videoButton1 )).setOnClickListener( this );
+        ((ImageButton)findViewById( R.id.howtoVideoButton )).setOnClickListener( this );
+        ((ImageButton)findViewById( R.id.trVideoButton )).setOnClickListener( this );
+        ((ImageButton)findViewById( R.id.workVideoButton )).setOnClickListener( this );
     }
 
     public void onClick( View v ) {
         switch( v.getId() ) {
-        case R.id.videoButton1 :
+        case R.id.howtoVideoButton :
+            startActivity( new Intent( getApplicationContext(), VideoPlayer.class) );
+            break;
+        case R.id.trVideoButton :
+            startActivity( new Intent( getApplicationContext(), VideoPlayer.class) );
+            break;
+        case R.id.workVideoButton :
             startActivity( new Intent( getApplicationContext(), VideoPlayer.class) );
             break;
         default :
             break;
         }
     }
+    
 }

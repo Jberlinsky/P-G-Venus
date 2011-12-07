@@ -1,35 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/howtoLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/vbackground"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp" >
-
-   		<TextView
-	        android:id="@+id/title"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center|top"
-	        android:gravity="top|center"
-	        android:text="How to Videos"/>
-	
-		<ImageButton
-		    android:id="@+id/videoButton1"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center"
-		    android:gravity="center"
-		    android:background="@android:color/transparent"
-		    android:src="@drawable/videoscreen" />
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp" >
+    
+	<TableRow
+	    android:layout_gravity="bottom"
+	    android:layout_weight="0.3"
+	    android:gravity="bottom" >
 
 		<TextView
-	        android:id="@+id/title"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center"
-	        android:text="Click to Play"/>
-</LinearLayout>
+		    android:layout_column="0"
+            android:text="How It Works"
+            android:gravity="center"
+            android:layout_weight="0.5" />
+		
+		<TextView
+		    android:layout_column="0"
+            android:text="Regiment"
+            android:gravity="center"
+            android:layout_weight="0.5" />
+    </TableRow>
+    
+    <TableRow  android:layout_weight="0.5">
+
+		<ImageButton
+		    android:id="@+id/workVideoButton"
+		    android:layout_column="0"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="0.5"
+		    android:background="#00000000"
+		    android:src="@drawable/video" />
+
+		<ImageButton
+		    android:id="@+id/trVideoButton"
+		    android:layout_column="1"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="0.5"
+		    android:background="#00000000"
+		    android:src="@drawable/video"/>
+    </TableRow>
+    <TableRow android:layout_width="match_parent"
+   	    android:layout_height="match_parent" 
+   	    android:layout_gravity="center"
+   	    android:layout_marginTop="30dp"
+   	    android:gravity="center">
+   	    <TextView
+		    android:layout_span="1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="How to Use It" />
+    </TableRow>
+    
+    <TableRow android:layout_weight="0.5" >
+		<ImageButton
+		    android:id="@+id/howtoVideoButton"
+		    android:layout_span="2"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="0.5"
+		    android:background="#00000000"
+		    android:src="@drawable/videoscreen" />
+    </TableRow>
+</TableLayout>

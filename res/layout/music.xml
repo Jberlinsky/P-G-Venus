@@ -5,21 +5,17 @@
     android:layout_height="match_parent"
     android:background="@drawable/vbackground"
     android:orientation="vertical"
+    android:gravity="center"
     android:paddingBottom="60dp"
     android:paddingTop="40dp" >
 
-    <ImageView
-        android:id="@+id/mainLogo"
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
-        android:layout_height="125dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="0.00"
-        android:paddingBottom="10dp"
-        android:src="@drawable/gilette_venus_lockup" />
-    <MediaController
-        android:id="@+id/musicController"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_weight="0.03" >
-    </MediaController>
+        android:text="Coming Soon!"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>
