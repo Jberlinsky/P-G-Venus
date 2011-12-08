@@ -2,7 +2,6 @@ package com.venus.phone;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.TextView;
 
 public class MusicActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {

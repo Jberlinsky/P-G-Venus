@@ -1,8 +1,5 @@
 package com.venus.phone;
 
-import com.exina.android.calendar.CalendarView;
-import com.exina.android.calendar.Cell;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +7,9 @@ import android.os.Handler;
 import android.text.format.DateUtils;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.exina.android.calendar.CalendarView;
+import com.exina.android.calendar.Cell;
 
 public class TreatmentActivity extends Activity implements CalendarView.OnCellTouchListener {
     public static final String MIME_TYPE = "vnd.android.cursor.dir/vnd.exina.android.calendar.date";

@@ -10,56 +10,26 @@
    <TableLayout
        android:layout_width="match_parent"
      android:layout_height="fill_parent"
-       android:background="@drawable/body"
-       android:stretchColumns="0,1" >
+       android:background="@drawable/body1"
+       android:stretchColumns="0" >
 
   <TableRow
       android:layout_width="match_parent"
       android:layout_weight="0.2" >
 
         <view class="com.venus.phone.SelectionButton"
-            android:id="@+id/underarmleft"
+            android:id="@+id/underarm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:background="#20ffffff"
-            android:text="@string/left_underarm"
+            android:text="@string/underarm"
             android:textColor="#ffffff" />
 
 
-        <view class="com.venus.phone.SelectionButton"
-            android:id="@+id/underarmright"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:background="#20ffffff"
-            android:text="@string/right_underarm"
-            android:textColor="#ffffff" />
+       
 
     </TableRow>
-    <TableRow
-        android:layout_weight="0.2">
-
-        <view class="com.venus.phone.SelectionButton"
-            android:id="@+id/forearmleft"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:background="#20ffffff"
-            android:text="@string/left_forearm"
-            android:textColor="#ffffff" />
-
-
-        <view class="com.venus.phone.SelectionButton"
-            android:id="@+id/forearmright"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:background="#20ffffff"
-            android:text="@string/right_forearm"
-            android:textColor="#ffffff" />
-
-    </TableRow>
+  
     <TableRow
         android:layout_weight="0.2">
 
@@ -67,10 +37,9 @@
             android:id="@+id/bikiniarea"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_span="2"
             android:layout_weight="0.5"
             android:background="#20ffffff"
-            android:text="Bikini                                        Area"
+            android:text="Bikini                             Area"
             android:textColor="#ffffff" />
 
     </TableRow>
@@ -78,52 +47,32 @@
         android:layout_weight="0.2">
 
         <view class="com.venus.phone.SelectionButton"
-            android:id="@+id/upperlegleft"
+            android:id="@+id/upperleg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:background="#20ffffff"
-            android:text="@string/left_upper_leg"
+            android:text="@string/upper_leg"
             android:textColor="#ffffff" />
 
-
-        <view class="com.venus.phone.SelectionButton"
-            android:id="@+id/upperlegright"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:background="#20ffffff"
-            android:text="@string/right_upper_leg"
-            android:textColor="#ffffff" />
 
     </TableRow>
     <TableRow
         android:layout_weight="0.2">
 
+
         <view class="com.venus.phone.SelectionButton"
-            android:id="@+id/lowerlegleft"
+            android:id="@+id/lowerleg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:background="#20ffffff"
-            android:text="@string/left_lower_leg"
-            android:textColor="#ffffff" />
-
-
-        <view class="com.venus.phone.SelectionButton"
-            android:id="@+id/lowerlegright"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:background="#20ffffff"
-            android:text="@string/right_lower_leg"
+            android:text="@string/lower_leg"
             android:textColor="#ffffff" />
 
     </TableRow>
     <TableRow>
         <Button
             android:id="@+id/scheduleProceed"
-            android:layout_column="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

@@ -32,4 +32,7 @@
     <string name="set_default">Set default reminder period</string>
     <string name="save">Save</string>
     <string name="view_tutorial">View Application Tutorial</string>
+    <string name="underarm">Underarm</string>
+    <string name="upper_leg">Upper Leg</string>
+    <string name="lower_leg">Lower Leg</string>
 </resources>

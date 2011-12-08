@@ -1,13 +1,7 @@
 package com.venus.phone;
 
 import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -54,6 +48,6 @@ public class LoadingActivity extends Activity {
         vdb.setFirstRun();
         msg.what = (vdb.isFirstRun()) ? FIRST_RUN : RUN;
         vdb.close();
-        splashHandler.sendMessageDelayed( msg, Constants.SPLASH_TIMEOUT );
+        splashHandler.sendMessageDelayed( msg, 4000 );
     }
 }
