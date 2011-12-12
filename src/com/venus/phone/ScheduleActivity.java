@@ -8,9 +8,13 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -110,10 +114,35 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         ll = (SelectionButton)findViewById(R.id.lowerleg);
         ll.setOnClickListener(this);
         
-
+        
         findViewById(R.id.scheduleProceed).setOnClickListener(this);
     }
-
+    
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.layout.tabmenu, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.schedulemenu:
+        	startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
+            return true;
+        case R.id.treatmentmenu:
+        	startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
+            return true;
+        case R.id.howtomenu:
+        	startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
+            return true;
+        case R.id.settingmenu:
+        	startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+    
     public void onClick( View v ) {
         switch( v.getId() ) {
 	        case R.id.underarm:

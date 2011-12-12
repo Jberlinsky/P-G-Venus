@@ -77,16 +77,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:text="Back"
-            android:textColor="#000000"
-            android:textSize="15dp"/>
+            android:paddingTop="5dp"
+			 android:paddingBottom="5dp"
+			 android:paddingLeft="30dp"
+			 android:paddingRight="30dp"
+			 android:background="@+drawable/buttonbackground"
+			 android:textColor="#FFFFFF"
+			 android:textSize="15sp"/>
 	    <Button
 		    android:id="@+id/phaseProceed"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="right"
 		    android:text="Next"
-		    android:textColor="#000000"
-		    android:textSize="15dp" />
+		    android:paddingTop="5dp"
+			 android:paddingBottom="5dp"
+			 android:paddingLeft="30dp"
+			 android:paddingRight="30dp"
+			 android:background="@+drawable/buttonbackground"
+			 android:textColor="#FFFFFF"
+			 android:textSize="15sp" />
 	</TableRow>
 	
 
