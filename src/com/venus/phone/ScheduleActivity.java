@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class ScheduleActivity extends Activity implements OnClickListener{
 
@@ -382,42 +383,6 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             //Visual and listener//
             findViewById(R.id.saveReminder).setOnClickListener(this);
             findViewById(R.id.setReminderBack).setOnClickListener(this);
-            break;
-        case R.id.setReminderBack:
-            setContentView(R.layout.phase);
-            //Visual and listener//
-            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
-            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
-            findViewById(R.id.startupButton).setOnClickListener(this);
-            findViewById(R.id.maintenanceButton).setOnClickListener(this);
-            findViewById(R.id.phaseProceed).setOnClickListener(this);
-            findViewById(R.id.phaseBack).setOnClickListener(this);
-            break;
-        case R.id.saveReminder:
-            // Do the reminder magic!
-            /*
-            String ns = Context.NOTIFICATION_SERVICE;
-            NotificationManager mNotificationManager = (NotificationManager)getSystemService(ns);
-            int icon = android.R.drawable.ic_dialog_email;
-            CharSequence tickerText = "Reminder from Venus";
-            long when = System.currentTimeMillis();
-
-            Notification notification = new Notification(icon, tickerText, when);
-
-            Context context = getApplicationContext();
-            CharSequence contentTitle = "Time to Treat!";
-            CharSequence contentText = "You have a treatment scheduled with the Venus.";
-
-            Intent notificationIntent = new Intent(this, ScheduleActivity.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-
-            notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-
-            mNotificationManager.notify(SHAVE_ID, notification);
-
-            Toast.makeText(this, "Reminder has been set!", Toast.LENGTH_SHORT).show();
-            */
-
             String bodyPart = null;
             if( ba.isSelected ) {
                 bodyPart = getString( R.string.bikini_area );
@@ -428,26 +393,8 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             } else if( ll.isSelected ) {
             	bodyPart = getString( R.string.lower_leg );
             }
-            /*
-            if( lua.isSelected ) {
-                bodyPart = getString( R.string.left_underarm );
-            } else if( rua.isSelected ) {
-                bodyPart = getString( R.string.right_underarm );
-            } else if( lfa.isSelected ) {
-                bodyPart = getString( R.string.left_forearm );
-            } else if( rfa.isSelected ) {
-                bodyPart = getString( R.string.right_forearm );
-            } else if( ba.isSelected ) {
-                bodyPart = getString( R.string.bikini_area );
-            } else if( lul.isSelected ) {
-                bodyPart = getString( R.string.left_upper_leg);
-            } else if( rul.isSelected ) {
-                bodyPart = getString( R.string.right_upper_leg );
-            } else if( lll.isSelected ) {
-                bodyPart = getString( R.string.left_lower_leg );
-            } else if( rll.isSelected ) {
-                bodyPart = getString( R.string.right_lower_leg );
-            }*/
+            else
+                bodyPart = "Other";
             //Is this start up or maintenance?
             String desc = null;
             int modifier = 0;
@@ -460,30 +407,29 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 modifier = Calendar.MONTH;
             }
             c.add( modifier, 2 );
-            //Here we add an event through an intent.
-//            Intent calendarIntent = new Intent( Intent.ACTION_EDIT );
-//            calendarIntent.setType( "vnd.android.cursor.item/event" );
-//            calendarIntent.putExtra( "title", bodyPart + " treatment reminder" );
-//            calendarIntent.putExtra( "description", desc );
-//            calendarIntent.putExtra( "beginTime", c.getTimeInMillis() );
-//            calendarIntent.putExtra( "endTime", c.getTimeInMillis() + Constants.ONE_HOUR );
-//   l_intent.putExtra("allDay", 0);
+            Intent calendarIntent = new Intent( Intent.ACTION_EDIT );
+            calendarIntent.setType( "vnd.android.cursor.item/event" );
+            calendarIntent.putExtra( "title", bodyPart + " treatment reminder" );
+            calendarIntent.putExtra( "description", desc );
+            calendarIntent.putExtra( "beginTime", c.getTimeInMillis() );
+            calendarIntent.putExtra( "endTime", c.getTimeInMillis() + Constants.ONE_HOUR );
+            calendarIntent.putExtra("allDay", 0);
    //status: 0~ tentative; 1~ confirmed; 2~ canceled
-//   l_intent.putExtra("eventStatus", 1);
+            calendarIntent.putExtra("eventStatus", 1);
    //0~ default; 1~ confidential; 2~ private; 3~ public
-//   l_intent.putExtra("visibility", 0);    //
+            calendarIntent.putExtra("visibility", 0);    //
    //0~ opaque, no timing conflict is allowed; 1~ transparency, allow overlap of scheduling
-//   l_intent.putExtra("transparency", 0);
+            calendarIntent.putExtra("transparency", 0);
    //0~ false; 1~ true
-//   l_intent.putExtra("hasAlarm", 1);
-//            try {
-//                startActivity( calendarIntent );
-//            } catch ( Exception e ) {
-//                Toast.makeText(this.getApplicationContext(), "Sorry, no compatible calendar is found!", Toast.LENGTH_LONG).show();
-//                Log.d( "TAG", e.getMessage() );
-//            }
+            calendarIntent.putExtra("hasAlarm", 1);
+            try {
+                startActivity( calendarIntent );
+            } catch ( Exception e ) {
+                Toast.makeText(this.getApplicationContext(), "Sorry, no compatible calendar is found!", Toast.LENGTH_LONG).show();
+                //Log.d( "TAG", e.getMessage() );
+            }
 
-            addToCalendar(this, bodyPart + " treatment reminder", c.getTimeInMillis(), c.getTimeInMillis() + Constants.ONE_HOUR );
+            //addToCalendar(this, bodyPart + " treatment reminder", c.getTimeInMillis(), c.getTimeInMillis() + Constants.ONE_HOUR );
 
             setContentView(R.layout.schedule);
             this.setListeners();
@@ -491,15 +437,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             ua.setUnselected();
             ul.setUnselected();
             ll.setUnselected();
-            /*
-            lua.setUnselected();
-            rua.setUnselected();
-            lfa.setUnselected();
-            rfa.setUnselected();
-            lul.setUnselected();
-            rul.setUnselected();
-            lll.setUnselected();
-            rll.setUnselected();*/
+            break;
         }
     }
 
