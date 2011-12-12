@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="#000000">
     <item android:id="@+id/schedulemenu"
-          android:icon="@+drawable/schedule_icon"
+          android:icon="@+drawable/calendar_icon"
           android:background="#000000"
           android:title="Schedule" />
     <item android:id="@+id/treatmentmenu"
-          android:icon="@+drawable/treatment_icon"
+          android:icon="@+drawable/howitworks_icon"
           android:background="#000000"
           android:title="Treatment" />
     <item android:id="@+id/howtomenu"

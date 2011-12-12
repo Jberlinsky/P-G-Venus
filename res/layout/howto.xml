@@ -20,7 +20,7 @@
 		
 		<TextView
 		    android:layout_column="0"
-            android:text="Regiment"
+            android:text="Regimen"
             android:gravity="center"
             android:layout_weight="0.5" />
     </TableRow>
@@ -33,7 +33,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_weight="0.5"
 		    android:background="#00000000"
-		    android:src="@drawable/howitworks" />
+		    android:src="@drawable/howitworksvideo" />
 
 		<ImageButton
 		    android:id="@+id/trVideoButton"

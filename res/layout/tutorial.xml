@@ -30,16 +30,16 @@
 		    android:scaleType="fitXY"
 		    android:layout_weight="0.5"
 		    android:background="#000000"
-		    android:src="@drawable/schedule" />
-
+		    android:src="@drawable/calendar" />
+
 		<ImageButton
 		    android:id="@+id/treatmentButton"
+		    android:layout_height="match_parent"
 		    android:layout_column="1"
-		    android:layout_height="wrap_content"
-		    android:scaleType="fitXY"
 		    android:layout_weight="0.5"
 		    android:background="#000000"
-		    android:src="@drawable/treatment"/>
+		    android:scaleType="fitXY"
+		    android:src="@drawable/howitworks" />
 
     </TableRow>
     <TableRow>
