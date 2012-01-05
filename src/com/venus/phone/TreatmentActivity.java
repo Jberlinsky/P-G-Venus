@@ -10,6 +10,7 @@ import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,31 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         mView = (CalendarView)findViewById(R.id.calendar);
         this.fetchFromCalendar(this);
         mView.setOnCellTouchListener(this);
+        findViewById(R.id.calendarBack).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	//// Make sign up email functions here.
+            	mView.previousMonth();
+            	setMonth();
+            	mHandler.post(new Runnable() {
+                    public void run() {
+                        Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        findViewById(R.id.calendarNext).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	//// Make sign up email functions here.
+            	mView.nextMonth();
+            	setMonth();
+            	mHandler.post(new Runnable() {
+                    public void run() {
+                        Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        setMonth();
 
 //        if(getIntent().getAction().equals(Intent.ACTION_PICK))
 //            findViewById(R.id.hint).setVisibility(View.INVISIBLE);
@@ -40,6 +66,8 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
     public void onTouch(Cell cell) {
         Intent intent = getIntent();
         String action = intent.getAction();
+        //TODO : Change to slide action maybe use gestureoverlay?
+        
 //        if(action.equals(Intent.ACTION_PICK) || action.equals(Intent.ACTION_GET_CONTENT)) {
 //            Intent ret = new Intent();
 //            ret.putExtra("year", mView.getYear());
@@ -49,6 +77,7 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
 //            finish();
 //            return;
 //        }
+        /*
         int day = cell.getDayOfMonth();
         if(mView.firstDay(day))
             mView.previousMonth();
@@ -62,6 +91,7 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
                 Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
             }
         });
+        */
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,10 +119,77 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         }
     }
     
-    private void fetchFromCalendar(Context ctx)
+    //Month Text
+    private void setMonth()
     {
-    	/*
-    	Cursor cursor=getContentResolver().query(Uri.parse("content://com.android.calendar/calendars"), new String[]{"calendar_id", "displayname"}, null, null, null);
+    	TextView tempView;
+        if (mView.getMonth() == 11)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("December");
+        }
+        else if (mView.getMonth() == 10)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("November");
+        }
+        else if (mView.getMonth() == 9)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("October");
+        }
+        else if (mView.getMonth() == 8)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("September");
+        }
+        else if (mView.getMonth() == 7)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("August");
+        }
+        else if (mView.getMonth() == 6)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("July");
+        }
+        else if (mView.getMonth() == 5)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("June");
+        }
+        else if (mView.getMonth() == 4)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("May");
+        }
+        else if (mView.getMonth() == 3)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("April");
+        }
+        else if (mView.getMonth() == 2)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("March");
+        }
+        else if (mView.getMonth() == 1)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("February");
+        }
+        else if (mView.getMonth() == 0)
+        {
+        	tempView = (TextView)findViewById(R.id.monthtext);
+        	tempView.setText("January");
+        }
+    }
+    
+    
+    private void fetchFromCalendar(Context ctx)
+    {/*
+    	Cursor cursor=getContentResolver().query(Uri.parse("content://com.android.calendar/calendars"), 
+    			new String[]{"_id", "displayname"}, null, null, null);
     	cursor.moveToFirst();
     	// fetching calendars name
     	String CNames[] = new String[cursor.getCount()];
@@ -104,11 +201,26 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
     	         CNames[i] = cursor.getString(1);
     	         cursor.moveToNext();
     	}
+    	ContentResolver contentResolver = getContentResolver();
+    	    	
+    	Uri.Builder builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
+        long now = new Date().getTime();
+        ContentUris.appendId(builder, now - 10*864000000);
+        ContentUris.appendId(builder, now + 10*864000000);
+    	Cursor eventCursor = contentResolver.query(builder.build(),
+                new String[] { "event_id"}, "Calendars._id=" + 1,
+                null, "startDay ASC, startMinute ASC");
+        // For a full list of available columns see http://tinyurl.com/yfbg76w
+        while (eventCursor.moveToNext()) {
+            String uid2 = eventCursor.getString(0);
+            Log.v("eventID : ", uid2);
+
+        }
     	
     	
-    	
-    	Uri CALENDAR_URI = Uri.parse("content://com.android.calendar/calendars/events");
-        Cursor c = getContentResolver().query(CALENDAR_URI, null, null, null, null);
+    	/*
+    	Uri.Builder CALENDAR_URI = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
+        Cursor c = getContentResolver().query(CALENDAR_URI.build(), null, null, null, null);
         
         if (c.moveToFirst())
         {
@@ -118,19 +230,9 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
                         String location = c.getString(c.getColumnIndex("eventLocation"));                      
                         // event id
                         String id = c.getString(c.getColumnIndex("_id"));
-                        if ((desc==null) && (location == null))
-                        {
-                        }
-                        else
-                        {
-                                if (desc.equals("Birthday Party") && location.equals("Delhi"))
-                                 {
-                                        Uri uri = ContentUris.withAppendedId(CALENDAR_URI, Integer.parseInt(id));
-                                        getContentResolver().delete(uri, null, null);
-                                }
-                        }
+                        
                 }
-        }*/
+        }
     	/*
         ContentResolver cr = ctx.getContentResolver();
         Cursor cursor;
