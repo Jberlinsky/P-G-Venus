@@ -1,6 +1,9 @@
 package com.venus.phone;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +26,8 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
     TextView mHit;
     Handler mHandler = new Handler();
     static String calendarId = new String();
-
+    List<String> eventName = new ArrayList<String>();
+    List<String> eventDescription = new ArrayList<String>();
 
     /** Called when the activity is first created. */
     @Override
@@ -64,10 +68,25 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
     }
 
     public void onTouch(Cell cell) {
-        Intent intent = getIntent();
-        String action = intent.getAction();
+        //Intent intent = getIntent();
+        //String action = intent.getAction();
         //TODO : Change to slide action maybe use gestureoverlay?
-        
+        int day = cell.getDayOfMonth();
+        if(mView.eventDay(day)){
+        	setContentView(R.layout.treatment);
+        	TextView title = (TextView) findViewById(R.id.treatmenttitle);
+        	TextView desc = (TextView) findViewById(R.id.treatmentdescription);
+        	this.eventName.add("Underarm Treatment Reminder");
+        	this.eventDescription.add("This is treatment number 5");
+        	title.setText(this.eventName.get(0));
+        	desc.setText(this.eventDescription.get(0));
+        	findViewById(R.id.treatmentBack).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                	//// Make sign up email functions here.
+                	returnCalendar();
+                }
+        	 });
+        }
 //        if(action.equals(Intent.ACTION_PICK) || action.equals(Intent.ACTION_GET_CONTENT)) {
 //            Intent ret = new Intent();
 //            ret.putExtra("year", mView.getYear());
@@ -93,7 +112,39 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         });
         */
     }
-    
+        public void returnCalendar(){
+        	setContentView(R.layout.calendar);
+            mView = (CalendarView)findViewById(R.id.calendar);
+            //this.fetchFromCalendar(this);
+            mView.setOnCellTouchListener(this);
+            findViewById(R.id.calendarBack).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                	//// Make sign up email functions here.
+                	mView.previousMonth();
+                	setMonth();
+                	mHandler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+            
+            findViewById(R.id.calendarNext).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                	//// Make sign up email functions here.
+                	mView.nextMonth();
+                	setMonth();
+                	mHandler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+            setMonth();
+            
+        }
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.layout.tabmenu, menu);

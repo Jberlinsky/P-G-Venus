@@ -16,7 +16,9 @@
 
 package com.exina.android.calendar;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import com.venus.phone.R;
 
@@ -48,6 +50,10 @@ public class CalendarView extends ImageView {
     private OnCellTouchListener mOnCellTouchListener = null;
     MonthDisplayHelper mHelper;
     Drawable mDecoration = null;
+    ArrayList<Integer> eventDays=new ArrayList<Integer>();
+    ArrayList<Integer> eventMonth=new ArrayList<Integer>();
+    ArrayList<Drawable> eDecoration=new ArrayList<Drawable>();
+    Context cContext;
 
     public interface OnCellTouchListener {
         public void onTouch(Cell cell);
@@ -63,8 +69,11 @@ public class CalendarView extends ImageView {
 
     public CalendarView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        cContext=context;
         mDecoration = context.getResources().getDrawable(R.drawable.typeb_calendar_today);
         initCalendarView();
+        eventDays.add(23);
+        eventMonth.add(0);
     }
 
     private void initCalendarView() {
@@ -138,6 +147,14 @@ public class CalendarView extends ImageView {
                     mToday = mCells[week][day];
                     mDecoration.setBounds(mToday.getBound());
                 }
+                for (int ei = 0; ei < this.eventDays.size();ei++) {
+                	if (tmp[week][day].day==eventDays.get(ei) && this.getMonth() == eventMonth.get(ei) 
+                			&& tmp[week][day].thisMonth){
+                		Drawable t = cContext.getResources().getDrawable(R.drawable.typeb_calendar_event);
+                		t.setBounds(mCells[week][day].getBound());
+                		eDecoration.add(t);
+                	}
+                }
             }
             Bound.offset(0, CELL_HEIGH); // move to next row and first column
             Bound.left = CELL_MARGIN_LEFT;
@@ -188,6 +205,14 @@ public class CalendarView extends ImageView {
     public boolean lastDay(int day) {
         return mHelper.getNumberOfDaysInMonth()==day;
     }
+    
+    public boolean eventDay(int day) {
+    	for (int i = 0;i<eventDays.size();i++){
+    		if (eventDays.get(i) == day)
+    			return true;
+        }
+        return false;
+    }
 
     public void goToday() {
         Calendar cal = Calendar.getInstance();
@@ -235,6 +260,14 @@ public class CalendarView extends ImageView {
         if(mDecoration!=null && mToday!=null) {
             mDecoration.draw(canvas);
         }
+        if (eventMonth.size() > 0)
+        {
+	        for (int i = 0;i<eDecoration.size();i++){
+	        	if ( this.getMonth() == eventMonth.get(0)){
+	        		eDecoration.get(i).draw(canvas);
+	        	}
+	        }
+        }
     }
 
     private class GrayCell extends Cell {
@@ -249,7 +282,5 @@ public class CalendarView extends ImageView {
             super(dayOfMon, rect, s);
             mPaint.setColor(0xdddd0000);
         }
-
     }
-
 }
