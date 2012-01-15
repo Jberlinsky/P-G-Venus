@@ -1,5 +1,12 @@
 package com.venus.phone;
 
+import java.util.ArrayList;
+import java.util.Date;
+import android.text.format.DateUtils;
+import java.util.List;
+import android.content.ContentUris;
+
+
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -23,6 +30,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class ScheduleActivity extends Activity implements OnClickListener{
+
+  private class Event
+  {
+    public String title;
+    public Date begin;
+    public Date end;
+  }
 
     Spinner sessionSpinner;
     private boolean isStartup;
@@ -441,35 +455,45 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         }
     }
 
+    private ArrayList<Event> getEventsThisMonth(Context ctx)
+    {
+      ContentResolver cr = ctx.getContentResolver();
+      Cursor cursor;
+      if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
+        cursor = cr.query(Uri.parse("content://com.android.calendar/calendars"), new String[]{ "_id", "displayName" }, null, null, null);
+      else
+        cursor = cr.query(Uri.parse("content://calendar/calendars"), new String[]{ "_id", "displayName" }, null, null, null);
+      String calendarId = "-1";
+      while (cursor.moveToNext())
+      {
+        if (cursor.getString(1).equals("Venus"))
+          calendarId = cursor.getString(0);
+      }
+      if (calendarId.equals("-1"))
+        calendarId = "1";
+      Uri.Builder builder;
+      if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
+        builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
+      else
+        builder = Uri.parse("content://calendar/instances/when").buildUpon();
+      long now = new Date().getTime();
+      ContentUris.appendId(builder, now - DateUtils.WEEK_IN_MILLIS * 4);
+      ContentUris.appendId(builder, now + DateUtils.WEEK_IN_MILLIS * 4);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      Cursor eventCursor = cr.query(builder.build(),
+          new String[] { "title", "begin", "end", "allDay"}, "Calendars._id=" + calendarId,
+          null, "startDay ASC, startMinute ASC");
+      ArrayList<Event> events = new ArrayList<Event>();
+      while (eventCursor.moveToNext())
+      {
+        Event nEvent = new Event();
+        nEvent.title = eventCursor.getString(0);
+        nEvent.begin = new Date(eventCursor.getLong(1));
+        nEvent.end = new Date(eventCursor.getLong(2));
+        events.add(nEvent);
+      }
+      return events;
+    }
 
     private static void addToCalendar(Context ctx, final String title, final long dtstart, final long dtend)
     {
