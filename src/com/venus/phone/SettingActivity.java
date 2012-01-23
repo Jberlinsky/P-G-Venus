@@ -48,6 +48,7 @@ public class SettingActivity extends Activity implements OnClickListener {
         inflater.inflate(R.layout.tabmenu, menu);
         return true;
     }
+    
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
@@ -61,7 +62,7 @@ public class SettingActivity extends Activity implements OnClickListener {
         	startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
             return true;
         case R.id.settingmenu:
-        	startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
+        	//startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
             return true;
         default:
             return super.onOptionsItemSelected(item);

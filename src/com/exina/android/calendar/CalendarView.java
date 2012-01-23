@@ -18,10 +18,12 @@ package com.exina.android.calendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.venus.phone.R;
 
+import Utility.Event;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -72,8 +74,6 @@ public class CalendarView extends ImageView {
         cContext=context;
         mDecoration = context.getResources().getDrawable(R.drawable.typeb_calendar_today);
         initCalendarView();
-        eventDays.add(23);
-        eventMonth.add(0);
     }
 
     private void initCalendarView() {
@@ -90,7 +90,7 @@ public class CalendarView extends ImageView {
 
         CELL_TEXT_SIZE = res.getDimension(R.dimen.cell_text_size);
         // set background
-        setImageResource(R.drawable.background);
+        setImageResource(R.drawable.background2);
         mWeekTitle = res.getDrawable(R.drawable.calendar_week);
 
         mHelper = new MonthDisplayHelper(mRightNow.get(Calendar.YEAR), mRightNow.get(Calendar.MONTH));
@@ -121,7 +121,7 @@ public class CalendarView extends ImageView {
 
             }
         }
-
+        this.eDecoration.clear();
         Calendar today = Calendar.getInstance();
         int thisDay = 0;
         mToday = null;
@@ -147,9 +147,13 @@ public class CalendarView extends ImageView {
                     mToday = mCells[week][day];
                     mDecoration.setBounds(mToday.getBound());
                 }
+                
                 for (int ei = 0; ei < this.eventDays.size();ei++) {
-                	if (tmp[week][day].day==eventDays.get(ei) && this.getMonth() == eventMonth.get(ei) 
-                			&& tmp[week][day].thisMonth){
+                	int tt = tmp[week][day].day;
+                	int ed = eventDays.get(ei);
+                	int mt = this.getMonth();
+                	int em = eventMonth.get(ei);
+                	if (tt==ed && mt == em && tmp[week][day].thisMonth){
                 		Drawable t = cContext.getResources().getDrawable(R.drawable.typeb_calendar_event);
                 		t.setBounds(mCells[week][day].getBound());
                 		eDecoration.add(t);
@@ -198,6 +202,23 @@ public class CalendarView extends ImageView {
         invalidate();
     }
 
+    public void setEvent(ArrayList<Event> ev) {
+    	
+    	for (int i = 0;i < ev.size();i++){
+    		int x = this.getYear();
+    		int y = ev.get(i).year;
+	    	if (x == y) {
+	    		if (!(this.eventMonth.contains(ev.get(i).month) && this.eventDays.contains(ev.get(i).day)))
+	    		{
+		    		this.eventMonth.add(ev.get(i).month);
+		    		this.eventDays.add(ev.get(i).day);
+	    		}
+	    	}
+    	}
+    	this.initCells();
+    	invalidate();
+    }
+    
     public boolean firstDay(int day) {
         return day==1;
     }
@@ -206,12 +227,12 @@ public class CalendarView extends ImageView {
         return mHelper.getNumberOfDaysInMonth()==day;
     }
     
-    public boolean eventDay(int day) {
+    public int eventDay(int day) {
     	for (int i = 0;i<eventDays.size();i++){
     		if (eventDays.get(i) == day)
-    			return true;
+    			return i;
         }
-        return false;
+        return -1;
     }
 
     public void goToday() {
@@ -263,9 +284,9 @@ public class CalendarView extends ImageView {
         if (eventMonth.size() > 0)
         {
 	        for (int i = 0;i<eDecoration.size();i++){
-	        	if ( this.getMonth() == eventMonth.get(0)){
+	        	//if ( this.getMonth() == eventMonth.get(0)){
 	        		eDecoration.get(i).draw(canvas);
-	        	}
+	        	//}
 	        }
         }
     }

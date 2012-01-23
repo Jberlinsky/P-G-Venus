@@ -31,12 +31,7 @@ import android.widget.Toast;
 
 public class ScheduleActivity extends Activity implements OnClickListener{
 
-  private class Event
-  {
-    public String title;
-    public Date begin;
-    public Date end;
-  }
+  
 
     Spinner sessionSpinner;
     private boolean isStartup;
@@ -138,11 +133,19 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         inflater.inflate(R.layout.tabmenu, menu);
         return true;
     }
+    
+    public void onBackPressed(){
+    	//This is to prevent user from accidently exiting the app
+    	//pressing Home will exit the app
+    	setScheduleContent();
+    }
+    
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.schedulemenu:
-        	startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
+        	setScheduleContent();
+        	//startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
             return true;
         case R.id.treatmentmenu:
         	startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
@@ -374,13 +377,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             findViewById(R.id.phaseBack).setOnClickListener(this);
             break;
         case R.id.phaseBack:
-            setContentView(R.layout.schedule);
-            //Visual and listener//
-            this.setListeners();
-            ba.setUnselected();
-            ua.setUnselected();
-            ul.setUnselected();
-            ll.setUnselected();
+        	setScheduleContent();
             /*
             lua.setUnselected();
             rua.setUnselected();
@@ -455,45 +452,16 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         }
     }
 
-    private ArrayList<Event> getEventsThisMonth(Context ctx)
-    {
-      ContentResolver cr = ctx.getContentResolver();
-      Cursor cursor;
-      if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
-        cursor = cr.query(Uri.parse("content://com.android.calendar/calendars"), new String[]{ "_id", "displayName" }, null, null, null);
-      else
-        cursor = cr.query(Uri.parse("content://calendar/calendars"), new String[]{ "_id", "displayName" }, null, null, null);
-      String calendarId = "-1";
-      while (cursor.moveToNext())
-      {
-        if (cursor.getString(1).equals("Venus"))
-          calendarId = cursor.getString(0);
-      }
-      if (calendarId.equals("-1"))
-        calendarId = "1";
-      Uri.Builder builder;
-      if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
-        builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
-      else
-        builder = Uri.parse("content://calendar/instances/when").buildUpon();
-      long now = new Date().getTime();
-      ContentUris.appendId(builder, now - DateUtils.WEEK_IN_MILLIS * 4);
-      ContentUris.appendId(builder, now + DateUtils.WEEK_IN_MILLIS * 4);
-
-      Cursor eventCursor = cr.query(builder.build(),
-          new String[] { "title", "begin", "end", "allDay"}, "Calendars._id=" + calendarId,
-          null, "startDay ASC, startMinute ASC");
-      ArrayList<Event> events = new ArrayList<Event>();
-      while (eventCursor.moveToNext())
-      {
-        Event nEvent = new Event();
-        nEvent.title = eventCursor.getString(0);
-        nEvent.begin = new Date(eventCursor.getLong(1));
-        nEvent.end = new Date(eventCursor.getLong(2));
-        events.add(nEvent);
-      }
-      return events;
+    private void setScheduleContent(){
+    	setContentView(R.layout.schedule);
+        //Visual and listener//
+        this.setListeners();
+        ba.setUnselected();
+        ua.setUnselected();
+        ul.setUnselected();
+        ll.setUnselected();
     }
+    
 
     private static void addToCalendar(Context ctx, final String title, final long dtstart, final long dtend)
     {

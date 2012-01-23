@@ -24,7 +24,7 @@ public final class R {
         public static final int week_top_margin=0x7f050000;
     }
     public static final class drawable {
-        public static final int background=0x7f020000;
+        public static final int background2=0x7f020000;
         public static final int bikiniarea=0x7f020001;
         public static final int body1=0x7f020002;
         public static final int buttonbackground=0x7f020003;
@@ -73,7 +73,7 @@ public final class R {
         public static final int daysBeforeSpinner=0x7f080025;
         public static final int daysbefore=0x7f080024;
         public static final int emailCheckBox=0x7f080026;
-        public static final int frameLayout1=0x7f080032;
+        public static final int eventtreatmentlayout=0x7f080032;
         public static final int howtoButton=0x7f08003a;
         public static final int howtoLayout=0x7f080006;
         public static final int howtoVideoButton=0x7f080009;

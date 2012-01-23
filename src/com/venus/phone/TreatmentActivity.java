@@ -2,11 +2,18 @@ package com.venus.phone;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import Utility.Event;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateUtils;
@@ -14,20 +21,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.exina.android.calendar.CalendarView;
 import com.exina.android.calendar.Cell;
 
+
 public class TreatmentActivity extends Activity implements CalendarView.OnCellTouchListener {
     public static final String MIME_TYPE = "vnd.android.cursor.dir/vnd.exina.android.calendar.date";
+
     CalendarView mView = null;
     TextView mHit;
     Handler mHandler = new Handler();
     static String calendarId = new String();
-    List<String> eventName = new ArrayList<String>();
-    List<String> eventDescription = new ArrayList<String>();
+    ArrayList<Event> events = new ArrayList<Event>();
 
     /** Called when the activity is first created. */
     @Override
@@ -35,7 +44,7 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar);
         mView = (CalendarView)findViewById(R.id.calendar);
-        this.fetchFromCalendar(this);
+        mView.setEvent(this.getEvents(this));
         mView.setOnCellTouchListener(this);
         findViewById(R.id.calendarBack).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -72,20 +81,16 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         //String action = intent.getAction();
         //TODO : Change to slide action maybe use gestureoverlay?
         int day = cell.getDayOfMonth();
-        if(mView.eventDay(day)){
-        	setContentView(R.layout.treatment);
-        	TextView title = (TextView) findViewById(R.id.treatmenttitle);
-        	TextView desc = (TextView) findViewById(R.id.treatmentdescription);
-        	this.eventName.add("Underarm Treatment Reminder");
-        	this.eventDescription.add("This is treatment number 5");
-        	title.setText(this.eventName.get(0));
-        	desc.setText(this.eventDescription.get(0));
-        	findViewById(R.id.treatmentBack).setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                	//// Make sign up email functions here.
-                	returnCalendar();
-                }
-        	 });
+        int inde = mView.eventDay(day);
+        if(inde > -1){
+        	String title = this.events.get(inde).title;
+        	String desc = this.events.get(inde).description;
+        	
+        	Intent eventInt = new Intent(this, EventViewActivity.class);
+        	eventInt.putExtra("title", title);
+        	eventInt.putExtra("desc", desc);
+        	startActivity(eventInt);
+        	
         }
 //        if(action.equals(Intent.ACTION_PICK) || action.equals(Intent.ACTION_GET_CONTENT)) {
 //            Intent ret = new Intent();
@@ -122,11 +127,7 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
                 	//// Make sign up email functions here.
                 	mView.previousMonth();
                 	setMonth();
-                	mHandler.post(new Runnable() {
-                        public void run() {
-                            Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                	
                 }
             });
             
@@ -135,15 +136,11 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
                 	//// Make sign up email functions here.
                 	mView.nextMonth();
                 	setMonth();
-                	mHandler.post(new Runnable() {
-                        public void run() {
-                            Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                	
                 }
             });
             setMonth();
-            
+            mView.setEvent(this.events);
         }
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -237,82 +234,41 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
     }
     
     
-    private void fetchFromCalendar(Context ctx)
-    {/*
-    	Cursor cursor=getContentResolver().query(Uri.parse("content://com.android.calendar/calendars"), 
-    			new String[]{"_id", "displayname"}, null, null, null);
-    	cursor.moveToFirst();
-    	// fetching calendars name
-    	String CNames[] = new String[cursor.getCount()];
-    	// fetching calendars id
-    	int CId[] = new int[cursor.getCount()];
-    	for (int i = 0; i < CNames.length; i++)
-    	{
-    	         CId[i] = cursor.getInt(0);
-    	         CNames[i] = cursor.getString(1);
-    	         cursor.moveToNext();
-    	}
-    	ContentResolver contentResolver = getContentResolver();
-    	    	
-    	Uri.Builder builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
-        long now = new Date().getTime();
-        ContentUris.appendId(builder, now - 10*864000000);
-        ContentUris.appendId(builder, now + 10*864000000);
-    	Cursor eventCursor = contentResolver.query(builder.build(),
-                new String[] { "event_id"}, "Calendars._id=" + 1,
-                null, "startDay ASC, startMinute ASC");
-        // For a full list of available columns see http://tinyurl.com/yfbg76w
-        while (eventCursor.moveToNext()) {
-            String uid2 = eventCursor.getString(0);
-            Log.v("eventID : ", uid2);
+    private ArrayList<Event> getEvents(Context ctx)
+    {
+      ContentResolver cr = ctx.getContentResolver();
+      Cursor cursor;
+      if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
+        cursor = cr.query(Uri.parse("content://com.android.calendar/calendars"), new String[]{ "_id", "displayName" }, null, null, null);
+      else
+        cursor = cr.query(Uri.parse("content://calendar/calendars"), new String[]{ "_id", "displayName" }, null, null, null);
+      String calendarId = "1";
+      Uri.Builder builder;
+      if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
+        builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
+      else
+        builder = Uri.parse("content://calendar/instances/when").buildUpon();
+      long now = new Date().getTime();
+      ContentUris.appendId(builder, now - DateUtils.WEEK_IN_MILLIS * 25);
+      ContentUris.appendId(builder, now + DateUtils.WEEK_IN_MILLIS * 26);
 
-        }
-    	
-    	
-    	/*
-    	Uri.Builder CALENDAR_URI = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
-        Cursor c = getContentResolver().query(CALENDAR_URI.build(), null, null, null, null);
-        
-        if (c.moveToFirst())
-        {
-                while (c.moveToNext())
-                {
-                        String desc = c.getString(c.getColumnIndex("description"));
-                        String location = c.getString(c.getColumnIndex("eventLocation"));                      
-                        // event id
-                        String id = c.getString(c.getColumnIndex("_id"));
-                        
-                }
-        }
-    	/*
-        ContentResolver cr = ctx.getContentResolver();
-        Cursor cursor;
-        Uri.Builder builder;
-        if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
-        	builder = Uri.parse("content://com.android.calendar/calendars/events").buildUpon();
-        	
-        else
-        	builder = Uri.parse("content://calendar/instances/when").buildUpon();
-        
-        long now = new Date().getTime();
-        ContentUris.appendId(builder, now - DateUtils.WEEK_IN_MILLIS);
-        ContentUris.appendId(builder, now + DateUtils.WEEK_IN_MILLIS);
-        
-        cursor = cr.query(builder.build(),
-                    new String[] { "title", "begin", "end", "allDay"}, "Calendars._id=" + calendarId,
-                    null, "startDay ASC, startMinute ASC");
-       
-       
-        
-         
-        while (cursor.moveToNext()) {
-            final String title2 = cursor.getString(0);
-            final Date begin = new Date(cursor.getLong(1));
-            final Date end = new Date(cursor.getLong(2));
-            final Boolean allDay = !cursor.getString(3).equals("0");
-        }
-        
-        cursor.close();*/
+      Cursor eventCursor = cr.query(builder.build(),
+          new String[] { "title", "description","dtstart", "end", "allDay"}, "Calendars._id=" + calendarId,
+          null, "startDay ASC, startMinute ASC");
+      while (eventCursor.moveToNext())
+      {
+        Event nEvent = new Event();
+        nEvent.title = eventCursor.getString(0);
+        nEvent.description = eventCursor.getString(1);
+        Long x = eventCursor.getLong(2);
+        Calendar b = Calendar.getInstance();
+        b.setTimeInMillis(x);
+        nEvent.day = b.get(Calendar.DATE);
+        nEvent.month = b.get(Calendar.MONTH);
+        nEvent.year = b.get(Calendar.YEAR);
+        events.add(nEvent);
+      }
+      return events;
     }
 
 }
