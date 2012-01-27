@@ -229,7 +229,7 @@ public class CalendarView extends ImageView {
     
     public int eventDay(int day) {
     	for (int i = 0;i<eventDays.size();i++){
-    		if (eventDays.get(i) == day)
+    		if (eventDays.get(i) == day && eventMonth.get(i)== this.getMonth())
     			return i;
         }
         return -1;
@@ -295,6 +295,7 @@ public class CalendarView extends ImageView {
         public GrayCell(int dayOfMon, Rect rect, float s) {
             super(dayOfMon, rect, s);
             mPaint.setColor(Color.LTGRAY);
+            this.thismonth = false;
         }
     }
 
@@ -302,6 +303,7 @@ public class CalendarView extends ImageView {
         public RedCell(int dayOfMon, Rect rect, float s) {
             super(dayOfMon, rect, s);
             mPaint.setColor(0xdddd0000);
+            this.thismonth = true;
         }
     }
 }

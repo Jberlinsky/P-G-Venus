@@ -31,13 +31,15 @@ public class Cell {
 	protected Paint mPaint = new Paint(Paint.SUBPIXEL_TEXT_FLAG
             |Paint.ANTI_ALIAS_FLAG);
 	int dx, dy;
+	public boolean thismonth = true;
+	
 	public Cell(int dayOfMon, Rect rect, float textSize, boolean bold) {
 		mDayOfMonth = dayOfMon;
 		mBound = rect;
 		mPaint.setTextSize(textSize/*26f*/);
 		mPaint.setColor(Color.WHITE);
 		if(bold) mPaint.setFakeBoldText(true);
-		
+		this.thismonth = true;
 		dx = (int) mPaint.measureText(String.valueOf(mDayOfMonth)) / 2;
 		dy = (int) (-mPaint.ascent() + mPaint.descent()) / 2;
 	}

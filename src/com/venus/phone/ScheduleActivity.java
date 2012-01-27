@@ -420,7 +420,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             c.add( modifier, 2 );
             Intent calendarIntent = new Intent( Intent.ACTION_EDIT );
             calendarIntent.setType( "vnd.android.cursor.item/event" );
-            calendarIntent.putExtra( "title", bodyPart + " treatment reminder" );
+            calendarIntent.putExtra( "title", "Naked Skin " + bodyPart + " treatment reminder" );
             calendarIntent.putExtra( "description", desc );
             calendarIntent.putExtra( "beginTime", c.getTimeInMillis() );
             calendarIntent.putExtra( "endTime", c.getTimeInMillis() + Constants.ONE_HOUR );

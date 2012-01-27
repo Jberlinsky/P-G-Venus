@@ -51,11 +51,12 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
             	//// Make sign up email functions here.
             	mView.previousMonth();
             	setMonth();
+            	/*
             	mHandler.post(new Runnable() {
                     public void run() {
                         Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
             }
         });
         findViewById(R.id.calendarNext).setOnClickListener(new View.OnClickListener() {
@@ -63,11 +64,12 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
             	//// Make sign up email functions here.
             	mView.nextMonth();
             	setMonth();
+            	/*
             	mHandler.post(new Runnable() {
                     public void run() {
                         Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
             }
         });
         setMonth();
@@ -79,19 +81,25 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
     public void onTouch(Cell cell) {
         //Intent intent = getIntent();
         //String action = intent.getAction();
-        //TODO : Change to slide action maybe use gestureoverlay?
-        int day = cell.getDayOfMonth();
-        int inde = mView.eventDay(day);
-        if(inde > -1){
-        	String title = this.events.get(inde).title;
-        	String desc = this.events.get(inde).description;
-        	
-        	Intent eventInt = new Intent(this, EventViewActivity.class);
-        	eventInt.putExtra("title", title);
-        	eventInt.putExtra("desc", desc);
-        	startActivity(eventInt);
-        	
-        }
+        //TODO : Change to slide action maybe use gestureoverlay? 
+    	if (cell.thismonth) {
+	        int day = cell.getDayOfMonth();
+	        int inde = mView.eventDay(day);
+	        if(inde > -1){
+	        	String title = this.events.get(inde).title;
+	        	String desc = this.events.get(inde).description;
+	        	
+	        	Intent eventInt = new Intent(this, EventViewActivity.class);
+	        	eventInt.putExtra("title", title);
+	        	eventInt.putExtra("desc", desc);
+	        	eventInt.putExtra("month", this.events.get(inde).month);
+	        	eventInt.putExtra("day", this.events.get(inde).day);
+	        	eventInt.putExtra("hour", this.events.get(inde).hour);
+	        	eventInt.putExtra("min", this.events.get(inde).minute);
+	        	eventInt.putExtra("ampm", this.events.get(inde).AMPM);
+	        	startActivity(eventInt);
+	        }
+    	}
 //        if(action.equals(Intent.ACTION_PICK) || action.equals(Intent.ACTION_GET_CONTENT)) {
 //            Intent ret = new Intent();
 //            ret.putExtra("year", mView.getYear());
@@ -257,16 +265,22 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
           null, "startDay ASC, startMinute ASC");
       while (eventCursor.moveToNext())
       {
-        Event nEvent = new Event();
-        nEvent.title = eventCursor.getString(0);
-        nEvent.description = eventCursor.getString(1);
-        Long x = eventCursor.getLong(2);
-        Calendar b = Calendar.getInstance();
-        b.setTimeInMillis(x);
-        nEvent.day = b.get(Calendar.DATE);
-        nEvent.month = b.get(Calendar.MONTH);
-        nEvent.year = b.get(Calendar.YEAR);
-        events.add(nEvent);
+    	String title = eventCursor.getString(0);
+    	if (title.contains("Naked")) {
+    		Event nEvent = new Event();
+            nEvent.title = title.substring(11);
+            nEvent.description = eventCursor.getString(1);
+            Long x = eventCursor.getLong(2);
+            Calendar b = Calendar.getInstance();
+            b.setTimeInMillis(x);
+            nEvent.day = b.get(Calendar.DATE);
+            nEvent.month = b.get(Calendar.MONTH);
+            nEvent.year = b.get(Calendar.YEAR);
+            nEvent.hour = b.get(Calendar.HOUR_OF_DAY);
+            nEvent.AMPM = b.get(Calendar.AM_PM);
+            nEvent.minute = b.get(Calendar.MINUTE);
+            events.add(nEvent);
+    	}
       }
       return events;
     }
