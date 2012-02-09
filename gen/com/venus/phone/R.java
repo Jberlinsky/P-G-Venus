@@ -150,6 +150,7 @@ public final class R {
         public static final int bikini_area=0x7f060006;
         public static final int hello=0x7f060000;
         public static final int hint=0x7f06000d;
+        public static final int howtovideos=0x7f060016;
         public static final int left_forearm=0x7f060004;
         public static final int left_lower_leg=0x7f060009;
         public static final int left_underarm=0x7f060002;
@@ -162,7 +163,10 @@ public final class R {
         public static final int right_underarm=0x7f060003;
         public static final int right_upper_leg=0x7f060008;
         public static final int save=0x7f06000f;
+        public static final int schedule=0x7f060014;
         public static final int set_default=0x7f06000e;
+        public static final int setting=0x7f060017;
+        public static final int treatment=0x7f060015;
         public static final int underarm=0x7f060011;
         public static final int upper_leg=0x7f060012;
         public static final int view_tutorial=0x7f060010;

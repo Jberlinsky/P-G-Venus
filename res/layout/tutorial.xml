@@ -7,79 +7,89 @@
     android:background="#000000"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    android:orientation="vertical">
-	<TableRow>
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:orientation="vertical"
+    android:stretchColumns="0,1">
+	<TableRow android:gravity="center">
         <TextView
-            android:layout_column="0"
-            android:text="Schedule"
+            android:layout_width="match_parent"
+            android:text="@string/schedule"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_weight="0.5"/>
+            />
         <TextView
-            android:layout_column="1"
-            android:text="Treatment"
-            android:gravity="center"
-            android:layout_weight="0.5"/>
+            android:layout_width="match_parent"
+            android:text="@string/treatment"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
     </TableRow>
-    
-	<TableRow android:layout_weight="1" >
+    
+	<TableRow android:gravity="center"
+	    android:layout_weight="0.3">
 
 		<ImageButton
 		    android:id="@+id/scheduleButton"
 		    android:layout_column="0"
-		    android:layout_height="wrap_content"
-		    android:scaleType="fitXY"
-		    android:layout_weight="0.5"
+		    android:layout_weight="1"
+		    android:layout_gravity="center"
+		    android:scaleType = "centerInside"
+		    android:layout_height="150dp"
 		    android:background="#000000"
 		    android:src="@drawable/calendar" />
 
 		<ImageButton
 		    android:id="@+id/treatmentButton"
-		    android:layout_height="match_parent"
 		    android:layout_column="1"
-		    android:layout_weight="0.5"
+		    android:layout_weight="1"
+		    android:scaleType = "centerInside"
+		    android:layout_gravity="center"
 		    android:background="#000000"
-		    android:scaleType="fitXY"
 		    android:src="@drawable/howitworks" />
 
     </TableRow>
-    <TableRow>
+    <TableRow android:gravity="center">
         <TextView
             android:layout_column="0"
-            android:text="How To Videos"
-            android:gravity="center"
-            android:layout_weight="0.5"/>
+            android:text="@string/howtovideos"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
         <TextView
             android:layout_column="1"
-            android:text="Setting"
-            android:gravity="center"
-            android:layout_weight="0.5"/>
+            android:text="@string/setting"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
     </TableRow>
-    <TableRow android:layout_weight="1">
+    <TableRow android:gravity="center"
+        android:layout_weight="0.3">
         <ImageButton
             android:id="@+id/howtoButton"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-		    android:layout_weight="0.5"
+            android:layout_weight="1"
 		    android:background="#000000"
+		    android:scaleType = "centerInside"
+		    android:layout_gravity="center"
             android:src="@drawable/howto" />
 
         <ImageButton
             android:id="@+id/settingButton"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-		    android:layout_weight="0.5"
+            android:layout_weight="1"
 		    android:background="#000000"
+		    android:scaleType = "centerInside"
+		    android:layout_gravity="center"
             android:src="@drawable/setting"/>
         
     </TableRow>
-    <TableRow android:layout_weight="0.5">
+    <TableRow android:gravity="center"
+        android:layout_weight="1">
         <ImageButton
             android:layout_span="2"
+            android:contentDescription="Click to get more Gel"
             android:id="@+id/buygelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="fitXY"
-		    android:layout_weight="0.5"
 		    android:background="#000000"
             android:src="@drawable/buygel" />
     </TableRow>

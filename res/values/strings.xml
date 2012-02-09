@@ -43,4 +43,8 @@
     <string name="underarm">Underarm</string>
     <string name="upper_leg">Upper Leg</string>
     <string name="lower_leg">Lower Leg</string>
+    <string name="schedule">Schedule</string>
+    <string name="treatment">Treatment</string>
+    <string name="howtovideos">How To Videos</string>
+    <string name="setting">Setting</string>
 </resources>
