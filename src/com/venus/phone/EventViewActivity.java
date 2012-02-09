@@ -46,7 +46,7 @@ public class EventViewActivity extends Activity{
         	else if (tit.contains("Bikini"))
         		img.setImageResource(R.drawable.bikiniarea);
         	else if (tit.contains("Other"))
-        		img.setImageResource(R.drawable.other);
+        		//img.setImageResource(R.drawable.other);
         	
         	findViewById(R.id.treatmentBack).setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
