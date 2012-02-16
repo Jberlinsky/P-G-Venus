@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:stretchColumns="0,1"
+    android:background="@drawable/vbackground">
+    
+	<TableRow
+	    android:layout_weight="0.5"
+	    android:gravity="bottom|center">
+
+	    <TextView
+	        android:id="@+id/monthtext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="bottom|center"
+	        android:text="Large Text"
+	        android:layout_span="2"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	  </TableRow>
+	  <TableRow android:gravity="center"
+	      android:layout_weight="0.8">
+		  <com.exina.android.calendar.CalendarView  android:id="@+id/calendar"
+		      android:layout_width="fill_parent"
+		      android:layout_height="wrap_content"
+		      android:layout_gravity="top|center"
+		      android:layout_span="2"/>
+	  </TableRow>
+  <TableRow >
+	    <Button
+            android:id="@+id/calendarBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Back"
+            android:paddingTop="5dp"
+			 android:paddingBottom="5dp"
+			 android:paddingLeft="30dp"
+			 android:paddingRight="30dp"
+			 android:background="@+drawable/buttonbackground"
+			 android:textColor="#FFFFFF"
+			 android:textSize="15sp"/>
+	    <Button
+		    android:id="@+id/calendarNext"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="right"
+		    android:text="Next"
+		    android:paddingTop="5dp"
+			 android:paddingBottom="5dp"
+			 android:paddingLeft="30dp"
+			 android:paddingRight="30dp"
+			 android:background="@+drawable/buttonbackground"
+			 android:textColor="#FFFFFF"
+			 android:textSize="15sp" />
+	</TableRow>
+    
+</TableLayout>

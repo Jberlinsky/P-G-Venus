@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/mainLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
+    android:background="@drawable/vbackground"
+    android:orientation="vertical"
+    android:paddingBottom="60dp"
+    android:paddingTop="80dp" >
+
+    <ImageView
+        android:id="@+id/mainLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_weight="0.00"
+        android:paddingBottom="10dp"
+        android:src="@drawable/gilette_venus_lockup" />
+
+    <TextView
+        android:id="@+id/mainEmailTextView"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="0.00"
+        android:paddingTop="10dp"
+        android:text="To get started please enter your email address." />
+
+    <EditText
+        android:id="@+id/mainEmailTextEdit"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="0.00"
+        android:inputType="textEmailAddress" >
+        <requestFocus />
+    </EditText>
+
 </LinearLayout>

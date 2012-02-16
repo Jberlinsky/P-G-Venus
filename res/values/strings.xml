@@ -1,5 +1,55 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="hello">Hello World</string>
-    <string name="app_name">Venus Naked Skin</string>
+    <string name="hello">Hello World, VenusDiaryActivity!</string>
+    <string name="app_name">NakedSkin</string>
+    <string name="left_underarm">Left Underarm</string>
+    <string name="right_underarm">Right Underarm</string>
+    <string name="left_forearm">Left Forearm</string>
+    <string name="right_forearm">Right Forearm</string>
+    <string name="bikini_area">Bikini                                        Area</string>
+    <string name="left_upper_leg">Left Upper Leg</string>
+    <string name="right_upper_leg">Right Upper Leg</string>
+    <string name="left_lower_leg">Left Lower Leg</string>
+    <string name="right_lower_leg">Right Lower Leg</string>
+    <string name="proceed">Proceed</string>
+    <string-array name="sessions_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="reminder_array">
+        <item>5 min ahead</item>
+        <item>1 hour ahead</item>
+        <item>1 day ahead</item>
+        <item>2 day ahead</item>
+        <item>3 day ahead</item>
+        <item>1 week ahead</item>
+    </string-array>
+    <string name="none">None</string>
+    <string name="hint">Nothing</string>
+    <string name="set_default">Set default reminder period</string>
+    <string name="save">Save</string>
+    <string name="view_tutorial">View Application Tutorial</string>
+    <string name="underarm">Underarm</string>
+    <string name="upper_leg">Upper Leg</string>
+    <string name="lower_leg">Lower Leg</string>
+    <string name="schedule">Calendar View</string>
+    <string name="treatment">Treatment Area Scheduler</string>
+    <string name="howtovideos">Videos</string>
+    <string name="setting">Reminder</string>
+    <string name="buygel">Buy More Gel</string>
+    <string name="regimen">How Often to Use?</string>
+    <string name="howitworks">How It Works</string>
+    <string name="howtouse">How to Use It</string>
+    <string name="home">Home</string>
 </resources>

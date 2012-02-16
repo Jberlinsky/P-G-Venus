@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#000000">
+    <item android:id="@+id/schedulemenu"
+          android:icon="@+drawable/howitworks_icon"
+          android:background="#000000"
+          android:title="@string/treatment" />
+    <item android:id="@+id/homemenu"
+          android:icon="@+drawable/ic_launcher"
+          android:background="#000000"
+          android:title="@string/home" />
+    <item android:id="@+id/treatmentmenu"
+          android:icon="@+drawable/calendar_icon"
+          android:background="#000000"
+          android:title="@string/schedule" />
+    <item android:id="@+id/howtomenu"
+          android:icon="@+drawable/howto_icon"
+          android:background="#000000"
+          android:title="@string/howtovideos" />
+    <item android:id="@+id/settingmenu"
+          android:background="#000000"
+          android:icon="@+drawable/setting_icon"
+          android:title="@string/setting" />
+</menu>

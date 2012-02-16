@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/howtoLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/vbackground"
+    android:stretchColumns="0"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:gravity="center">
+    
+    <TableRow android:paddingTop="10dp">
+   	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:gravity="center"
+		    android:text="@string/howtouse" />
+    </TableRow>
+    
+    <TableRow android:gravity="center">
+		<ImageButton
+		    android:id="@+id/howtoVideoButton"
+		    android:layout_height="wrap_content"
+		    android:background="#00000000"
+		    android:src="@drawable/howtouse" />
+    </TableRow>
+	<TableRow android:paddingTop="10dp">
+		<TextView
+            android:text="@string/howitworks"
+            android:gravity="center"/>
+    </TableRow>
+    
+    <TableRow android:gravity="center">
+		<ImageButton
+		    android:id="@+id/workVideoButton"
+		    android:layout_height="wrap_content"
+		    android:background="#00000000"
+		    android:src="@drawable/howitwork" />
+
+    </TableRow>
+    <TableRow android:paddingTop="10dp">
+    <TextView
+            android:text="@string/regimen"
+            android:gravity="center"/>
+    </TableRow>
+    
+    <TableRow android:gravity="center">
+    <ImageButton
+		    android:id="@+id/trVideoButton"
+		    android:layout_height="wrap_content"
+		    android:background="#00000000"
+		    android:src="@drawable/howoften"/>
+    </TableRow>
+    
+</TableLayout>

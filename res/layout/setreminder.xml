@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/vbackground"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:orientation="vertical"
+    android:stretchColumns="0,1">
+
+    <TableRow android:layout_weight="0.1">
+    <TextView
+        android:id="@+id/reminderTitle"
+        android:layout_span="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Reminder"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+	</TableRow>
+    <TableRow android:layout_weight="0.1">
+    <EditText
+        android:id="@+id/reminderText"
+        android:layout_span="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:inputType="textEmailAddress"
+        android:text="Title">
+        <requestFocus />
+    </EditText>
+	</TableRow>
+    <TableRow android:layout_weight="0.1">
+    <CheckBox
+        android:id="@+id/alertCheckBox"
+        android:layout_span="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alert" />
+	</TableRow>
+    <TableRow android:layout_weight="0.1">
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_span="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alarm Sound" />
+	</TableRow>
+    <TableRow android:layout_weight="0.1">
+    <Spinner
+        android:id="@+id/alarmSoundSpinner"
+        android:layout_span="2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+	</TableRow>
+    <TableRow android:layout_weight="0.1">
+    <TextView
+        android:id="@+id/daysbefore"
+        android:layout_span="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Days Before" />
+	</TableRow>
+    <TableRow android:layout_weight="0.1">
+    <Spinner
+        android:id="@+id/daysBeforeSpinner"
+        android:layout_span="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+	</TableRow>
+    <TableRow android:layout_weight="0.1">
+    <CheckBox
+        android:id="@+id/emailCheckBox"
+        android:layout_span="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email" />
+	</TableRow>	<TableRow android:layout_weight="0.1">
+    <EditText
+        android:id="@+id/setReminderEmail"
+        android:layout_span="2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress" >
+    </EditText>
+	</TableRow>
+    <TableRow>
+        <Button
+            android:id="@+id/setReminderBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Back"
+            android:paddingTop="5dp"
+			 android:paddingBottom="5dp"
+			 android:paddingLeft="30dp"
+			 android:paddingRight="30dp"
+			 android:background="@+drawable/buttonbackground"
+			 android:textColor="#FFFFFF"
+			 android:textSize="15sp"/>
+	    <Button
+	        android:id="@+id/saveReminder"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="right"
+	        android:text="Save"
+	        android:paddingTop="5dp"
+			 android:paddingBottom="5dp"
+			 android:paddingLeft="30dp"
+			 android:paddingRight="30dp"
+			 android:background="@+drawable/buttonbackground"
+			 android:textColor="#FFFFFF"
+			 android:textSize="15sp" />
+	</TableRow>
+</TableLayout>
