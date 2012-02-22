@@ -95,6 +95,7 @@ public class SettingActivity extends Activity implements OnClickListener {
             break;
         case R.id.viewTutorialButton :
         	Intent intent = new Intent( getApplicationContext(), TutorialActivity.class );
+        	intent.putExtra("first", true);
         	startActivity( intent );
         	finish();
         	break;

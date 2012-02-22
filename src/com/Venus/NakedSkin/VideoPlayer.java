@@ -15,7 +15,7 @@ public class VideoPlayer extends Activity implements OnCompletionListener {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.videoplayer );
         mVideoView = (VideoView)findViewById( R.id.surfacevideoview );
-        mVideoView.setVideoURI( Uri.parse("android.resource://com.venus.phone/" + R.raw.sample ) );
+        //mVideoView.setVideoURI( Uri.parse("android.resource://com.venus.phone/" + R.raw.sample ) );
         mVideoView.setOnCompletionListener( this );
         mVideoView.start();
     }

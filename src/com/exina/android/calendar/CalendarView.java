@@ -18,35 +18,36 @@ package com.exina.android.calendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import com.Venus.NakedSkin.R;
 
 import Utility.Event;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.MonthDisplayHelper;
+import android.view.Display;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.Venus.NakedSkin.R;
+
 public class CalendarView extends ImageView {
-    private static int WEEK_TOP_MARGIN = 74;
-    private static int WEEK_LEFT_MARGIN = 40;
-    private static int CELL_WIDTH = 58;
-    private static int CELL_HEIGH = 53;
-    private static int CELL_MARGIN_TOP = 92;
-    private static int CELL_MARGIN_LEFT = 39;
+    private static int WEEK_TOP_MARGIN;
+    private static int WEEK_LEFT_MARGIN;
+    private static int CELL_WIDTH;
+    private static int CELL_HEIGH;
+    private static int CELL_MARGIN_TOP;
+    private static int CELL_MARGIN_LEFT;
     private static float CELL_TEXT_SIZE;
 
     private static final String TAG = "CalendarView";
     private Calendar mRightNow = null;
-    private Drawable mWeekTitle = null;
     private Cell mToday = null;
     private Cell[][] mCells = new Cell[6][7];
     private OnCellTouchListener mOnCellTouchListener = null;
@@ -79,23 +80,36 @@ public class CalendarView extends ImageView {
 
     private void initCalendarView() {
         mRightNow = Calendar.getInstance();
-        // prepare static vars
+        this.setScaleType(ImageView.ScaleType.FIT_START);
+        // prepare static 
+        mDecoration = cContext.getResources().getDrawable(R.drawable.typeb_calendar_today);
         Resources res = getResources();
-        WEEK_TOP_MARGIN  = (int) res.getDimension(R.dimen.week_top_margin);
-        WEEK_LEFT_MARGIN = (int) res.getDimension(R.dimen.week_left_margin);
+        WindowManager wm = (WindowManager) cContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        float cell_width = (float) (display.getWidth()/7.2);
+        float cell_height = (float) (cell_width * 0.9);
+        float weektopmargin = (float) (cell_width *1.7);
+        float weekleftmargin = (float) (cell_width * 0.8);
+        float cellmargintop = (float) (cell_width*1.6862069);
+        float cellmarginleft = (float) (cell_width*0.732413793);
+        float celltextsize = (float) (cell_width*0.448275862);
+        
+        WEEK_TOP_MARGIN  = (int) weektopmargin;
+        WEEK_LEFT_MARGIN = (int) weekleftmargin;
 
-        CELL_WIDTH = (int) res.getDimension(R.dimen.cell_width);
-        CELL_HEIGH = (int) res.getDimension(R.dimen.cell_heigh);
-        CELL_MARGIN_TOP = (int) res.getDimension(R.dimen.cell_margin_top);
-        CELL_MARGIN_LEFT = (int) res.getDimension(R.dimen.cell_margin_left);
+        CELL_WIDTH = (int) cell_width;
+        CELL_HEIGH = (int) cell_height;
+        CELL_MARGIN_TOP = (int) cellmargintop;
+        CELL_MARGIN_LEFT = (int) 0;
 
-        CELL_TEXT_SIZE = res.getDimension(R.dimen.cell_text_size);
+        CELL_TEXT_SIZE = celltextsize;
+        
         // set background
+        //setBackgroundResource(R.drawable.background2);
         setImageResource(R.drawable.background2);
-        mWeekTitle = res.getDrawable(R.drawable.calendar_week);
+        //mWeekTitle = res.getDrawable(R.drawable.calendar_week);
 
         mHelper = new MonthDisplayHelper(mRightNow.get(Calendar.YEAR), mRightNow.get(Calendar.MONTH));
-
     }
 
     private void initCells() {
@@ -119,7 +133,6 @@ public class CalendarView extends ImageView {
                     tmp[i][d] = new _calendar(n[d], true);
                 else
                     tmp[i][d] = new _calendar(n[d]);
-
             }
         }
         this.eDecoration.clear();
@@ -130,7 +143,7 @@ public class CalendarView extends ImageView {
             thisDay = today.get(Calendar.DAY_OF_MONTH);
         }
         // build cells
-        Rect Bound = new Rect(CELL_MARGIN_LEFT, CELL_MARGIN_TOP, CELL_WIDTH+CELL_MARGIN_LEFT, CELL_HEIGH+CELL_MARGIN_TOP);
+        Rect Bound = new Rect(0, WEEK_TOP_MARGIN, CELL_WIDTH, CELL_HEIGH+WEEK_TOP_MARGIN);
         for(int week=0; week<mCells.length; week++) {
             for(int day=0; day<mCells[week].length; day++) {
                 if(tmp[week][day].thisMonth) {
@@ -141,13 +154,16 @@ public class CalendarView extends ImageView {
                 } else
                     mCells[week][day] = new GrayCell(tmp[week][day].day, new Rect(Bound), CELL_TEXT_SIZE);
 
+             // get today
+                int hei = Bound.height();
+                if(tmp[week][day].day==thisDay && tmp[week][day].thisMonth) {
+                	mToday = mCells[week][day];
+                    mDecoration.setBounds(Bound);
+                }
+                
                 Bound.offset(CELL_WIDTH, 0); // move to next column
 
-                // get today
-                if(tmp[week][day].day==thisDay && tmp[week][day].thisMonth) {
-                    mToday = mCells[week][day];
-                    mDecoration.setBounds(mToday.getBound());
-                }
+                
                 
                 for (int ei = 0; ei < this.eventDays.size();ei++) {
                 	int tt = tmp[week][day].day;
@@ -158,21 +174,22 @@ public class CalendarView extends ImageView {
                 		Drawable t = cContext.getResources().getDrawable(R.drawable.typeb_calendar_event);
                 		t.setBounds(mCells[week][day].getBound());
                 		eDecoration.add(t);
+                		
                 	}
                 }
             }
             Bound.offset(0, CELL_HEIGH); // move to next row and first column
-            Bound.left = CELL_MARGIN_LEFT;
-            Bound.right = CELL_MARGIN_LEFT+CELL_WIDTH;
+            Bound.left = 0;
+            Bound.right = CELL_WIDTH;
         }
     }
 
     @Override
     public void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        android.util.Log.d(TAG, "left="+left);
+        /*android.util.Log.d(TAG, "left="+left);
         Rect re = getDrawable().getBounds();
         WEEK_LEFT_MARGIN = CELL_MARGIN_LEFT = (right-left - re.width()) / 2;
-        mWeekTitle.setBounds(WEEK_LEFT_MARGIN, WEEK_TOP_MARGIN, WEEK_LEFT_MARGIN+mWeekTitle.getMinimumWidth(), WEEK_TOP_MARGIN+mWeekTitle.getMinimumHeight());
+        */
         initCells();
         super.onLayout(changed, left, top, right, bottom);
     }
@@ -208,7 +225,6 @@ public class CalendarView extends ImageView {
     	this.eventMonth.clear();
     	this.eventYear.clear();
     	for (int i = 0;i < ev.size();i++){
-    		int x = this.getYear();
     		if (!(this.eventMonth.contains(ev.get(i).month) && this.eventDays.contains(ev.get(i).day) && this.eventYear.contains(ev.get(i).year)))
     		{
 	    		this.eventMonth.add(ev.get(i).month);
@@ -269,7 +285,6 @@ public class CalendarView extends ImageView {
     protected void onDraw(Canvas canvas) {
         // draw background
         super.onDraw(canvas);
-        mWeekTitle.draw(canvas);
 
         // draw cells
         for(Cell[] week : mCells) {
@@ -278,15 +293,27 @@ public class CalendarView extends ImageView {
             }
         }
 
+        Paint paintToday = new Paint();
+        paintToday.setARGB(255, 255, 255, 255);
+        paintToday.setStrokeWidth(3);
+        paintToday.setStyle(Style.STROKE);
+        Paint paintEvent = new Paint();
+        paintEvent.setARGB(255, 0, 153, 203);
+        paintEvent.setStyle(Style.STROKE);
+        paintEvent.setStrokeWidth(3);
         // draw today
         if(mDecoration!=null && mToday!=null) {
             mDecoration.draw(canvas);
+        	//canvas.drawCircle(mDecoration.getBounds().centerX(), mDecoration.getBounds().centerY(), (float) (mDecoration.getBounds().width()*0.35), paintToday);
         }
+        
+        
         if (eventMonth.size() > 0)
         {
 	        for (int i = 0;i<eDecoration.size();i++){
 	        	//if ( this.getMonth() == eventMonth.get(0)){
 	        		eDecoration.get(i).draw(canvas);
+	        	//canvas.drawCircle(eDecoration.get(i).getBounds().centerX(), eDecoration.get(i).getBounds().centerY(), (float) (eDecoration.get(i).getBounds().width()*0.35), paintEvent);
 	        	//}
 	        }
         }
