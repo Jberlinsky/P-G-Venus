@@ -36,6 +36,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     Spinner sessionSpinner;
     private boolean isStartup;
     private String startupNumber;
+    private int treatmentDuration = -1;
 
     SelectionButton ba;
     SelectionButton ua;
@@ -127,6 +128,12 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         
         findViewById(R.id.scheduleProceed).setOnClickListener(this);
     }
+
+    private void prepopulateMinutes(int duration)
+    {
+      // Prepopuate the length of a treatment
+      this.treatmentDuration = duration;
+    }
     
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -182,6 +189,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
 	                ul.setUnselected();
 	                ll.setUnselected();
 	            }
+              this.prepopulateMinutes(Constants.TEN_MINUTES);
 	            break;
         /*
         case R.id.underarmleft:
@@ -263,6 +271,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 lll.setUnselected();
                 rll.setUnselected();*/
             }
+            this.prepopulateMinutes(Constants.TEN_MINUTES);
             break;
         case R.id.upperleg:
             if( ul.isSelected ) {
@@ -273,6 +282,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 ua.setUnselected();
                 ll.setUnselected();
             }
+            this.prepopulateMinutes(Constants.FOURTY_FIVE_MINUTES);
             break;
         case R.id.lowerleg:
             if( ll.isSelected ) {
@@ -283,6 +293,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 ua.setUnselected();
                 ul.setUnselected();
             }
+            this.prepopulateMinutes(Constants.FOURTY_FIVE_MINUTES);
             break;
             /*
         case R.id.upperlegleft:
@@ -433,7 +444,10 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             calendarIntent.putExtra( "title", "Naked Skin " + bodyPart + " treatment reminder" );
             calendarIntent.putExtra( "description", desc );
             calendarIntent.putExtra( "beginTime", c.getTimeInMillis() );
-            calendarIntent.putExtra( "endTime", c.getTimeInMillis() + Constants.ONE_HOUR );
+            if (this.treatmentDuration != -1)
+              calendarIntent.putExtra("endTime", c.getTimeInMillis() + this.treatmentDuration);
+            else
+              calendarIntent.putExtra( "endTime", c.getTimeInMillis() + Constants.ONE_HOUR );
             calendarIntent.putExtra("allDay", 0);
    //status: 0~ tentative; 1~ confirmed; 2~ canceled
             calendarIntent.putExtra("eventStatus", 1);
