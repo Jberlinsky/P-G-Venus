@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Spanned;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -117,6 +118,25 @@ public class TutorialActivity extends Activity implements OnClickListener {
     }
     
     private void openDialog(String string)
+    {
+    	final Dialog dialog = new Dialog(this);
+        TextView dialogtext;
+        Button button;
+        dialog.setContentView(R.layout.customdialog);
+        dialog.setTitle("App Tutorial");
+        dialog.setCancelable(true);
+        dialogtext = (TextView) dialog.findViewById(R.id.contenttext);
+        dialogtext.setText(string);
+        button = (Button) dialog.findViewById(R.id.okaybutton);
+        button.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+        	dialog.cancel();
+            }
+        });
+        dialog.show();
+    }
+    
+    private void openDialog(Spanned string)
     {
     	final Dialog dialog = new Dialog(this);
         TextView dialogtext;
