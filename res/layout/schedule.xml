@@ -3,86 +3,80 @@
     android:id="@+id/scheduleLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:background="@drawable/vbackground"
     android:paddingRight="3dp"
-    android:paddingLeft="3dp">
-
-   <TableLayout
+    android:paddingLeft="3dp">
+   <LinearLayout
        android:layout_width="fill_parent"
      android:layout_height="fill_parent"
-       android:background="@drawable/body1"
-       android:stretchColumns="0" >
+       android:background="@drawable/bodyimage022712"
+       android:orientation="vertical"
+       android:weightSum="1">
 
-  <TableRow
-      android:layout_width="fill_parent"
-      android:layout_weight="0.2" >
+       <LinearLayout
+           android:id="@+id/linearLayout1"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="0.28"
+           android:orientation="vertical" >
+       </LinearLayout>
 
         <view class="com.Venus.NakedSkin.SelectionButton"
             android:id="@+id/underarm"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.125"
             android:background="#20ffffff"
+            android:gravity="right|center"
             android:text="@string/underarm"
             android:textColor="#ffffff" />
 
-    </TableRow>
-  
-    <TableRow
-        android:layout_weight="0.2">
 
         <view class="com.Venus.NakedSkin.SelectionButton"
             android:id="@+id/bikiniarea"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.5"
+            android:layout_height="0dp"
+            android:layout_weight="0.125"
             android:background="#20ffffff"
-            android:text="Bikini                             Area"
+            android:gravity="right|center"
+            android:text="@string/bikini_area"
             android:textColor="#ffffff" />
 
-    </TableRow>
-    <TableRow
-        android:layout_weight="0.2">
 
         <view class="com.Venus.NakedSkin.SelectionButton"
             android:id="@+id/upperleg"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
             android:background="#20ffffff"
+            android:gravity="right|center"
             android:text="@string/upper_leg"
             android:textColor="#ffffff" />
 
-
-    </TableRow>
-    <TableRow
-        android:layout_weight="0.2">
-
-
-        <view class="com.Venus.NakedSkin.SelectionButton"
-            android:id="@+id/lowerleg"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.5"
-            android:background="#20ffffff"
-            android:text="@string/lower_leg"
-            android:textColor="#ffffff" />
-
-    </TableRow>
-    <TableRow>
+		<view class="com.Venus.NakedSkin.SelectionButton"
+		    android:id="@+id/lowerleg"
+		    android:layout_width="fill_parent"
+		    android:layout_height="0dp"
+		    android:layout_weight="0.2"
+		    android:background="#20ffffff"
+		    android:gravity="right|center"
+		    android:text="@string/lower_leg"
+		    android:textColor="#ffffff" />
+
         <Button
             android:id="@+id/scheduleProceed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.07"
+            android:background="@drawable/buttonbackground"
             android:layout_gravity="right"
+            android:gravity="center"
             android:text="@string/proceed"
-            android:paddingTop="5dp"
-			 android:paddingBottom="5dp"
-			 android:paddingLeft="30dp"
-			 android:paddingRight="30dp"
-			 android:background="@drawable/buttonbackground"
-			 android:textColor="#FFFFFF"
-			 android:textSize="15sp" />
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
 
-    </TableRow>
-  </TableLayout>
+
+  </LinearLayout>
 
 </LinearLayout>

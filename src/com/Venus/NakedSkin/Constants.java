@@ -27,6 +27,7 @@ public class Constants {
         "Here, you'll be able to select a playlist to listen to while you treat yourself.";
     public final static String TUTORIAL_SETTINGS_MESSAGE = "You can change how you want to be reminded under Reminder Settings.  Now you’re ready to get started.";
     public final static String TUTORIAL_START_MESSAGE = "Great! Let's get started on your first treatment!";
+    public final static String TREATMENT_OPTION_MESSAGE = "Would you like to continue with the Start Up phase and set a reminder to treat in two weeks, or are you ready to start the Maintenance Phase and set a reminder to treat in two months?";
 
     //Shared variable names
     public final static String TAB_NUMBER = "tabNumber";
@@ -35,8 +36,9 @@ public class Constants {
     public final static int COLOR_SELECTED = Color.BLUE;
     public final static int COLOR_UNSELECTED = Color.WHITE;
 
-    public final static int COLOR_BG_SELECTED = Color.BLACK;
-    public final static int COLOR_ALPHA_SELECTED = 60;
+    
+    public final static int COLOR_BG_SELECTED = Color.argb(250, 0, 153, 203);
+    public final static int COLOR_ALPHA_SELECTED = 150;
     public final static int COLOR_BG_UNSELECTED = Color.WHITE;
     public final static int COLOR_ALPHA_UNSELECTED = 0;
 
