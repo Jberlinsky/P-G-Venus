@@ -119,6 +119,7 @@ public class SettingActivity extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch( v.getId() ) {
         case R.id.applySettingButton :
+            //TODO This part doesn't work, but I'm keeping the code here in case someone wants to see it
             VenusDb vdb = new VenusDb( this );
             vdb.setAlarm( mod, value );
             vdb.close();

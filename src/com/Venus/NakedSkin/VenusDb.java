@@ -47,7 +47,10 @@ public class VenusDb {
         public void onCreate( SQLiteDatabase db ) {
             db.execSQL( DB_TABLE_CREATE );
             VenusDb.setFirstRun( db );
-            setAlarm( Constants.MINUTE, 5 );
+            ContentValues storedValues = new ContentValues();
+            storedValues.put( KEY_ALARM_MOD, 0 );
+            storedValues.put( KEY_ALARM_VALUE, 5 );
+            db.insert( DB_TABLE, null, storedValues );
         }
         public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
             Log.w( TAG, "Upgrading database from version " +

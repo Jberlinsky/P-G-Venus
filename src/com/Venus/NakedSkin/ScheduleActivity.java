@@ -1,23 +1,18 @@
 package com.Venus.NakedSkin;
 
-import java.util.ArrayList;
-import java.util.Date;
-import android.text.format.DateUtils;
-import java.util.List;
-import android.content.ContentUris;
-
-
 import java.util.Calendar;
 
-import android.app.Activity;
+/* These imports were for the old method of inserting to calendar
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+*/
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -456,9 +451,10 @@ public class ScheduleActivity extends Activity implements OnClickListener{
    //0~ opaque, no timing conflict is allowed; 1~ transparency, allow overlap of scheduling
             calendarIntent.putExtra("transparency", 0);
 
+            //TODO Alarm settings don't actually work
             //Alarm settings
    //0~ false; 1~ true
-            calendarIntent.putExtra("hasAlarm", 1);
+            calendarIntent.putExtra("hasAlarm", 0);
             //Alarm time in UTC long
             VenusDb vdb = new VenusDb( this );
             switch( vdb.getAlarmMod() ) {
@@ -513,7 +509,10 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     }
 
 
-    private static void addToCalendar(Context ctx, final String title, final long dtstart, final long dtend)
+    /*
+     * This is the old way of adding to calendar.  This has since been updated.
+     */
+/*    private static void addToCalendar(Context ctx, final String title, final long dtstart, final long dtend)
     {
         final ContentResolver cr = ctx.getContentResolver();
         Cursor cursor;
@@ -567,7 +566,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         }
         cursor.close();
     }
-
+*/
 
 
 
