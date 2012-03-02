@@ -17,9 +17,11 @@ public class VenusDb {
 
     private static final String KEY_ID = "_ID";
     private static final String KEY_FIRST_RUN = "FIRST_RUN";
+    private static final String KEY_ALARM_MOD = "ALARM_MOD";
+    private static final String KEY_ALARM_VALUE = "ALARM_VALUE";
 
     private static final String DB_NAME = "VenusDb";
-    private static final int DB_VERSION = 1; //TODO Reset version to 1 for release
+    private static final int DB_VERSION = 2; //TODO Reset version to 1 for release
 
     private static final String DB_TABLE = "VenusTable";
     private static final String DB_TABLE_CREATE =
@@ -29,7 +31,11 @@ public class VenusDb {
         KEY_ID +
         " integer primary key autoincrement, " +
         KEY_FIRST_RUN +
-        " integer not null );";
+        " integer not null, " +
+        KEY_ALARM_MOD +
+        " integer, " +
+        KEY_ALARM_VALUE +
+        " integer );";
     private static final String DB_TABLE_DROP =
         "DROP TABLE IF EXISTS " +
         DB_TABLE;
@@ -41,6 +47,7 @@ public class VenusDb {
         public void onCreate( SQLiteDatabase db ) {
             db.execSQL( DB_TABLE_CREATE );
             VenusDb.setFirstRun( db );
+            setAlarm( Constants.MINUTE, 5 );
         }
         public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
             Log.w( TAG, "Upgrading database from version " +
@@ -58,12 +65,44 @@ public class VenusDb {
         open();
     }
 
+    public void setAlarm( int mod, int value ) {
+        ContentValues storedValues = new ContentValues();
+        storedValues.put( KEY_ALARM_MOD, mod );
+        storedValues.put( KEY_ALARM_VALUE, value );
+        mDatabase.update( DB_TABLE, storedValues, null, null );
+    }
+
+    public int getAlarmMod() {
+        Cursor c = mDatabase.query( DB_TABLE,
+                                    new String[] {KEY_ALARM_MOD},
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    "1" );
+        c.moveToFirst();
+        return c.getInt( 0 );
+    }
+    public int getAlarmValue() {
+        Cursor c = mDatabase.query( DB_TABLE,
+                                    new String[] {KEY_ALARM_VALUE},
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    "1" );
+        c.moveToFirst();
+        return c.getInt( 0 );
+    }
+
     public static void setFirstRun( SQLiteDatabase db ) {
         ContentValues storedValues = new ContentValues();
         storedValues.put( KEY_FIRST_RUN, 0 );
         db.insert( DB_TABLE, null, storedValues );
     }
-    
+
     public void setFirstRun() {
         mDatabase.execSQL( DB_TABLE_DROP );
         mDatabase.execSQL( DB_TABLE_CREATE );

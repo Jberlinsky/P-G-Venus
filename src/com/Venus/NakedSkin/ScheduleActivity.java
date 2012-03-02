@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 public class ScheduleActivity extends Activity implements OnClickListener{
 
-  
+
 
     Spinner sessionSpinner;
     private boolean isStartup;
@@ -42,7 +42,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     SelectionButton ua;
     SelectionButton ul;
     SelectionButton ll;
-    
+
     /*
     SelectionButton lua;
     SelectionButton lfa;
@@ -97,7 +97,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     }
 
     private void setListeners() {
-    	/*
+        /*
         lua = (SelectionButton)findViewById(R.id.underarmleft);
         lua.setOnClickListener(this);
         rua = (SelectionButton)findViewById(R.id.underarmright);
@@ -115,7 +115,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         rll = (SelectionButton)findViewById(R.id.lowerlegright);
         rll.setOnClickListener(this);
         */
-    	
+
         ba = (SelectionButton)findViewById(R.id.bikiniarea);
         ba.setOnClickListener(this);
         ua = (SelectionButton)findViewById(R.id.underarm);
@@ -124,8 +124,8 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         ul.setOnClickListener(this);
         ll = (SelectionButton)findViewById(R.id.lowerleg);
         ll.setOnClickListener(this);
-        
-        
+
+
         findViewById(R.id.scheduleProceed).setOnClickListener(this);
     }
 
@@ -134,63 +134,63 @@ public class ScheduleActivity extends Activity implements OnClickListener{
       // Prepopuate the length of a treatment
       this.treatmentDuration = duration;
     }
-    
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.layout.tabmenu, menu);
         return true;
     }
-    
+
     public void onBackPressed(){
-    	//This is to prevent user from accidently exiting the app
-    	//pressing Home will exit the app
-    	setScheduleContent();
+        //This is to prevent user from accidently exiting the app
+        //pressing Home will exit the app
+        setScheduleContent();
     }
-    
+
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.schedulemenu:
-        	setScheduleContent();
-        	//startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
+            setScheduleContent();
+            //startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
             return true;
         case R.id.treatmentmenu:
-        	startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
-        	finish();
+            startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
+            finish();
             return true;
         case R.id.howtomenu:
-        	startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
-        	finish();
+            startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
+            finish();
             return true;
         case R.id.settingmenu:
-        	startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
-        	finish();
+            startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
+            finish();
             return true;
         case R.id.homemenu:
-        	Intent intent =  new Intent( getApplicationContext(), TutorialActivity.class );
-        	intent.putExtra("first", false);
-        	startActivity(intent);
-        	finish();
+            Intent intent =  new Intent( getApplicationContext(), TutorialActivity.class );
+            intent.putExtra("first", false);
+            startActivity(intent);
+            finish();
             return true;
-            
+
         default:
             return super.onOptionsItemSelected(item);
         }
     }
-    
+
     public void onClick( View v ) {
         switch( v.getId() ) {
-	        case R.id.underarm:
-	            if( ua.isSelected ) {
-	                ua.setUnselected();
-	            } else {
-	                ua.setSelectedCustom();
-	                ba.setUnselected();
-	                ul.setUnselected();
-	                ll.setUnselected();
-	            }
+            case R.id.underarm:
+                if( ua.isSelected ) {
+                    ua.setUnselected();
+                } else {
+                    ua.setSelectedCustom();
+                    ba.setUnselected();
+                    ul.setUnselected();
+                    ll.setUnselected();
+                }
               this.prepopulateMinutes(Constants.TEN_MINUTES);
-	            break;
+                break;
         /*
         case R.id.underarmleft:
             if( lua.isSelected ) {
@@ -207,7 +207,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 rll.setUnselected();
             }
             break;
-            
+
         case R.id.underarmright:
             if( rua.isSelected ) {
                 rua.setUnselected();
@@ -398,13 +398,13 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             findViewById(R.id.phaseBack).setOnClickListener(this);
             break;
         case R.id.phaseBack:
-        	setScheduleContent();
+            setScheduleContent();
             /*
             lua.setUnselected();
             rua.setUnselected();
             lfa.setUnselected();
             rfa.setUnselected();
-            
+
             lul.setUnselected();
             rul.setUnselected();
             lll.setUnselected();
@@ -419,11 +419,11 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             if( ba.isSelected ) {
                 bodyPart = getString( R.string.bikini_area );
             } else if( ua.isSelected ) {
-            	bodyPart = getString( R.string.underarm );
+                bodyPart = getString( R.string.underarm );
             } else if( ul.isSelected ) {
-            	bodyPart = getString( R.string.upper_leg );
+                bodyPart = getString( R.string.upper_leg );
             } else if( ll.isSelected ) {
-            	bodyPart = getString( R.string.lower_leg );
+                bodyPart = getString( R.string.lower_leg );
             }
             else
                 bodyPart = "Other";
@@ -455,8 +455,33 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             calendarIntent.putExtra("visibility", 0);    //
    //0~ opaque, no timing conflict is allowed; 1~ transparency, allow overlap of scheduling
             calendarIntent.putExtra("transparency", 0);
+
+            //Alarm settings
    //0~ false; 1~ true
             calendarIntent.putExtra("hasAlarm", 1);
+            //Alarm time in UTC long
+            VenusDb vdb = new VenusDb( this );
+            switch( vdb.getAlarmMod() ) {
+            case Constants.MINUTE:
+                modifier = Calendar.MINUTE;
+                break;
+            case Constants.HOUR:
+                modifier = Calendar.HOUR;
+                break;
+            case Constants.DAY:
+                modifier = Calendar.DATE;
+                break;
+            case Constants.WEEK:
+                modifier = Calendar.WEEK_OF_YEAR;
+                break;
+            default:
+                break;
+            }
+            c.add( modifier, -vdb.getAlarmValue() );
+            vdb.close();
+            calendarIntent.putExtra( "alarmTime", c.getTimeInMillis() );
+
+
             try {
                 startActivity( calendarIntent );
             } catch ( Exception e ) {
@@ -464,7 +489,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 //Log.d( "TAG", e.getMessage() );
             }
             finally {
-            	setContentView(R.layout.schedule);
+                setContentView(R.layout.schedule);
                 this.setListeners();
                 ba.setUnselected();
                 ua.setUnselected();
@@ -472,13 +497,13 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 ll.setUnselected();
             }
 
-            //addToCalendar(this, bodyPart + " treatment reminder", c.getTimeInMillis(), c.getTimeInMillis() + Constants.ONE_HOUR );            
+            //addToCalendar(this, bodyPart + " treatment reminder", c.getTimeInMillis(), c.getTimeInMillis() + Constants.ONE_HOUR );
             break;
         }
     }
 
     private void setScheduleContent(){
-    	setContentView(R.layout.schedule);
+        setContentView(R.layout.schedule);
         //Visual and listener//
         this.setListeners();
         ba.setUnselected();
@@ -486,7 +511,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         ul.setUnselected();
         ll.setUnselected();
     }
-    
+
 
     private static void addToCalendar(Context ctx, final String title, final long dtstart, final long dtend)
     {
