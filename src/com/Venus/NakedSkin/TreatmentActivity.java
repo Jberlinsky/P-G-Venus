@@ -1,6 +1,5 @@
 package com.Venus.NakedSkin;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,7 +15,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CalendarContract.Calendars;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,11 +49,11 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         mView.setOnCellTouchListener(this);
         findViewById(R.id.calendarBack).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	//// Make sign up email functions here.
-            	mView.previousMonth();
-            	setMonth();
-            	/*
-            	mHandler.post(new Runnable() {
+                //// Make sign up email functions here.
+                mView.previousMonth();
+                setMonth();
+                /*
+                mHandler.post(new Runnable() {
                     public void run() {
                         Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
                     }
@@ -61,11 +62,11 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         });
         findViewById(R.id.calendarNext).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	//// Make sign up email functions here.
-            	mView.nextMonth();
-            	setMonth();
-            	/*
-            	mHandler.post(new Runnable() {
+                //// Make sign up email functions here.
+                mView.nextMonth();
+                setMonth();
+                /*
+                mHandler.post(new Runnable() {
                     public void run() {
                         Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
                     }
@@ -79,34 +80,34 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
     }
 
     public void onBackPressed(){
-    	//This is to prevent user from accidently exiting the app
-    	//pressing Home will exit the app
+        //This is to prevent user from accidently exiting the app
+        //pressing Home will exit the app
     }
-    
+
     public void onTouch(Cell cell) {
         //Intent intent = getIntent();
         //String action = intent.getAction();
-        //TODO : Change to slide action maybe use gestureoverlay? 
-    	if (cell.thismonth) {
-	        int day = cell.getDayOfMonth();
-	        int inde = mView.eventDay(day);
-	        if(inde > -1){
-	        	String title = this.events.get(inde).title;
-	        	String desc = this.events.get(inde).description;
-	        	
-	        	Intent eventInt = new Intent(this, EventViewActivity.class);
-	        	eventInt.putExtra("title", title);
-	        	eventInt.putExtra("desc", desc);
-	        	eventInt.putExtra("year", this.events.get(inde).year);
-	        	eventInt.putExtra("month", this.events.get(inde).month);
-	        	eventInt.putExtra("day", this.events.get(inde).day);
-	        	eventInt.putExtra("hour", this.events.get(inde).hour);
-	        	eventInt.putExtra("min", this.events.get(inde).minute);
-	        	eventInt.putExtra("ampm", this.events.get(inde).AMPM);
-	        	startActivity(eventInt);
-	        	finish();
-	        }
-    	}
+        //TODO : Change to slide action maybe use gestureoverlay?
+        if (cell.thismonth) {
+            int day = cell.getDayOfMonth();
+            int inde = mView.eventDay(day);
+            if(inde > -1){
+                String title = this.events.get(inde).title;
+                String desc = this.events.get(inde).description;
+
+                Intent eventInt = new Intent(this, EventViewActivity.class);
+                eventInt.putExtra("title", title);
+                eventInt.putExtra("desc", desc);
+                eventInt.putExtra("year", this.events.get(inde).year);
+                eventInt.putExtra("month", this.events.get(inde).month);
+                eventInt.putExtra("day", this.events.get(inde).day);
+                eventInt.putExtra("hour", this.events.get(inde).hour);
+                eventInt.putExtra("min", this.events.get(inde).minute);
+                eventInt.putExtra("ampm", this.events.get(inde).AMPM);
+                startActivity(eventInt);
+                finish();
+            }
+        }
 //        if(action.equals(Intent.ACTION_PICK) || action.equals(Intent.ACTION_GET_CONTENT)) {
 //            Intent ret = new Intent();
 //            ret.putExtra("year", mView.getYear());
@@ -133,25 +134,25 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         */
     }
         public void returnCalendar(){
-        	setContentView(R.layout.calendar);
+            setContentView(R.layout.calendar);
             mView = (CalendarView)findViewById(R.id.calendar);
             //this.fetchFromCalendar(this);
             mView.setOnCellTouchListener(this);
             findViewById(R.id.calendarBack).setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                	//// Make sign up email functions here.
-                	mView.previousMonth();
-                	setMonth();
-                	
+                    //// Make sign up email functions here.
+                    mView.previousMonth();
+                    setMonth();
+
                 }
             });
-            
+
             findViewById(R.id.calendarNext).setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                	//// Make sign up email functions here.
-                	mView.nextMonth();
-                	setMonth();
-                	
+                    //// Make sign up email functions here.
+                    mView.nextMonth();
+                    setMonth();
+
                 }
             });
             setMonth();
@@ -166,104 +167,147 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.schedulemenu:
-        	startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
-        	finish();
+            startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
+            finish();
             return true;
         case R.id.howtomenu:
-        	startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
-        	finish();
+            startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
+            finish();
             return true;
         case R.id.settingmenu:
-        	startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
-        	finish();
+            startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
+            finish();
             return true;
         case R.id.homemenu:
-        	Intent intent =  new Intent( getApplicationContext(), TutorialActivity.class );
-        	intent.putExtra("first", false);
-        	startActivity(intent);
-        	finish();
+            Intent intent =  new Intent( getApplicationContext(), TutorialActivity.class );
+            intent.putExtra("first", false);
+            startActivity(intent);
+            finish();
             return true;
         default:
             return super.onOptionsItemSelected(item);
         }
     }
-    
+
     //Month Text
     private void setMonth()
     {
-    	TextView tempView;
-    	
+        TextView tempView;
+
         if (mView.getMonth() == 11)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("December " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("December " + mView.getYear());
         }
         else if (mView.getMonth() == 10)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("November " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("November " + mView.getYear());
         }
         else if (mView.getMonth() == 9)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("October " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("October " + mView.getYear());
         }
         else if (mView.getMonth() == 8)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("September " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("September " + mView.getYear());
         }
         else if (mView.getMonth() == 7)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("August " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("August " + mView.getYear());
         }
         else if (mView.getMonth() == 6)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("July " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("July " + mView.getYear());
         }
         else if (mView.getMonth() == 5)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("June " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("June " + mView.getYear());
         }
         else if (mView.getMonth() == 4)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("May " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("May " + mView.getYear());
         }
         else if (mView.getMonth() == 3)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("April " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("April " + mView.getYear());
         }
         else if (mView.getMonth() == 2)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("March " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("March " + mView.getYear());
         }
         else if (mView.getMonth() == 1)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("February " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("February " + mView.getYear());
         }
         else if (mView.getMonth() == 0)
         {
-        	tempView = (TextView)findViewById(R.id.monthtext);
-        	tempView.setText("January " + mView.getYear());
+            tempView = (TextView)findViewById(R.id.monthtext);
+            tempView.setText("January " + mView.getYear());
         }
     }
-    
-    
+
+    // Projection array. Creating indices for this array instead of doing
+    // dynamic lookups improves performance.
+    public static final String[] EVENT_PROJECTION = new String[] {
+        Calendars._ID,                           // 0
+        Calendars.CALENDAR_DISPLAY_NAME          // 1
+    };
+    // The indices for the projection array above.
+    private static final int PROJECTION_ID_INDEX = 0;
+    private static final int PROJECTION_DISPLAY_NAME_INDEX = 1;
+
     private ArrayList<Event> getEvents()
     {
       ContentResolver cr = this.getContentResolver();
       Cursor cursor;
-      if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
-        cursor = cr.query(Uri.parse("content://com.android.calendar/calendars"), new String[]{ "_id", "displayName" }, null, null, null);
-      else
-        cursor = cr.query(Uri.parse("content://calendar/calendars"), new String[]{ "_id", "displayName" }, null, null, null);
+      String uri, id, displayName;
+      if( Integer.parseInt( android.os.Build.VERSION.SDK ) == 14 ) {
+          Log.d( "Venus", "Found ICS device" );
+          uri = "content://com.android.calendar/calendars";
+          id = "calendar_id";
+          displayName = "calendar_displayName";
+          //This is how it should be done
+/*        Uri uri = Calendars.CONTENT_URI;
+          String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("
+                             + Calendars.ACCOUNT_TYPE + " = ?))";
+          String[] selectionArgs = new String[] {"hikaritenchi@gmail.com", "com.google"};
+          // Submit the query and get a Cursor object back.
+          cursor = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+          // Use the cursor to step through the returned records
+          int i = 0;
+          while (cursor.moveToNext()) {
+              long calID = 0;
+              String displayName = null;
+              String accountName = null;
+              // Get the field values
+              calID = cursor.getLong(PROJECTION_ID_INDEX);
+              displayName = cursor.getString(PROJECTION_DISPLAY_NAME_INDEX);
+              accountName = cursor.getString(PROJECTION_ACCOUNT_NAME_INDEX);
+              Log.d( "Venus", "Found Calendar " + i++ );
+              Log.d( "Venus", "Calendar ID: " + calID );
+              Log.d( "Venus", "Display Name: " + displayName );
+              Log.d( "Venus", "Account Name: " + accountName );
+          }*/
+      } else if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8) {
+          uri = "content://com.android.calendar/calendars";
+          id = "Calendars._id";
+          displayName = "displayName";
+      } else {
+          uri = "content://calendar/calendars";
+          id = "Calendars._id";
+          displayName = "displayName";
+      }
+      cursor = cr.query(Uri.parse(uri), new String[]{ "_id", displayName }, null, null, null);
       String calendarId = "1";
       Uri.Builder builder;
       if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
@@ -275,13 +319,13 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
       ContentUris.appendId(builder, now + DateUtils.WEEK_IN_MILLIS * 104);
 
       Cursor eventCursor = cr.query(builder.build(),
-          new String[] { "title", "description","dtstart", "end", "allDay"}, "Calendars._id=" + calendarId,
+          new String[] { "title", "description","dtstart", "end", "allDay"}, id + "=" + calendarId,
           null, "startDay ASC, startMinute ASC");
       while (eventCursor.moveToNext())
       {
-    	String title = eventCursor.getString(0);
-    	if (title.contains("Naked")) {
-    		Event nEvent = new Event();
+        String title = eventCursor.getString(0);
+        if (title.contains("Naked")) {
+            Event nEvent = new Event();
             nEvent.title = title.substring(11);
             nEvent.description = eventCursor.getString(1);
             Long x = eventCursor.getLong(2);
@@ -294,7 +338,7 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
             nEvent.AMPM = b.get(Calendar.AM_PM);
             nEvent.minute = b.get(Calendar.MINUTE);
             events.add(nEvent);
-    	}
+        }
       }
       return events;
     }
