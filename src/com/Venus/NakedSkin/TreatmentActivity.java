@@ -13,7 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.CalendarContract.Calendars;
+//import android.provider.CalendarContract.Calendars;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -254,10 +254,10 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
 
     // Projection array. Creating indices for this array instead of doing
     // dynamic lookups improves performance.
-    public static final String[] EVENT_PROJECTION = new String[] {
-        Calendars._ID,                           // 0
-        Calendars.CALENDAR_DISPLAY_NAME          // 1
-    };
+//    public static final String[] EVENT_PROJECTION = new String[] {
+//        Calendars._ID,                           // 0
+//        Calendars.CALENDAR_DISPLAY_NAME          // 1
+//    };
     // The indices for the projection array above.
     private static final int PROJECTION_ID_INDEX = 0;
     private static final int PROJECTION_DISPLAY_NAME_INDEX = 1;
