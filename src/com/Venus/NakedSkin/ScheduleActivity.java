@@ -2,15 +2,6 @@ package com.Venus.NakedSkin;
 
 import java.util.Calendar;
 
-/* These imports were for the old method of inserting to calendar
-import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.database.Cursor;
-import android.net.Uri;
-*/
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,9 +16,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class ScheduleActivity extends Activity implements OnClickListener{
-
-
-
     Spinner sessionSpinner;
     private boolean isStartup;
     private String startupNumber;
@@ -39,16 +27,6 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     SelectionButton ll;
 
     private VenusDb vdb;
-
-    /*
-    SelectionButton lua;
-    SelectionButton lfa;
-    SelectionButton lul;
-    SelectionButton lll;
-    SelectionButton rua;
-    SelectionButton rfa;
-    SelectionButton rul;
-    SelectionButton rll;*/
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,31 +67,10 @@ public class ScheduleActivity extends Activity implements OnClickListener{
          * alertCheckBox
          */
 
-      //Listener
         this.setListeners();
-
     }
 
     private void setListeners() {
-        /*
-        lua = (SelectionButton)findViewById(R.id.underarmleft);
-        lua.setOnClickListener(this);
-        rua = (SelectionButton)findViewById(R.id.underarmright);
-        rua.setOnClickListener(this);
-        lfa = (SelectionButton)findViewById(R.id.forearmleft);
-        lfa.setOnClickListener(this);
-        rfa = (SelectionButton)findViewById(R.id.forearmright);
-        rfa.setOnClickListener(this);
-        lul = (SelectionButton)findViewById(R.id.upperlegleft);
-        lul.setOnClickListener(this);
-        rul = (SelectionButton)findViewById(R.id.upperlegright);
-        rul.setOnClickListener(this);
-        lll = (SelectionButton)findViewById(R.id.lowerlegleft);
-        lll.setOnClickListener(this);
-        rll = (SelectionButton)findViewById(R.id.lowerlegright);
-        rll.setOnClickListener(this);
-        */
-
         ba = (SelectionButton)findViewById(R.id.bikiniarea);
         ba.setOnClickListener(this);
         ua = (SelectionButton)findViewById(R.id.underarm);
@@ -122,7 +79,6 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         ul.setOnClickListener(this);
         ll = (SelectionButton)findViewById(R.id.lowerleg);
         ll.setOnClickListener(this);
-
 
         findViewById(R.id.scheduleProceed).setOnClickListener(this);
     }
@@ -189,69 +145,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 }
               this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
                 break;
-        /*
-        case R.id.underarmleft:
-            if( lua.isSelected ) {
-                lua.setUnselected();
-            } else {
-                lua.setSelectedCustom();
-                rua.setUnselected();
-                lfa.setUnselected();
-                rfa.setUnselected();
-                ba.setUnselected();
-                lul.setUnselected();
-                rul.setUnselected();
-                lll.setUnselected();
-                rll.setUnselected();
-            }
-            break;
-
-        case R.id.underarmright:
-            if( rua.isSelected ) {
-                rua.setUnselected();
-            } else {
-                rua.setSelectedCustom();
-                lua.setUnselected();
-                lfa.setUnselected();
-                rfa.setUnselected();
-                ba.setUnselected();
-                lul.setUnselected();
-                rul.setUnselected();
-                lll.setUnselected();
-                rll.setUnselected();
-            }
-            break;
-        case R.id.forearmleft:
-            if( lfa.isSelected ) {
-                lfa.setUnselected();
-            } else {
-                lfa.setSelectedCustom();
-                lua.setUnselected();
-                rua.setUnselected();
-                rfa.setUnselected();
-                ba.setUnselected();
-                lul.setUnselected();
-                rul.setUnselected();
-                lll.setUnselected();
-                rll.setUnselected();
-            }
-            break;
-        case R.id.forearmright:
-            if( rfa.isSelected ) {
-                rfa.setUnselected();
-            } else {
-                rfa.setSelectedCustom();
-                lua.setUnselected();
-                rua.setUnselected();
-                lfa.setUnselected();
-                ba.setUnselected();
-                lul.setUnselected();
-                rul.setUnselected();
-                lll.setUnselected();
-                rll.setUnselected();
-            }
-            break;*/
-        case R.id.bikiniarea:
+            case R.id.bikiniarea:
             if( ba.isSelected ) {
                 ba.setUnselected();
             } else {
@@ -259,15 +153,6 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 ua.setUnselected();
                 ul.setUnselected();
                 ll.setUnselected();
-                /*
-                lua.setUnselected();
-                rua.setUnselected();
-                lfa.setUnselected();
-                rfa.setUnselected();
-                lul.setUnselected();
-                rul.setUnselected();
-                lll.setUnselected();
-                rll.setUnselected();*/
             }
             this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
             break;
@@ -293,67 +178,6 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             }
             this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength());
             break;
-            /*
-        case R.id.upperlegleft:
-            if( lul.isSelected ) {
-                lul.setUnselected();
-            } else {
-                lul.setSelectedCustom();
-                lua.setUnselected();
-                rua.setUnselected();
-                lfa.setUnselected();
-                rfa.setUnselected();
-                ba.setUnselected();
-                rul.setUnselected();
-                lll.setUnselected();
-                rll.setUnselected();
-            }
-            break;
-        case R.id.upperlegright:
-            if( rul.isSelected ) {
-                rul.setUnselected();
-            } else {
-                rul.setSelectedCustom();
-                lua.setUnselected();
-                rua.setUnselected();
-                lfa.setUnselected();
-                rfa.setUnselected();
-                ba.setUnselected();
-                lul.setUnselected();
-                lll.setUnselected();
-                rll.setUnselected();
-            }
-            break;
-        case R.id.lowerlegleft:
-            if( lll.isSelected ) {
-                lll.setUnselected();
-            } else {
-                lll.setSelectedCustom();
-                lua.setUnselected();
-                rua.setUnselected();
-                lfa.setUnselected();
-                rfa.setUnselected();
-                ba.setUnselected();
-                lul.setUnselected();
-                rul.setUnselected();
-                rll.setUnselected();
-            }
-            break;
-        case R.id.lowerlegright:
-            if( rll.isSelected ) {
-                rll.setUnselected();
-            } else {
-                rll.setSelectedCustom();
-                lua.setUnselected();
-                rua.setUnselected();
-                lfa.setUnselected();
-                rfa.setUnselected();
-                ba.setUnselected();
-                lul.setUnselected();
-                rul.setUnselected();
-                lll.setUnselected();
-            }
-            break;*/
         case R.id.startupButton:
             isStartup = true;
             //Visual//
@@ -397,16 +221,6 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             break;
         case R.id.phaseBack:
             setScheduleContent();
-            /*
-            lua.setUnselected();
-            rua.setUnselected();
-            lfa.setUnselected();
-            rfa.setUnselected();
-
-            lul.setUnselected();
-            rul.setUnselected();
-            lll.setUnselected();
-            rll.setUnselected();*/
             break;
         case R.id.phaseProceed:
             setContentView(R.layout.setreminder);
@@ -570,7 +384,4 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         cursor.close();
     }
 */
-
-
-
 }
