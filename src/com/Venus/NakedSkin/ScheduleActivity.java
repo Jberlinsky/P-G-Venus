@@ -434,7 +434,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 modifier = Calendar.MONTH;
             }
             c.add( modifier, 2 );
-            Intent calendarIntent = new Intent( Intent.ACTION_EDIT );
+            Intent calendarIntent = new Intent( Intent.ACTION_INSERT );
             calendarIntent.setType( "vnd.android.cursor.item/event" );
             calendarIntent.putExtra( "title", "Naked Skin " + bodyPart + " treatment reminder" );
             calendarIntent.putExtra( "description", desc );
@@ -479,6 +479,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
 
 
             try {
+                //TODO user needs to select the correct calendar, as it isn't available as an intent.  the only other way is to force it, which is what we used to do...see addToCalendar right below.
                 startActivity( calendarIntent );
             } catch ( Exception e ) {
                 Toast.makeText(this.getApplicationContext(), "Sorry, no compatible calendar is found!", Toast.LENGTH_LONG).show();
