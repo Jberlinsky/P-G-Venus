@@ -38,6 +38,8 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     SelectionButton ul;
     SelectionButton ll;
 
+    private VenusDb vdb;
+
     /*
     SelectionButton lua;
     SelectionButton lfa;
@@ -51,6 +53,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule);
+        vdb = new VenusDb( this );
 
         /* Button names
          *  underarmleft
@@ -184,7 +187,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                     ul.setUnselected();
                     ll.setUnselected();
                 }
-              this.prepopulateMinutes(Constants.TEN_MINUTES);
+              this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
                 break;
         /*
         case R.id.underarmleft:
@@ -266,7 +269,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 lll.setUnselected();
                 rll.setUnselected();*/
             }
-            this.prepopulateMinutes(Constants.TEN_MINUTES);
+            this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
             break;
         case R.id.upperleg:
             if( ul.isSelected ) {
@@ -277,7 +280,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 ua.setUnselected();
                 ll.setUnselected();
             }
-            this.prepopulateMinutes(Constants.FOURTY_FIVE_MINUTES);
+            this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength());
             break;
         case R.id.lowerleg:
             if( ll.isSelected ) {
@@ -288,7 +291,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 ua.setUnselected();
                 ul.setUnselected();
             }
-            this.prepopulateMinutes(Constants.FOURTY_FIVE_MINUTES);
+            this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength());
             break;
             /*
         case R.id.upperlegleft:
@@ -456,7 +459,6 @@ public class ScheduleActivity extends Activity implements OnClickListener{
    //0~ false; 1~ true
             calendarIntent.putExtra("hasAlarm", 0);
             //Alarm time in UTC long
-            VenusDb vdb = new VenusDb( this );
             switch( vdb.getAlarmMod() ) {
             case Constants.MINUTE:
                 modifier = Calendar.MINUTE;

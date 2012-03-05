@@ -127,6 +127,7 @@ public class VenusDb {
         ContentValues storedValues = new ContentValues();
         storedValues.put( KEY_FIRST_RUN, 0 );
         db.insert( DB_TABLE, null, storedValues );
+        this.createDefaultPreferences();
     }
 
     public void setFirstRun() {
@@ -177,5 +178,60 @@ public class VenusDb {
         ContentValues storedValues = new ContentValues();
         storedValues.put( KEY_FIRST_RUN, 1 );
         mDatabase.update( DB_TABLE, storedValues, KEY_ID + "=1", null );
+    }
+
+    /**
+     *
+     */
+    public void createDefaultPreferences() {
+      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+      SharedPreferences.Editor editor = settings.edit();
+
+      editor.putBoolean("isFirstTreatmentReminder", true);
+      editor.putBoolean("hasSwitchedToMaintenence", false);
+
+      editor.putInt("underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
+      editor.putInt("upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
+    }
+
+    public void setBooleanPreference(String key, bool value)
+    {
+      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+      SharedPreferences.Editor editor = settings.edit();
+      editor.putBoolean(key, value);
+    }
+
+    public boolean isFirstTreatmentReminder()
+    {
+      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+      return settings.getBoolean("isFirstTreatmentReminder", true);
+
+    }
+
+    public void setIsNotFirstTreatmentReminder()
+    {
+      this.setBooleanPreference("isFirstTreatmentReminder", false);
+    }
+
+    public void setIntegerPreference(String key, int value)
+    {
+      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+      SharedPreferences.Editor editor = settings.edit();
+      editor.putInt(key, value);
+    }
+
+    public int getIntegerPreference(String key, int default_value = 0)
+    {
+      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+      return settings.getInteger(key, default_value)
+    }
+
+    public int getUnderarmBikiniTreatmentLength()
+    {
+      return this.getIntegerPreference("underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
+    }
+    public int getUpperLowerLegTreatmentLength()
+    {
+      return this.getIntegerPreference("upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
     }
 }
