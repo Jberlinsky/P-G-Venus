@@ -19,9 +19,10 @@ public class VenusDb {
     private static final String KEY_FIRST_RUN = "FIRST_RUN";
     private static final String KEY_ALARM_MOD = "ALARM_MOD";
     private static final String KEY_ALARM_VALUE = "ALARM_VALUE";
+    private static final String KEY_CALENDAR_INDEX = "CALENDAR_INDEX";
 
     private static final String DB_NAME = "VenusDb";
-    private static final int DB_VERSION = 2; //TODO Reset version to 1 for release
+    private static final int DB_VERSION = 3; //TODO Reset version to 1 for release
 
     private static final String DB_TABLE = "VenusTable";
     private static final String DB_TABLE_CREATE =
@@ -35,7 +36,9 @@ public class VenusDb {
         KEY_ALARM_MOD +
         " integer, " +
         KEY_ALARM_VALUE +
-        " integer );";
+        " integer, " +
+        KEY_CALENDAR_INDEX +
+        " long );";
     private static final String DB_TABLE_DROP =
         "DROP TABLE IF EXISTS " +
         DB_TABLE;
@@ -50,6 +53,7 @@ public class VenusDb {
             ContentValues storedValues = new ContentValues();
             storedValues.put( KEY_ALARM_MOD, 0 );
             storedValues.put( KEY_ALARM_VALUE, 5 );
+            storedValues.put( KEY_CALENDAR_INDEX, -1 );
             db.insert( DB_TABLE, null, storedValues );
         }
         public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
@@ -66,6 +70,25 @@ public class VenusDb {
     public VenusDb( Context c ) {
         mContext = c;
         open();
+    }
+
+    public void setCalendarId( Long cal_id ) {
+        ContentValues storedValues = new ContentValues();
+        storedValues.put( KEY_CALENDAR_INDEX, cal_id );
+        mDatabase.update( DB_TABLE, storedValues, null, null );
+    }
+
+    public int getCalendarId() {
+        Cursor c = mDatabase.query( DB_TABLE,
+                                    new String[] {KEY_CALENDAR_INDEX},
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    "1" );
+        c.moveToFirst();
+        return c.getInt( 0 );
     }
 
     public void setAlarm( int mod, int value ) {

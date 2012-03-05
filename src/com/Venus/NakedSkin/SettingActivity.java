@@ -3,6 +3,7 @@ package com.Venus.NakedSkin;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -121,6 +122,7 @@ public class SettingActivity extends Activity implements OnClickListener {
         case R.id.applySettingButton :
             //TODO This part doesn't work, but I'm keeping the code here in case someone wants to see it
             VenusDb vdb = new VenusDb( this );
+            Log.d( "Venus", Long.toString( vdb.getCalendarId() ) );
             vdb.setAlarm( mod, value );
             vdb.close();
             String toastText = "Default reminder period set to ";

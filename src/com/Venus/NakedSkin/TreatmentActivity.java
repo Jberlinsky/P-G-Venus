@@ -2,20 +2,13 @@ package com.Venus.NakedSkin;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import Utility.Event;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-//import android.provider.CalendarContract.Calendars;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -252,91 +245,29 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         }
     }
 
-    // Projection array. Creating indices for this array instead of doing
-    // dynamic lookups improves performance.
-//    public static final String[] EVENT_PROJECTION = new String[] {
-//        Calendars._ID,                           // 0
-//        Calendars.CALENDAR_DISPLAY_NAME          // 1
-//    };
-    // The indices for the projection array above.
-    private static final int PROJECTION_ID_INDEX = 0;
-    private static final int PROJECTION_DISPLAY_NAME_INDEX = 1;
 
-    private ArrayList<Event> getEvents()
-    {
-      ContentResolver cr = this.getContentResolver();
-      Cursor cursor;
-      String uri, id, displayName;
-      if( Integer.parseInt( android.os.Build.VERSION.SDK ) == 14 ) {
-          Log.d( "Venus", "Found ICS device" );
-          uri = "content://com.android.calendar/calendars";
-          id = "calendar_id";
-          displayName = "calendar_displayName";
-          //This is how it should be done
-/*        Uri uri = Calendars.CONTENT_URI;
-          String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("
-                             + Calendars.ACCOUNT_TYPE + " = ?))";
-          String[] selectionArgs = new String[] {"hikaritenchi@gmail.com", "com.google"};
-          // Submit the query and get a Cursor object back.
-          cursor = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
-          // Use the cursor to step through the returned records
-          int i = 0;
-          while (cursor.moveToNext()) {
-              long calID = 0;
-              String displayName = null;
-              String accountName = null;
-              // Get the field values
-              calID = cursor.getLong(PROJECTION_ID_INDEX);
-              displayName = cursor.getString(PROJECTION_DISPLAY_NAME_INDEX);
-              accountName = cursor.getString(PROJECTION_ACCOUNT_NAME_INDEX);
-              Log.d( "Venus", "Found Calendar " + i++ );
-              Log.d( "Venus", "Calendar ID: " + calID );
-              Log.d( "Venus", "Display Name: " + displayName );
-              Log.d( "Venus", "Account Name: " + accountName );
-          }*/
-      } else if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8) {
-          uri = "content://com.android.calendar/calendars";
-          id = "Calendars._id";
-          displayName = "displayName";
-      } else {
-          uri = "content://calendar/calendars";
-          id = "Calendars._id";
-          displayName = "displayName";
-      }
-      cursor = cr.query(Uri.parse(uri), new String[]{ "_id", displayName }, null, null, null);
-      String calendarId = "1";
-      Uri.Builder builder;
-      if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
-        builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
-      else
-        builder = Uri.parse("content://calendar/instances/when").buildUpon();
-      long now = new Date().getTime();
-      ContentUris.appendId(builder, now - DateUtils.WEEK_IN_MILLIS * 104);
-      ContentUris.appendId(builder, now + DateUtils.WEEK_IN_MILLIS * 104);
-
-      Cursor eventCursor = cr.query(builder.build(),
-          new String[] { "title", "description","dtstart", "end", "allDay"}, id + "=" + calendarId,
-          null, "startDay ASC, startMinute ASC");
-      while (eventCursor.moveToNext())
-      {
-        String title = eventCursor.getString(0);
-        if (title.contains("Naked")) {
-            Event nEvent = new Event();
-            nEvent.title = title.substring(11);
-            nEvent.description = eventCursor.getString(1);
-            Long x = eventCursor.getLong(2);
-            Calendar b = Calendar.getInstance();
-            b.setTimeInMillis(x);
-            nEvent.day = b.get(Calendar.DATE);
-            nEvent.month = b.get(Calendar.MONTH);
-            nEvent.year = b.get(Calendar.YEAR);
-            nEvent.hour = b.get(Calendar.HOUR_OF_DAY);
-            nEvent.AMPM = b.get(Calendar.AM_PM);
-            nEvent.minute = b.get(Calendar.MINUTE);
-            events.add(nEvent);
+    private ArrayList<Event> getEvents() {
+        Cursor eventCursor = Utilities.queryEvents( this );
+        while( eventCursor.moveToNext() ) {
+            String title = eventCursor.getString(0);
+            if( title.contains("Naked") ) {
+                Event nEvent = new Event();
+                nEvent.title = title.substring(11);
+                nEvent.description = eventCursor.getString(1);
+                Long x = eventCursor.getLong(2);
+                Calendar b = Calendar.getInstance();
+                b.setTimeInMillis(x);
+                nEvent.day = b.get(Calendar.DATE);
+                nEvent.month = b.get(Calendar.MONTH);
+                nEvent.year = b.get(Calendar.YEAR);
+                nEvent.hour = b.get(Calendar.HOUR_OF_DAY);
+                nEvent.AMPM = b.get(Calendar.AM_PM);
+                nEvent.minute = b.get(Calendar.MINUTE);
+                events.add(nEvent);
+            }
         }
-      }
-      return events;
+        eventCursor.close();
+        return events;
     }
 
 }

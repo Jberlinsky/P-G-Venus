@@ -29,6 +29,9 @@ public class Constants {
     public final static String TUTORIAL_START_MESSAGE = "Great! Let's get started on your first treatment!";
     public final static String TREATMENT_OPTION_MESSAGE = "Would you like to continue with the Start Up phase and set a reminder to treat in two weeks, or are you ready to start the Maintenance Phase and set a reminder to treat in two months?";
 
+    public final static String TUTORIAL_CALENDAR_SELECT_TITLE = "Choose a calendar";
+    public final static Spanned TUTORIAL_CALENDAR_SELECT_MESSAGE = Html.fromHtml( "Now before we get started, you will have to choose a calendar to use with Naked Skin<sup><small>�</small></sup>.  You can always change this in the settings menu" );
+
     //Shared variable names
     public final static String TAB_NUMBER = "tabNumber";
 
@@ -52,5 +55,10 @@ public class Constants {
     public final static int HOUR = 1;
     public final static int DAY = 2;
     public final static int WEEK = 3;
+
+    //Calendar index values
+    public final static int PROJECTION_ID_INDEX = 0;
+    public final static int PROJECTION_DISPLAY_NAME_INDEX = 1;
+
 
 }
