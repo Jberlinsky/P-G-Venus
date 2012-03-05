@@ -3,6 +3,9 @@ package com.Venus.NakedSkin;
 import java.util.Calendar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -132,99 +135,37 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         }
     }
 
-    public void onClick( View v ) {
-        switch( v.getId() ) {
-            case R.id.underarm:
-                if( ua.isSelected ) {
-                    ua.setUnselected();
-                } else {
-                    ua.setSelectedCustom();
-                    ba.setUnselected();
-                    ul.setUnselected();
-                    ll.setUnselected();
+    public void checkStartupMaintenenceAndProceed()
+    {
+      // If this is after the first set of treatments, but we have not switched to the maintenence phase yet, warn
+            if (isStartup && !vdb.isFirstTreatmentReminder(getApplicationContext()))
+            {
+              final ScheduleActivity self = this;
+              // Prompt with option of switching to maintenence
+              AlertDialog.Builder builder = new AlertDialog.Builder(this);
+              builder.setMessage(
+                  Constants.TREATMENT_OPTION_MESSAGE
+              ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                  // Change to maintenence
+                  self.proceed(!isStartup);
                 }
-              this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
-                break;
-            case R.id.bikiniarea:
-            if( ba.isSelected ) {
-                ba.setUnselected();
-            } else {
-                ba.setSelectedCustom();
-                ua.setUnselected();
-                ul.setUnselected();
-                ll.setUnselected();
-            }
-            this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
-            break;
-        case R.id.upperleg:
-            if( ul.isSelected ) {
-                ul.setUnselected();
-            } else {
-                ul.setSelectedCustom();
-                ba.setUnselected();
-                ua.setUnselected();
-                ll.setUnselected();
-            }
-            this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength());
-            break;
-        case R.id.lowerleg:
-            if( ll.isSelected ) {
-                ll.setUnselected();
-            } else {
-                ll.setSelectedCustom();
-                ba.setUnselected();
-                ua.setUnselected();
-                ul.setUnselected();
-            }
-            this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength());
-            break;
-        case R.id.startupButton:
-            isStartup = true;
-            //Visual//
-            findViewById(R.id.startupButton).setBackgroundColor(0xFFFFFFFF);
-            findViewById(R.id.maintenanceButton).setBackgroundColor(0x00000000);
-            findViewById(R.id.sessionSpinner).setVisibility(View.VISIBLE);
-            findViewById(R.id.sessionText).setVisibility(View.VISIBLE);
-            /////////
-            break;
-        case R.id.maintenanceButton:
-            isStartup = false;
-            //Visual//
-            findViewById(R.id.startupButton).setBackgroundColor(0x00000000);
-            findViewById(R.id.maintenanceButton).setBackgroundColor(0xFFFFFFFF);
-            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
-            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
-            break;
-        case R.id.scheduleProceed:
-            setContentView(R.layout.phase);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource( this,
-                                                                                  R.array.sessions_array,
-                                                                                  android.R.layout.simple_spinner_item );
-            adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-            sessionSpinner = (Spinner)findViewById( R.id.sessionSpinner );
-            sessionSpinner.setAdapter(adapter);
-            sessionSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
-                public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
-                    startupNumber = parent.getItemAtPosition(pos).toString();
-
+              }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                  self.proceed(isStartup);
                 }
-                public void onNothingSelected( AdapterView<?> arg0 ) { }
-            } );
+              });
+              AlertDialog alert = builder.create();
+              alert.show();
+            }
+            else {
+              this.proceed(isStartup);
+            }
+    }
 
-            //Visual and listener//
-            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
-            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
-            findViewById(R.id.startupButton).setOnClickListener(this);
-            findViewById(R.id.maintenanceButton).setOnClickListener(this);
-            findViewById(R.id.phaseProceed).setOnClickListener(this);
-            findViewById(R.id.phaseBack).setOnClickListener(this);
-            break;
-        case R.id.phaseBack:
-            setScheduleContent();
-            break;
-        case R.id.phaseProceed:
-            setContentView(R.layout.setreminder);
-            //Visual and listener//
+    public void proceed(boolean isStartup)
+    {
+      //Visual and listener//
             findViewById(R.id.saveReminder).setOnClickListener(this);
             findViewById(R.id.setReminderBack).setOnClickListener(this);
             String bodyPart = null;
@@ -311,6 +252,104 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             }
 
             //addToCalendar(this, bodyPart + " treatment reminder", c.getTimeInMillis(), c.getTimeInMillis() + Constants.ONE_HOUR );
+ 
+    }
+
+    public void onClick( View v ) {
+        switch( v.getId() ) {
+            case R.id.underarm:
+                if( ua.isSelected ) {
+                    ua.setUnselected();
+                } else {
+                    ua.setSelectedCustom();
+                    ba.setUnselected();
+                    ul.setUnselected();
+                    ll.setUnselected();
+                }
+              this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength(getApplicationContext()));
+                break;
+            case R.id.bikiniarea:
+            if( ba.isSelected ) {
+                ba.setUnselected();
+            } else {
+                ba.setSelectedCustom();
+                ua.setUnselected();
+                ul.setUnselected();
+                ll.setUnselected();
+            }
+            this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength(getApplicationContext()));
+            break;
+        case R.id.upperleg:
+            if( ul.isSelected ) {
+                ul.setUnselected();
+            } else {
+                ul.setSelectedCustom();
+                ba.setUnselected();
+                ua.setUnselected();
+                ll.setUnselected();
+            }
+            this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
+            break;
+        case R.id.lowerleg:
+            if( ll.isSelected ) {
+                ll.setUnselected();
+            } else {
+                ll.setSelectedCustom();
+                ba.setUnselected();
+                ua.setUnselected();
+                ul.setUnselected();
+            }
+            this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
+            break;
+        case R.id.startupButton:
+            isStartup = true;
+            //Visual//
+            findViewById(R.id.startupButton).setBackgroundColor(0xFFFFFFFF);
+            findViewById(R.id.maintenanceButton).setBackgroundColor(0x00000000);
+            findViewById(R.id.sessionSpinner).setVisibility(View.VISIBLE);
+            findViewById(R.id.sessionText).setVisibility(View.VISIBLE);
+            /////////
+            break;
+        case R.id.maintenanceButton:
+            isStartup = false;
+            //Visual//
+            findViewById(R.id.startupButton).setBackgroundColor(0x00000000);
+            findViewById(R.id.maintenanceButton).setBackgroundColor(0xFFFFFFFF);
+            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
+            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
+            break;
+        case R.id.scheduleProceed:
+            setContentView(R.layout.phase);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource( this,
+                                                                                  R.array.sessions_array,
+                                                                                  android.R.layout.simple_spinner_item );
+            adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+            sessionSpinner = (Spinner)findViewById( R.id.sessionSpinner );
+            sessionSpinner.setAdapter(adapter);
+            sessionSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
+                    startupNumber = parent.getItemAtPosition(pos).toString();
+
+                }
+                public void onNothingSelected( AdapterView<?> arg0 ) { }
+            } );
+
+            //Visual and listener//
+            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
+            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
+            findViewById(R.id.startupButton).setOnClickListener(this);
+            findViewById(R.id.maintenanceButton).setOnClickListener(this);
+            findViewById(R.id.phaseProceed).setOnClickListener(this);
+            findViewById(R.id.phaseBack).setOnClickListener(this);
+            break;
+        case R.id.phaseBack:
+            setScheduleContent();
+            break;
+        case R.id.phaseProceed:
+            setContentView(R.layout.setreminder);
+            this.checkStartupMaintenenceAndProceed();
+
+
             break;
         }
     }

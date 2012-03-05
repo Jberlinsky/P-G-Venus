@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 public class VenusDb {
     private static final String TAG = "VenusDB";
@@ -42,6 +44,8 @@ public class VenusDb {
     private static final String DB_TABLE_DROP =
         "DROP TABLE IF EXISTS " +
         DB_TABLE;
+
+    private static final String PREFS_NAME = "PG_VENUS_PREFS";
 
     private class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper( Context context ) {
@@ -127,7 +131,6 @@ public class VenusDb {
         ContentValues storedValues = new ContentValues();
         storedValues.put( KEY_FIRST_RUN, 0 );
         db.insert( DB_TABLE, null, storedValues );
-        this.createDefaultPreferences();
     }
 
     public void setFirstRun() {
@@ -183,8 +186,14 @@ public class VenusDb {
     /**
      *
      */
-    public void createDefaultPreferences() {
-      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+    private SharedPreferences getSharedPreferences(Context ctx)
+    {
+      return ctx.getSharedPreferences(PREFS_NAME, 0);
+    }
+
+    public void createDefaultPreferences(Context ctx) {
+      SharedPreferences settings = getSharedPreferences(ctx);
       SharedPreferences.Editor editor = settings.edit();
 
       editor.putBoolean("isFirstTreatmentReminder", true);
@@ -194,44 +203,44 @@ public class VenusDb {
       editor.putInt("upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
     }
 
-    public void setBooleanPreference(String key, bool value)
+    public void setBooleanPreference(Context ctx, String key, boolean value)
     {
-      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+      SharedPreferences settings = getSharedPreferences(ctx);
       SharedPreferences.Editor editor = settings.edit();
       editor.putBoolean(key, value);
     }
 
-    public boolean isFirstTreatmentReminder()
+    public boolean isFirstTreatmentReminder(Context ctx)
     {
-      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+      SharedPreferences settings = getSharedPreferences(ctx);
       return settings.getBoolean("isFirstTreatmentReminder", true);
 
     }
 
-    public void setIsNotFirstTreatmentReminder()
+    public void setIsNotFirstTreatmentReminder(Context ctx)
     {
-      this.setBooleanPreference("isFirstTreatmentReminder", false);
+      this.setBooleanPreference(ctx, "isFirstTreatmentReminder", false);
     }
 
-    public void setIntegerPreference(String key, int value)
+    public void setIntegerPreference(Context ctx, String key, int value)
     {
-      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+      SharedPreferences settings = getSharedPreferences(ctx);
       SharedPreferences.Editor editor = settings.edit();
       editor.putInt(key, value);
     }
 
-    public int getIntegerPreference(String key, int default_value = 0)
+    public int getIntegerPreference(Context ctx, String key, int default_value)
     {
-      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-      return settings.getInteger(key, default_value)
+      SharedPreferences settings = getSharedPreferences(ctx);
+      return settings.getInt(key, default_value);
     }
 
-    public int getUnderarmBikiniTreatmentLength()
+    public int getUnderarmBikiniTreatmentLength(Context ctx)
     {
-      return this.getIntegerPreference("underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
+      return this.getIntegerPreference(ctx, "underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
     }
-    public int getUpperLowerLegTreatmentLength()
+    public int getUpperLowerLegTreatmentLength(Context ctx)
     {
-      return this.getIntegerPreference("upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
+      return this.getIntegerPreference(ctx, "upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
     }
 }

@@ -49,6 +49,8 @@ public class LoadingActivity extends Activity {
         VenusDb vdb = new VenusDb( this );
         //vdb.setFirstRun();
         msg.what = (vdb.isFirstRun()) ? FIRST_RUN : RUN;
+        if (vdb.isFirstRun())
+          vdb.createDefaultPreferences(getApplicationContext());
         vdb.close();
         splashHandler.sendMessageDelayed( msg, 2000 );
     }
