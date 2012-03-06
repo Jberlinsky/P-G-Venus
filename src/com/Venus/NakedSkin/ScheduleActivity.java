@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -69,7 +70,12 @@ public class ScheduleActivity extends Activity implements OnClickListener{
          * emailCheckBox
          * alertCheckBox
          */
-
+        
+        //Visual Fix
+        Button proceedButton = (Button)findViewById(R.id.scheduleProceed);
+        int buttonHeight = proceedButton.getHeight();
+        proceedButton.layout(buttonHeight*2, buttonHeight, 3, 0);
+        proceedButton.setWidth(buttonHeight*2);
         this.setListeners();
     }
 

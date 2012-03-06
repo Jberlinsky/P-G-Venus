@@ -11,45 +11,60 @@
 
 
     <TextView
-        android:id="@+id/settingsDescription"
+        android:id="@+id/bikiniunderarmsettingtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.00"
-        android:text="@string/set_default" />
+        android:text="@string/set_bikiniunderarm"/>
 
     <Spinner
-        android:id="@+id/daySpinner"
+        android:id="@+id/daySpinner1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.00" />
+        android:prompt="@string/choose"
+        android:layout_weight="0.00"/>
+    
+    <TextView
+        android:id="@+id/upperlowerlegsettingtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.00"
+        android:text="@string/set_upperlowerleg"/>
+
+    <Spinner
+        android:id="@+id/daySpinner2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:prompt="@string/choose"
+        android:layout_weight="0.00"/>
 
     <Button
         android:id="@+id/applySettingButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_weight="0.00"
         android:text="Apply"
         android:paddingTop="5dp"
-		 android:paddingBottom="5dp"
-		 android:paddingLeft="30dp"
-		 android:paddingRight="30dp"
-		 android:background="@+drawable/buttonbackground"
-		 android:textColor="#FFFFFF"
-		 android:textSize="15sp" />
+		android:paddingBottom="5dp"
+		android:paddingLeft="30dp"
+		android:paddingRight="30dp"
+		android:background="@drawable/buttonbackground"
+		android:textColor="#FFFFFF"
+		android:textSize="15sp" />
     
         <Button
         android:id="@+id/viewTutorialButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_weight="0.00"
         android:text="@string/view_tutorial"
         android:layout_marginTop="30dp"
         android:paddingTop="10dp"
-		 android:paddingBottom="10dp"
-		 android:paddingLeft="30dp"
-		 android:paddingRight="30dp"
-		 android:background="@+drawable/buttonbackground"
-		 android:textColor="#FFFFFF"
-		 android:textSize="15sp" />
+		android:paddingBottom="10dp"
+		android:paddingLeft="30dp"
+		android:paddingRight="30dp"
+		android:background="@drawable/buttonbackground"
+		android:textColor="#FFFFFF"
+		android:textSize="15sp" />
 
 </LinearLayout>

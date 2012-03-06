@@ -66,7 +66,7 @@
 
         <Button
             android:id="@+id/scheduleProceed"
-            android:layout_width="100dp"
+            android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="0.07"
             android:background="@drawable/buttonbackground"

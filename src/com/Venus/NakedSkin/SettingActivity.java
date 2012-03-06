@@ -18,7 +18,11 @@ import android.widget.Toast;
 public class SettingActivity extends Activity implements OnClickListener {
 
     int mod;
-    int value;
+    //Bikini and underarm
+    int valueBU;
+    //Upperleg and Lowerleg
+    int valueLU;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,44 +42,83 @@ public class SettingActivity extends Activity implements OnClickListener {
         applyButton.setOnClickListener(this);
 
         ((Button)findViewById( R.id.applySettingButton )).setOnClickListener(this);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource( this,
+        
+        //Bikini Underarm
+        ArrayAdapter<CharSequence> adapterBU = ArrayAdapter.createFromResource( this,
                 R.array.reminder_array,
                 android.R.layout.simple_spinner_item );
-        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-        Spinner sessionSpinner = (Spinner)findViewById( R.id.daySpinner );
-        sessionSpinner.setAdapter(adapter);
-        sessionSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+        adapterBU.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+        Spinner sessionSpinnerBU = (Spinner)findViewById( R.id.daySpinner1 );
+        sessionSpinnerBU.setAdapter(adapterBU);
+        sessionSpinnerBU.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
         public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
             switch( pos ) {
             case 0:
-                value = 5;
+            	valueBU = 10;
                 mod = Constants.MINUTE;
                 break;
             case 1:
-                value = 1;
+            	valueBU = 20;
                 mod = Constants.HOUR;
                 break;
             case 2:
-                value = 1;
+            	valueBU = 30;
                 mod = Constants.DAY;
                 break;
             case 3:
-                value = 2;
+            	valueBU = 40;
                 mod = Constants.DAY;
                 break;
             case 4:
-                value = 3;
+            	valueBU = 50;
                 mod = Constants.DAY;
                 break;
             case 5:
-                value = 1;
+            	valueBU = 60;
                 mod = Constants.WEEK;
                 break;
             default:
                 break;
             }
         }
-        public void onNothingSelected( AdapterView<?> arg0 ) { }
+        public void onNothingSelected( AdapterView<?> arg0 ) {valueBU = 10; }
+        } );
+        
+        //UpperLower Leg
+        ArrayAdapter<CharSequence> adapterLU = ArrayAdapter.createFromResource( this,
+                R.array.reminder_array,
+                android.R.layout.simple_spinner_item );
+        adapterLU.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+        Spinner sessionSpinnerLU = (Spinner)findViewById( R.id.daySpinner2 );
+        sessionSpinnerLU.setAdapter(adapterLU);
+        sessionSpinnerLU.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+        public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
+            switch( pos ) {
+            case 0:
+            	valueLU = 10;
+                mod = Constants.MINUTE;
+                break;
+            case 1:
+            	valueLU = 15;
+                mod = Constants.HOUR;
+                break;
+            case 2:
+            	valueLU = 30;
+                mod = Constants.DAY;
+                break;
+            case 3:
+            	valueLU = 45;
+                mod = Constants.DAY;
+                break;
+            case 4:
+            	valueLU = 60;
+                mod = Constants.WEEK;
+                break;
+            default:
+                break;
+            }
+        }
+        public void onNothingSelected( AdapterView<?> arg0 ) {valueLU = 45; }
         } );
 
     }
@@ -121,28 +164,36 @@ public class SettingActivity extends Activity implements OnClickListener {
         switch( v.getId() ) {
         case R.id.applySettingButton :
             //TODO This part doesn't work, but I'm keeping the code here in case someone wants to see it
+        	//To bad it would have been nice so, New stuff instead
+        	
+        	(new VenusDb(this)).setIntegerPreference(this,"underarmBikiniTreatmentLength", valueBU*60*1000);
+        	(new VenusDb(this)).setIntegerPreference(this,"upperLowerLegTreatmentLength", valueLU*60*1000);
+        	Toast.makeText( this.getApplicationContext(), "Settings have been saved!", Toast.LENGTH_SHORT ).show();
+        	/*
             VenusDb vdb = new VenusDb( this );
             Log.d( "Venus", Long.toString( vdb.getCalendarId() ) );
-            vdb.setAlarm( mod, value );
+            vdb.setAlarm( mod, valueBU );
             vdb.close();
             String toastText = "Default reminder period set to ";
             switch( mod ) {
             case Constants.MINUTE:
-                toastText += value + "minutes";
+                toastText += valueBU + "minutes";
                 break;
             case Constants.HOUR:
-                toastText += value + "hour";
+                toastText += valueBU + "hour";
                 break;
             case Constants.DAY:
-                toastText += value + "day";
+                toastText += valueBU + "day";
                 break;
             case Constants.WEEK:
-                toastText += value + "week";
+                toastText += valueBU + "week";
                 break;
             default:
                 break;
             }
             Toast.makeText( this.getApplicationContext(), toastText, Toast.LENGTH_SHORT ).show();
+            */
+        	
             break;
         case R.id.viewTutorialButton :
             Intent intent = new Intent( getApplicationContext(), TutorialActivity.class );

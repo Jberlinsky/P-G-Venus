@@ -60,7 +60,7 @@
 	    <Button
             android:id="@+id/treatmentBack"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="left"
             android:text="Back"
             android:paddingTop="5dp"

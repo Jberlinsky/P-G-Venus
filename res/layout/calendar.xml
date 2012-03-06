@@ -33,7 +33,7 @@
 	    <Button
             android:id="@+id/calendarBack"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="left"
             android:text="Back"
             android:paddingTop="5dp"
@@ -46,7 +46,7 @@
 	    <Button
 		    android:id="@+id/calendarNext"
 		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
+		    android:layout_height="50dp"
 		    android:layout_gravity="right"
 		    android:text="Next"
 		    android:paddingTop="5dp"
