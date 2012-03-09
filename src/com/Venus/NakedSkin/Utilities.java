@@ -72,11 +72,62 @@ public class Utilities {
 
         calendar_id = Long.toString( vdb.getCalendarId() );
         vdb.close();
-        return cr.query( builder.build(),
+
+        Cursor cursor;
+
+        //set 1.1
+        calendar_id = "calendar_id";
+        builder = Uri.parse( "content://com.android.calendar/instances/when" ).buildUpon();
+        cursor =         cr.query( builder.build(),
                          new String[] { "title", "description","dtstart", "end", "allDay"},
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
                          "startDay ASC, startMinute ASC" );
+
+        if( cursor.getCount() != 0 ) {
+            return cursor;
+        }
+
+        //set 1.2
+        calendar_id = "calendar_id";
+        builder = Uri.parse( "content://calendar/instances/when" ).buildUpon();
+        cursor =         cr.query( builder.build(),
+                         new String[] { "title", "description","dtstart", "end", "allDay"},
+                         "(" + id + " = ?)",
+                         new String[] { calendar_id },
+                         "startDay ASC, startMinute ASC" );
+
+        if( cursor.getCount() != 0 ) {
+            return cursor;
+        }
+
+        //set 2.1
+        calendar_id = "Calendars._id";
+        builder = Uri.parse( "content://com.android.calendar/instances/when" ).buildUpon();
+        cursor =         cr.query( builder.build(),
+                         new String[] { "title", "description","dtstart", "end", "allDay"},
+                         "(" + id + " = ?)",
+                         new String[] { calendar_id },
+                         "startDay ASC, startMinute ASC" );
+
+        if( cursor.getCount() != 0 ) {
+            return cursor;
+        }
+
+        //set 2.2
+        calendar_id = "Calendars._id";
+        builder = Uri.parse( "content://calendar/instances/when" ).buildUpon();
+        cursor =         cr.query( builder.build(),
+                         new String[] { "title", "description","dtstart", "end", "allDay"},
+                         "(" + id + " = ?)",
+                         new String[] { calendar_id },
+                         "startDay ASC, startMinute ASC" );
+
+        if( cursor.getCount() != 0 ) {
+            return cursor;
+        }
+
+        return null;
     }
 
     public static void addToCalendar( Context c, Event e ) {
