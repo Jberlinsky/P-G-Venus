@@ -145,22 +145,25 @@ public class ScheduleActivity extends Activity implements OnClickListener{
 
     public void checkStartupMaintenenceAndProceed()
     {
+        final Context ctx = this;
       // If this is after the first set of treatments, but we have not switched to the maintenence phase yet, warn
-            if (isStartup && !vdb.isFirstTreatmentReminder(getApplicationContext()))
+            if (isStartup && !vdb.isFirstTreatmentReminder( this ) )
             {
-              final ScheduleActivity self = this;
+//              final ScheduleActivity self = this;
               // Prompt with option of switching to maintenence
               AlertDialog.Builder builder = new AlertDialog.Builder(this);
               builder.setMessage(
                   Constants.TREATMENT_OPTION_MESSAGE
-              ).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+              ).setPositiveButton("Maintenance", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                   // Change to maintenence
-                  self.proceed(!isStartup);
+                    vdb.setIsNotFirstTreatmentReminder( ctx );
+                    isStartup = false;
+                    setUpEvent();
                 }
-              }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+              }).setNegativeButton("Start Up", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                  self.proceed(isStartup);
+                  setUpEvent();
                 }
               });
               AlertDialog alert = builder.create();
@@ -354,7 +357,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             setScheduleContent();
             break;
         case R.id.phaseProceed:
-            setContentView(R.layout.setreminder);
+//            setContentView(R.layout.setreminder);
             if( 0 == Integer.parseInt( startupNumber ) && isStartup ) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Set up recurring?")
@@ -383,9 +386,9 @@ public class ScheduleActivity extends Activity implements OnClickListener{
 
 
     private void setUpEvent() {
-        //Visual and listener//
-        findViewById(R.id.saveReminder).setOnClickListener(this);
-        findViewById(R.id.setReminderBack).setOnClickListener(this);
+//        //Visual and listener//
+//        findViewById(R.id.saveReminder).setOnClickListener(this);
+//        findViewById(R.id.setReminderBack).setOnClickListener(this);
 
         String bodyPart = null;
         int modifier;

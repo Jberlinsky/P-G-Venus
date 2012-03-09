@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 
 public class VenusDb {
     private static final String TAG = "VenusDB";
@@ -24,7 +23,7 @@ public class VenusDb {
     private static final String KEY_CALENDAR_INDEX = "CALENDAR_INDEX";
 
     private static final String DB_NAME = "VenusDb";
-    private static final int DB_VERSION = 3; //TODO Reset version to 1 for release
+    private static final int DB_VERSION = 4; //TODO Reset version to 1 for release
 
     private static final String DB_TABLE = "VenusTable";
     private static final String DB_TABLE_CREATE =

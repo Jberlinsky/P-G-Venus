@@ -3,7 +3,6 @@ package com.Venus.NakedSkin;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,7 +41,7 @@ public class SettingActivity extends Activity implements OnClickListener {
         applyButton.setOnClickListener(this);
 
         ((Button)findViewById( R.id.applySettingButton )).setOnClickListener(this);
-        
+
         //Bikini Underarm
         ArrayAdapter<CharSequence> adapterBU = ArrayAdapter.createFromResource( this,
                 R.array.reminder_array,
@@ -54,27 +53,27 @@ public class SettingActivity extends Activity implements OnClickListener {
         public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
             switch( pos ) {
             case 0:
-            	valueBU = 10;
+                valueBU = 10;
                 mod = Constants.MINUTE;
                 break;
             case 1:
-            	valueBU = 20;
+                valueBU = 20;
                 mod = Constants.HOUR;
                 break;
             case 2:
-            	valueBU = 30;
+                valueBU = 30;
                 mod = Constants.DAY;
                 break;
             case 3:
-            	valueBU = 40;
+                valueBU = 40;
                 mod = Constants.DAY;
                 break;
             case 4:
-            	valueBU = 50;
+                valueBU = 50;
                 mod = Constants.DAY;
                 break;
             case 5:
-            	valueBU = 60;
+                valueBU = 60;
                 mod = Constants.WEEK;
                 break;
             default:
@@ -83,7 +82,7 @@ public class SettingActivity extends Activity implements OnClickListener {
         }
         public void onNothingSelected( AdapterView<?> arg0 ) {valueBU = 10; }
         } );
-        
+
         //UpperLower Leg
         ArrayAdapter<CharSequence> adapterLU = ArrayAdapter.createFromResource( this,
                 R.array.reminder_array,
@@ -95,23 +94,23 @@ public class SettingActivity extends Activity implements OnClickListener {
         public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
             switch( pos ) {
             case 0:
-            	valueLU = 10;
+                valueLU = 10;
                 mod = Constants.MINUTE;
                 break;
             case 1:
-            	valueLU = 15;
+                valueLU = 15;
                 mod = Constants.HOUR;
                 break;
             case 2:
-            	valueLU = 30;
+                valueLU = 30;
                 mod = Constants.DAY;
                 break;
             case 3:
-            	valueLU = 45;
+                valueLU = 45;
                 mod = Constants.DAY;
                 break;
             case 4:
-            	valueLU = 60;
+                valueLU = 60;
                 mod = Constants.WEEK;
                 break;
             default:
@@ -164,12 +163,12 @@ public class SettingActivity extends Activity implements OnClickListener {
         switch( v.getId() ) {
         case R.id.applySettingButton :
             //TODO This part doesn't work, but I'm keeping the code here in case someone wants to see it
-        	//To bad it would have been nice so, New stuff instead
-        	
-        	(new VenusDb(this)).setIntegerPreference(this,"underarmBikiniTreatmentLength", valueBU*60*1000);
-        	(new VenusDb(this)).setIntegerPreference(this,"upperLowerLegTreatmentLength", valueLU*60*1000);
-        	Toast.makeText( this.getApplicationContext(), "Settings have been saved!", Toast.LENGTH_SHORT ).show();
-        	/*
+            //To bad it would have been nice so, New stuff instead
+
+            (new VenusDb(this)).setIntegerPreference(this,"underarmBikiniTreatmentLength", valueBU*60*1000);
+            (new VenusDb(this)).setIntegerPreference(this,"upperLowerLegTreatmentLength", valueLU*60*1000);
+            Toast.makeText( this.getApplicationContext(), "Settings have been saved!", Toast.LENGTH_SHORT ).show();
+            /*
             VenusDb vdb = new VenusDb( this );
             Log.d( "Venus", Long.toString( vdb.getCalendarId() ) );
             vdb.setAlarm( mod, valueBU );
@@ -193,7 +192,7 @@ public class SettingActivity extends Activity implements OnClickListener {
             }
             Toast.makeText( this.getApplicationContext(), toastText, Toast.LENGTH_SHORT ).show();
             */
-        	
+
             break;
         case R.id.viewTutorialButton :
             Intent intent = new Intent( getApplicationContext(), TutorialActivity.class );
