@@ -50,19 +50,12 @@ public class Utilities {
     public static Cursor queryEvents( Context c ) {
         VenusDb vdb = new VenusDb( c );
         ContentResolver cr = c.getContentResolver();
-        String id, calendar_id;
-        if( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 14 ) {
-            id = "calendar_id";
-        } else {
-            id = "Calendars._id";
-        }
+        Cursor cursor;
 
-        Uri.Builder builder;
-        if( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) {
-            builder = Uri.parse( "content://com.android.calendar/events" ).buildUpon();
-        } else {
-            builder = Uri.parse( "content://calendar/events" ).buildUpon();
-        }
+        String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
+                     "content://com.android.calendar/events" :
+                     "content://calendar/events";
+        Uri.Builder builder = Uri.parse( uri ).buildUpon();
 
         Calendar cal = Calendar.getInstance();
         cal.add( Calendar.MONTH, -6 );
@@ -70,15 +63,30 @@ public class Utilities {
         cal.add( Calendar.YEAR, 1 );
         long end = cal.getTimeInMillis();
 
-        calendar_id = Long.toString( vdb.getCalendarId() );
-        vdb.close();
-        return cr.query( builder.build(),
-                         new String[] { "title", "description", "dtstart" },
-                         "(" + id + " = ? AND " +
-                         "dtstart BETWEEN ? AND ? AND " +
-                         "title LIKE ? )",
-                         new String[] { calendar_id, Long.toString( start ), Long.toString( end ), "Naked%" },
-                         "dtstart ASC" );
+        try {
+            cursor = cr.query( builder.build(),
+                               new String[] { "title", "description", "dtstart" },
+                               "( calendar_id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? )",
+                               new String[] { Long.toString( vdb.getCalendarId() ),
+                                              Long.toString( start ),
+                                              Long.toString( end ),
+                                              "Naked%" },
+                               "dtstart ASC" );
+            vdb.close();
+            return cursor;
+        } catch( SQLiteException e ) {
+            Log.d( "Venus", e.getMessage() );
+            cursor = cr.query( builder.build(),
+                               new String[] { "title", "description", "dtstart" },
+                               "( Calendars._id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? )",
+                               new String[] { Long.toString( vdb.getCalendarId() ),
+                                              Long.toString( start ),
+                                              Long.toString( end ),
+                                              "Naked%" },
+                               "dtstart ASC" );
+            vdb.close();
+            return cursor;
+        }
     }
 
     public static void addToCalendar( Context c, Event e ) {
