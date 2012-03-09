@@ -1,9 +1,12 @@
 package com.Venus.NakedSkin;
 
 import java.util.Date;
+import java.util.TimeZone;
 
+import Utility.Event;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -59,6 +62,29 @@ public class Utilities {
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
                          "startDay ASC, startMinute ASC" );
+    }
+
+    public static void addToCalendar( Context c, Event e ) {
+        VenusDb vdb = new VenusDb( c );
+        ContentResolver cr = c.getContentResolver();
+        ContentValues cv = new ContentValues();
+        String uri;
+
+        cv.put( "calendar_id", vdb.getCalendarId() );
+        cv.put( "title", e.title );
+        cv.put( "description", e.description );
+        cv.put( "dtstart", e.start );
+//        cv.put( "hasAlarm", 1);
+        cv.put( "dtend", e.end );
+        cv.put( "eventTimezone", TimeZone.getDefault().getDisplayName() );
+
+        if( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8) {
+            uri = "content://com.android.calendar/events";
+        } else {
+            uri = "content://calendar/events";
+        }
+        vdb.close();
+        cr.insert( Uri.parse( uri ), cv);
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,7 +69,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
          * emailCheckBox
          * alertCheckBox
          */
-        
+
         //Visual Fix
         Button proceedButton = (Button)findViewById(R.id.scheduleProceed);
         int buttonHeight = proceedButton.getHeight();
@@ -258,7 +257,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             }
 
             //addToCalendar(this, bodyPart + " treatment reminder", c.getTimeInMillis(), c.getTimeInMillis() + Constants.ONE_HOUR );
- 
+
     }
 
     public void onClick( View v ) {
