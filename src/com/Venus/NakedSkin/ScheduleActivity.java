@@ -2,8 +2,10 @@ package com.Venus.NakedSkin;
 
 import java.util.Calendar;
 
+import Utility.Event;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     private boolean isStartup;
     private String startupNumber;
     private int treatmentDuration = -1;
+    private boolean isFirstTreatment;
 
     SelectionButton ba;
     SelectionButton ua;
@@ -164,7 +167,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
               alert.show();
             }
             else {
-              this.proceed(isStartup);
+              setUpEvent();
             }
     }
 
@@ -352,12 +355,110 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             break;
         case R.id.phaseProceed:
             setContentView(R.layout.setreminder);
-            this.checkStartupMaintenenceAndProceed();
-
-
+            if( 0 == Integer.parseInt( startupNumber ) && isStartup ) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Set up recurring?")
+                       .setCancelable(false)
+                       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int id) {
+                               isFirstTreatment = true;
+                               checkStartupMaintenenceAndProceed();
+                           }
+                       })
+                       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int id) {
+                               isFirstTreatment = false;
+                               dialog.cancel();
+                               checkStartupMaintenenceAndProceed();
+                           }
+                       });
+                AlertDialog alert = builder.create();
+                alert.show();
+            } else {
+                checkStartupMaintenenceAndProceed();
+            }
             break;
         }
     }
+
+
+    private void setUpEvent() {
+        //Visual and listener//
+        findViewById(R.id.saveReminder).setOnClickListener(this);
+        findViewById(R.id.setReminderBack).setOnClickListener(this);
+
+        String bodyPart = null;
+        int modifier;
+        Calendar c = Calendar.getInstance();
+        final Context ctx = this;
+
+        if( ba.isSelected ) {
+            bodyPart = getString( R.string.bikini_area );
+        } else if( ua.isSelected ) {
+            bodyPart = getString( R.string.underarm );
+        } else if( ul.isSelected ) {
+            bodyPart = getString( R.string.upper_leg );
+        } else if( ll.isSelected ) {
+            bodyPart = getString( R.string.lower_leg );
+        } else {
+            bodyPart = "Other";
+        }
+
+        if( isFirstTreatment ) {
+            for( int i = 0; i < 6; i++ ) {
+                c.add( Calendar.WEEK_OF_YEAR, 2 );
+
+                final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
+                                           "This is treatment number " + ( i + 1 ),
+                                           c.getTimeInMillis(),
+                                           c.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
+
+                new Thread( new Runnable() {
+                    public void run() {
+                        Utilities.addToCalendar( ctx, e );
+                    }
+                } ).start();
+            }
+        } else {
+            String desc = null;
+            if( isStartup ) {
+                desc = "This is treatment number " + ( startupNumber + 1 );
+                modifier = Calendar.WEEK_OF_YEAR;
+            } else {
+                desc = "Maintenance phase";
+                modifier = Calendar.MONTH;
+            }
+            c.add( modifier, 2 );
+            final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
+                                       desc,
+                                       c.getTimeInMillis(),
+                                       c.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
+
+            new Thread( new Runnable() {
+                public void run() {
+                    Utilities.addToCalendar( ctx, e );
+                }
+            } ).start();
+        }
+
+        setContentView(R.layout.schedule);
+        this.setListeners();
+        ba.setUnselected();
+        ua.setUnselected();
+        ul.setUnselected();
+        ll.setUnselected();
+
+        String toastText = "";
+        if( isStartup && isFirstTreatment ) {
+            toastText = "Reminders for your first six "+ bodyPart + " treatments have been automatically set.";
+        } else if( isStartup ) {
+            toastText = "Reminder for " + bodyPart + " treatment number " + startupNumber + " has been set.";
+        } else {
+            toastText = "Maintenance reminder for " + bodyPart + " has been set.";
+        }
+        Toast.makeText( this, toastText, Toast.LENGTH_LONG ).show();
+    }
+
 
     private void setScheduleContent(){
         setContentView(R.layout.schedule);
@@ -369,63 +470,4 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         ll.setUnselected();
     }
 
-
-    /*
-     * This is the old way of adding to calendar.  This has since been updated.
-     */
-/*    private static void addToCalendar(Context ctx, final String title, final long dtstart, final long dtend)
-    {
-        final ContentResolver cr = ctx.getContentResolver();
-        Cursor cursor;
-        if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
-            cursor = cr.query(Uri.parse("content://com.android.calendar/calendars"), new String[]{ "_id", "displayname" }, null, null, null);
-        else
-            cursor = cr.query(Uri.parse("content://calendar/calendars"), new String[]{ "_id", "displayname" }, null, null, null);
-        if (cursor.moveToFirst())
-        {
-            final String[] calNames = new String[cursor.getCount()];
-            final int[] calIds = new int[cursor.getCount()];
-            for (int i = 0; i < calNames.length; i++)
-            {
-                calIds[i] = cursor.getInt(0);
-                calNames[i] = cursor.getString(1);
-                cursor.moveToNext();
-            }
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-            builder.setSingleChoiceItems(calNames, -1, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        ContentValues cv = new ContentValues();
-                        cv.put("calendar_id", calIds[which]);
-                        cv.put("title", title);
-                        cv.put("dtstart", dtstart);
-                        cv.put("hasAlarm", 1);
-                        cv.put("dtend", dtend);
-
-                        Uri newEvent;
-                        if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8)
-                            newEvent = cr.insert(Uri.parse("content://com.android.calendar/events"), cv);
-                        else
-                            newEvent = cr.insert(Uri.parse("content://com.android.calendar/events"), cv);
-                        if (newEvent != null)
-                        {
-                            long id = Long.parseLong(newEvent.getLastPathSegment());
-                            ContentValues values = new ContentValues();
-                            values.put("event_id", id);
-                            values.put("method", 1);
-                            values.put("minutes", 15);
-                            if (Integer.parseInt(android.os.Build.VERSION.SDK) >= 8 )
-                                cr.insert( Uri.parse( "content://com.android.calendar/reminders" ), values );
-                            else
-                                cr.insert( Uri.parse( "content://calendar/reminders" ), values );
-                        }
-            dialog.cancel();
-                    }
-            });
-            builder.create().show();
-        }
-        cursor.close();
-    }
-*/
 }
