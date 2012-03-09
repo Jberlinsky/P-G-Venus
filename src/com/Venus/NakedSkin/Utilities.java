@@ -78,7 +78,8 @@ public class Utilities {
         //set 1.1
         id = "calendar_id";
         builder = Uri.parse( "content://com.android.calendar/instances/when" ).buildUpon();
-        cursor =         cr.query( builder.build(),
+        Uri a = builder.build();
+        cursor =         cr.query( a,
                          new String[] { "title", "description","dtstart", "end", "allDay"},
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
@@ -91,7 +92,8 @@ public class Utilities {
         //set 1.2
         id = "calendar_id";
         builder = Uri.parse( "content://calendar/instances/when" ).buildUpon();
-        cursor =         cr.query( builder.build(),
+        a = builder.build();
+        cursor =         cr.query( a,
                          new String[] { "title", "description","dtstart", "end", "allDay"},
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
@@ -104,7 +106,8 @@ public class Utilities {
         //set 2.1
         id = "Calendars._id";
         builder = Uri.parse( "content://com.android.calendar/instances/when" ).buildUpon();
-        cursor =         cr.query( builder.build(),
+        a = builder.build();
+        cursor =         cr.query( a,
                          new String[] { "title", "description","dtstart", "end", "allDay"},
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
@@ -117,7 +120,8 @@ public class Utilities {
         //set 2.2
         id = "Calendars._id";
         builder = Uri.parse( "content://calendar/instances/when" ).buildUpon();
-        cursor =         cr.query( builder.build(),
+        a = builder.build();
+        cursor =         cr.query( a,
                          new String[] { "title", "description","dtstart", "end", "allDay"},
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
