@@ -77,13 +77,13 @@ public class Utilities {
 
         //set 1.1
         id = "calendar_id";
-        builder = Uri.parse( "content://com.android.calendar/instances/when" ).buildUpon();
+        builder = Uri.parse( "content://com.android.calendar/events" ).buildUpon();
         Uri a = builder.build();
         cursor =         cr.query( a,
-                         new String[] { "title", "description","dtstart", "end", "allDay"},
+                         new String[] { "title", "description","dtstart", "dtend", "allDay"},
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
-                         "startDay ASC, startMinute ASC" );
+                         "dtstart ASC" );
 
         if( cursor.getCount() != 0 ) {
             return cursor;
@@ -91,13 +91,13 @@ public class Utilities {
 
         //set 1.2
         id = "calendar_id";
-        builder = Uri.parse( "content://calendar/instances/when" ).buildUpon();
+        builder = Uri.parse( "content://calendar/events" ).buildUpon();
         a = builder.build();
         cursor =         cr.query( a,
-                         new String[] { "title", "description","dtstart", "end", "allDay"},
+                         new String[] { "title", "description","dtstart", "dtend", "allDay"},
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
-                         "startDay ASC, startMinute ASC" );
+                         "dtstart ASC" );
 
         if( cursor.getCount() != 0 ) {
             return cursor;
@@ -105,13 +105,13 @@ public class Utilities {
 
         //set 2.1
         id = "Calendars._id";
-        builder = Uri.parse( "content://com.android.calendar/instances/when" ).buildUpon();
+        builder = Uri.parse( "content://com.android.calendar/events" ).buildUpon();
         a = builder.build();
         cursor =         cr.query( a,
-                         new String[] { "title", "description","dtstart", "end", "allDay"},
+                         new String[] { "title", "description","dtstart", "dtend", "allDay"},
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
-                         "startDay ASC, startMinute ASC" );
+                         "dtstart ASC" );
 
         if( cursor.getCount() != 0 ) {
             return cursor;
@@ -119,13 +119,13 @@ public class Utilities {
 
         //set 2.2
         id = "Calendars._id";
-        builder = Uri.parse( "content://calendar/instances/when" ).buildUpon();
+        builder = Uri.parse( "content://calendar/events" ).buildUpon();
         a = builder.build();
         cursor =         cr.query( a,
-                         new String[] { "title", "description","dtstart", "end", "allDay"},
+                         new String[] { "title", "description","dtstart", "dtend", "allDay"},
                          "(" + id + " = ?)",
                          new String[] { calendar_id },
-                         "startDay ASC, startMinute ASC" );
+                         "dtstart ASC" );
 
         if( cursor.getCount() != 0 ) {
             return cursor;
