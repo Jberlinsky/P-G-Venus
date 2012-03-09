@@ -9,12 +9,15 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 public class Utilities {
 
     public static Cursor queryForCalendars( Context c ) {
+        Cursor cursor;
         ContentResolver cr = c.getContentResolver();
         String uri, displayName;
         if( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 14 ) {
@@ -27,11 +30,23 @@ public class Utilities {
             uri         = "content://calendar/calendars";
             displayName = "displayName";
         }
-        return cr.query( Uri.parse( uri ),
-                         new String[]{ "_id", displayName },
-                         "(account_type = ?)",
-                         new String[] { "com.google" },
-                         null );
+
+        try {
+            cursor = cr.query( Uri.parse( uri ),
+                               new String[]{ "_id", displayName },
+                               "(account_type = ?)",
+                               new String[] { "com.google" },
+                               null );
+            return cursor;
+        } catch( SQLiteException e ) {
+            Log.d( "Venus", e.getMessage() );
+            cursor = cr.query( Uri.parse( uri ),
+                               new String[]{ "_id", displayName },
+                               null,
+                               null,
+                               null );
+            return cursor;
+        }
     }
 
     public static Cursor queryEvents( Context c ) {
