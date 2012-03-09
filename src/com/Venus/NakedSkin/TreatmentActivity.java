@@ -1,8 +1,6 @@
 package com.Venus.NakedSkin;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import Utility.Event;
 import android.app.Activity;
 import android.content.Intent;
@@ -245,26 +243,12 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         }
     }
 
-
     private ArrayList<Event> getEvents() {
         Cursor eventCursor = Utilities.queryEvents( this );
         while( eventCursor.moveToNext() ) {
-            String title = eventCursor.getString(0);
-            if( title.contains("Naked") ) {
-                Event nEvent = new Event();
-                nEvent.title = title.substring(11);
-                nEvent.description = eventCursor.getString(1);
-                Long x = eventCursor.getLong(2);
-                Calendar b = Calendar.getInstance();
-                b.setTimeInMillis(x);
-                nEvent.day = b.get(Calendar.DATE);
-                nEvent.month = b.get(Calendar.MONTH);
-                nEvent.year = b.get(Calendar.YEAR);
-                nEvent.hour = b.get(Calendar.HOUR_OF_DAY);
-                nEvent.AMPM = b.get(Calendar.AM_PM);
-                nEvent.minute = b.get(Calendar.MINUTE);
-                events.add(nEvent);
-            }
+            events.add( new Event( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ),
+                                   eventCursor.getString( Constants.EVENT_DESC_INDEX ),
+                                   eventCursor.getLong( Constants.EVENT_START_INDEX ) ) );
         }
         eventCursor.close();
         return events;

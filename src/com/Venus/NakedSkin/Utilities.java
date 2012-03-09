@@ -1,17 +1,15 @@
 package com.Venus.NakedSkin;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.TimeZone;
 
 import Utility.Event;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
-import android.text.format.DateUtils;
 import android.util.Log;
 
 public class Utilities {
@@ -61,77 +59,26 @@ public class Utilities {
 
         Uri.Builder builder;
         if( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) {
-            builder = Uri.parse( "content://com.android.calendar/instances/when" ).buildUpon();
+            builder = Uri.parse( "content://com.android.calendar/events" ).buildUpon();
         } else {
-            builder = Uri.parse( "content://calendar/instances/when" ).buildUpon();
+            builder = Uri.parse( "content://calendar/events" ).buildUpon();
         }
 
-        long now = new Date().getTime();
-        ContentUris.appendId( builder, now - DateUtils.WEEK_IN_MILLIS * 104 );
-        ContentUris.appendId( builder, now + DateUtils.WEEK_IN_MILLIS * 104 );
+        Calendar cal = Calendar.getInstance();
+        cal.add( Calendar.MONTH, -6 );
+        long start = cal.getTimeInMillis();
+        cal.add( Calendar.YEAR, 1 );
+        long end = cal.getTimeInMillis();
 
         calendar_id = Long.toString( vdb.getCalendarId() );
         vdb.close();
-
-        Cursor cursor;
-
-        //set 1.1
-        id = "calendar_id";
-        builder = Uri.parse( "content://com.android.calendar/events" ).buildUpon();
-        Uri a = builder.build();
-        cursor =         cr.query( a,
-                         new String[] { "title", "description","dtstart", "dtend", "allDay"},
-                         "(" + id + " = ?)",
-                         new String[] { calendar_id },
+        return cr.query( builder.build(),
+                         new String[] { "title", "description", "dtstart" },
+                         "(" + id + " = ? AND " +
+                         "dtstart BETWEEN ? AND ? AND " +
+                         "title LIKE ? )",
+                         new String[] { calendar_id, Long.toString( start ), Long.toString( end ), "Naked%" },
                          "dtstart ASC" );
-
-        if( cursor.getCount() != 0 ) {
-            return cursor;
-        }
-
-        //set 1.2
-        id = "calendar_id";
-        builder = Uri.parse( "content://calendar/events" ).buildUpon();
-        a = builder.build();
-        cursor =         cr.query( a,
-                         new String[] { "title", "description","dtstart", "dtend", "allDay"},
-                         "(" + id + " = ?)",
-                         new String[] { calendar_id },
-                         "dtstart ASC" );
-
-        if( cursor.getCount() != 0 ) {
-            return cursor;
-        }
-
-        //set 2.1
-        id = "Calendars._id";
-        builder = Uri.parse( "content://com.android.calendar/events" ).buildUpon();
-        a = builder.build();
-        cursor =         cr.query( a,
-                         new String[] { "title", "description","dtstart", "dtend", "allDay"},
-                         "(" + id + " = ?)",
-                         new String[] { calendar_id },
-                         "dtstart ASC" );
-
-        if( cursor.getCount() != 0 ) {
-            return cursor;
-        }
-
-        //set 2.2
-        id = "Calendars._id";
-        builder = Uri.parse( "content://calendar/events" ).buildUpon();
-        a = builder.build();
-        cursor =         cr.query( a,
-                         new String[] { "title", "description","dtstart", "dtend", "allDay"},
-                         "(" + id + " = ?)",
-                         new String[] { calendar_id },
-                         "dtstart ASC" );
-
-        if( cursor.getCount() != 0 ) {
-            return cursor;
-        }
-
-        return null;
     }
 
     public static void addToCalendar( Context c, Event e ) {
@@ -144,7 +91,6 @@ public class Utilities {
         cv.put( "title", e.title );
         cv.put( "description", e.description );
         cv.put( "dtstart", e.start );
-//        cv.put( "hasAlarm", 1);
         cv.put( "dtend", e.end );
         cv.put( "eventTimezone", TimeZone.getDefault().getDisplayName() );
 
