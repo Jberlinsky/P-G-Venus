@@ -18,7 +18,7 @@
            android:id="@+id/linearLayout1"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
-           android:layout_weight="0.28"
+           android:layout_weight="0.21"
            android:orientation="vertical" >
        </LinearLayout>
 
@@ -26,11 +26,18 @@
             android:id="@+id/underarm"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.125"
+            android:layout_weight="0.12"
             android:background="#20ffffff"
             android:gravity="right|center"
             android:text="@string/underarm"
             android:textColor="#ffffff" />
+        <LinearLayout
+           android:id="@+id/linearLayout1"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="0.075"
+           android:orientation="vertical" >
+       </LinearLayout>
 
 
         <view class="com.Venus.NakedSkin.SelectionButton"
