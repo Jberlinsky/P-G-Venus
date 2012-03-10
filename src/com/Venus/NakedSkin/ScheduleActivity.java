@@ -147,7 +147,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     {
         final Context ctx = this;
       // If this is after the first set of treatments, but we have not switched to the maintenence phase yet, warn
-            if (isStartup && !vdb.isFirstTreatmentReminder( this ) )
+            if (Integer.parseInt(startupNumber) > 6 || (isStartup && !vdb.isFirstTreatmentReminder( this )) )
             {
 //              final ScheduleActivity self = this;
               // Prompt with option of switching to maintenence
