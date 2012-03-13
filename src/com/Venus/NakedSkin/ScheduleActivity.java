@@ -431,17 +431,18 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                 desc = "Maintenance phase";
                 modifier = Calendar.MONTH;
             }
-            c.add( modifier, 2 );
-            final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
-                                       desc,
-                                       c.getTimeInMillis(),
-                                       c.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
-
-            new Thread( new Runnable() {
-                public void run() {
-                    Utilities.addToCalendar( ctx, e );
-                }
-            } ).start();
+            for( int i = 0; i < 6; i++ ) {
+	            c.add( modifier, 2 );
+	            final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
+	                                       desc,
+	                                       c.getTimeInMillis(),
+	                                       c.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
+	            new Thread( new Runnable() {
+	                public void run() {
+	                    Utilities.addToCalendar( ctx, e );
+	                }
+	            } ).start();
+            }
         }
 
         setContentView(R.layout.schedule);

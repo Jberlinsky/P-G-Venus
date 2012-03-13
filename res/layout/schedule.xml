@@ -73,7 +73,7 @@
 
         <Button
             android:id="@+id/scheduleProceed"
-            android:layout_width="fill_parent"
+            android:layout_width="120dp"
             android:layout_height="0dp"
             android:layout_weight="0.07"
             android:background="@drawable/buttonbackground"
@@ -82,7 +82,6 @@
             android:text="@string/proceed"
             android:textColor="#FFFFFF"
             android:textSize="15sp" />
-
 
   </LinearLayout>
 
