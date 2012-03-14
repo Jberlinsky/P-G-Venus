@@ -225,12 +225,11 @@ public class CalendarView extends ImageView {
     	this.eventMonth.clear();
     	this.eventYear.clear();
     	for (int i = 0;i < ev.size();i++){
-    		if (!(this.eventMonth.contains(ev.get(i).month) && this.eventDays.contains(ev.get(i).day) && this.eventYear.contains(ev.get(i).year)))
-    		{
+    		
 	    		this.eventMonth.add(ev.get(i).month);
 	    		this.eventDays.add(ev.get(i).day);
 	    		this.eventYear.add(ev.get(i).year);
-    		}
+
     	}
     	this.initCells();
     	invalidate();
@@ -244,12 +243,13 @@ public class CalendarView extends ImageView {
         return mHelper.getNumberOfDaysInMonth()==day;
     }
     
-    public int eventDay(int day) {
+    public ArrayList<Integer> eventDay(int day) {
+    	ArrayList<Integer> ed =new ArrayList<Integer>();
     	for (int i = 0;i<eventDays.size();i++){
     		if (eventDays.get(i) == day && eventMonth.get(i)== this.getMonth())
-    			return i;
+    			ed.add(i);
         }
-        return -1;
+        return ed;
     }
 
     public void goToday() {

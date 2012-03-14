@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/eventtreatmentlayout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" 
-    	android:background="@drawable/vbackground"
-    	android:orientation="vertical"
-    	android:gravity="center"
-	    android:paddingLeft="3dp"
-	    android:paddingRight="3dp"
-    	android:stretchColumns="0">
+    android:id="@+id/eventtreatmentlayout"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:background="@drawable/vbackground"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:stretchColumns="0" >
     	
     <TableRow 
-        android:layout_weight="0.16"
+        android:layout_weight="0.1"
         android:gravity="center">
     <TextView
         android:id="@+id/treatmenttitle"
@@ -23,7 +23,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
     </TableRow>
     <TableRow 
-        android:layout_weight="0.16"
+        android:layout_weight="0.1"
         android:gravity="center">
     <TextView
         android:id="@+id/treatmentdescription"
@@ -35,7 +35,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
     </TableRow>
     <TableRow 
-        android:layout_weight="0.16"
+        android:layout_weight="0.1"
         android:gravity="center">
     <TextView
         android:id="@+id/treatmentdate"
@@ -46,14 +46,70 @@
         android:layout_gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     </TableRow>
-    
-    <TableRow 
-        
-        android:gravity="center">
-    <ImageView
-        android:id="@+id/treatmentImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <TableRow
+        android:layout_weight="0.75"
+        android:baselineAligned="false"
+        android:gravity="center" >	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:background="@drawable/backgroundbody"
+	    android:gravity="center"
+	    android:orientation="vertical"
+	    android:paddingLeft="3dp"
+	    android:paddingRight="3dp"
+	    android:stretchColumns="0">
+    <TableRow
+        android:layout_weight="0.14"
+        android:baselineAligned="false"
+        android:gravity="center" >
+        </TableRow>
+
+     <TableRow
+        android:layout_weight="0.16"
+        android:id="@+id/underarmevent"
+        android:layout_width="200dp"
+        android:baselineAligned="false"
+        android:gravity="center" >
+        </TableRow>
+        <TableRow
+            
+	        android:layout_weight="0.09"
+	        android:layout_width="fill_parent"
+	        android:baselineAligned="false"
+	        android:gravity="center" >
+        </TableRow>
+        <TableRow
+        android:id="@+id/bikinievent"
+        android:layout_weight="0.14"
+        android:layout_width="200dp"
+        android:baselineAligned="false"
+        android:gravity="center" >
+        </TableRow>
+        <TableRow
+        android:layout_weight="0.01"
+        android:baselineAligned="false"
+        android:gravity="center" >
+        </TableRow>
+        <TableRow
+        android:id="@+id/upperevent"
+        android:layout_weight="0.21"
+        android:layout_width="200dp"
+        android:baselineAligned="false"
+        android:gravity="center" >
+        </TableRow>
+        <TableRow
+        android:layout_weight="0.01"
+        android:baselineAligned="false"
+        android:gravity="center" >
+        </TableRow>
+        <TableRow
+       	android:id="@+id/lowerevent"
+        android:layout_weight="0.24"
+        android:layout_width="200dp"
+        android:baselineAligned="false"
+        android:gravity="center" >
+        </TableRow>
+    </TableLayout>
     </TableRow>
     
     <TableRow android:gravity="center">

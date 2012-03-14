@@ -77,20 +77,48 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         //TODO : Change to slide action maybe use gestureoverlay?
         if (cell.thismonth) {
             int day = cell.getDayOfMonth();
-            int inde = mView.eventDay(day);
-            if(inde > -1){
-                String title = this.events.get(inde).title;
-                String desc = this.events.get(inde).description;
+            ArrayList<Integer> ed = mView.eventDay(day);
+            
+            if (ed.size() == 1){
+            	String title = this.events.get(ed.get(0)).title;
+            	 String desc = this.events.get(ed.get(0)).description;
 
+                 Intent eventInt = new Intent(this, EventViewActivity.class);
+                 eventInt.putExtra("title", title);
+                 eventInt.putExtra("desc", desc);
+                 eventInt.putExtra("year", this.events.get(ed.get(0)).year);
+                 eventInt.putExtra("month", this.events.get(ed.get(0)).month);
+                 eventInt.putExtra("day", this.events.get(ed.get(0)).day);
+                 eventInt.putExtra("hour", this.events.get(ed.get(0)).hour);
+                 eventInt.putExtra("min", this.events.get(ed.get(0)).minute);
+                 eventInt.putExtra("ampm", this.events.get(ed.get(0)).AMPM);
+                 startActivity(eventInt);
+                 finish();
+            }
+            else if(ed.size() > 0){
+            	String title = "";
+            	for (int i = 0;i < ed.size();i++){
+            		if (this.events.get(ed.get(i)).title.contains("Bikini"))
+            			title += "Bikini Area, ";
+            		if (this.events.get(ed.get(i)).title.contains("Underarm"))
+            			title += "Underarm, ";
+            		if (this.events.get(ed.get(i)).title.contains("Lower"))
+            			title += "Lower Leg, ";
+            		if (this.events.get(ed.get(i)).title.contains("Upper"))
+            			title += "Upper Leg, ";
+            	}
+            	title += "Reminders";
+                String desc = "Mutliple reminders";
+                
                 Intent eventInt = new Intent(this, EventViewActivity.class);
                 eventInt.putExtra("title", title);
                 eventInt.putExtra("desc", desc);
-                eventInt.putExtra("year", this.events.get(inde).year);
-                eventInt.putExtra("month", this.events.get(inde).month);
-                eventInt.putExtra("day", this.events.get(inde).day);
-                eventInt.putExtra("hour", this.events.get(inde).hour);
-                eventInt.putExtra("min", this.events.get(inde).minute);
-                eventInt.putExtra("ampm", this.events.get(inde).AMPM);
+                eventInt.putExtra("year", this.events.get(ed.get(0)).year);
+                eventInt.putExtra("month", this.events.get(ed.get(0)).month);
+                eventInt.putExtra("day", this.events.get(ed.get(0)).day);
+                eventInt.putExtra("hour", this.events.get(ed.get(0)).hour);
+                eventInt.putExtra("min", this.events.get(ed.get(0)).minute);
+                eventInt.putExtra("ampm", this.events.get(ed.get(0)).AMPM);
                 startActivity(eventInt);
                 finish();
             }
