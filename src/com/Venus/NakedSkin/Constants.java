@@ -65,4 +65,7 @@ public class Constants {
     public final static int EVENT_DESC_INDEX = 1;
     public final static int EVENT_START_INDEX = 2;
 
+    //ScheduleActivity copy
+    public final static String DATE_PICK_DIALOG = "Please select the date of your most recent treatment.";
+
 }

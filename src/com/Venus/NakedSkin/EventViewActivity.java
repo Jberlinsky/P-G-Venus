@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 public class EventViewActivity extends Activity{
@@ -39,15 +37,15 @@ public class EventViewActivity extends Activity{
             //img.setImageResource(R.drawable.bikiniarea);
 
             if (tit.contains("Underarm")){
-            	findViewById(R.id.underarmevent).setBackgroundColor(Color.parseColor("#500099cb"));
+                findViewById(R.id.underarmevent).setBackgroundColor(Color.parseColor("#500099cb"));
             }
             if (tit.contains("Upper Leg")){
-            	findViewById(R.id.upperevent).setBackgroundColor(Color.parseColor("#500099cb"));
+                findViewById(R.id.upperevent).setBackgroundColor(Color.parseColor("#500099cb"));
             }
             if (tit.contains("Lower Leg"))
-            	findViewById(R.id.lowerevent).setBackgroundColor(Color.parseColor("#500099cb"));
+                findViewById(R.id.lowerevent).setBackgroundColor(Color.parseColor("#500099cb"));
             if (tit.contains("Bikini"))
-            	findViewById(R.id.bikinievent).setBackgroundColor(Color.parseColor("#500099cb"));
+                findViewById(R.id.bikinievent).setBackgroundColor(Color.parseColor("#500099cb"));
 
             findViewById(R.id.treatmentBack).setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -64,9 +62,9 @@ public class EventViewActivity extends Activity{
             timeText = timeText + String.valueOf(hour) + ":";
             String minn = String.valueOf(min);
             if (minn.length() == 1)
-            	timeText = timeText + "0" + minn + " ";
+                timeText = timeText + "0" + minn + " ";
             else
-            	timeText = timeText + minn + " ";
+                timeText = timeText + minn + " ";
             if (ampm == Calendar.AM)
                 timeText = timeText + "AM";
             else
