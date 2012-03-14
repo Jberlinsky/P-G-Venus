@@ -452,7 +452,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         if( isStartup && isFirstTreatment ) {
             toastText = "Reminders for your first six "+ bodyPart + " treatments have been automatically set.";
         } else if( isStartup ) {
-            toastText = "Reminder for " + bodyPart + " treatment number " + startupNumber + " has been set.";
+            toastText = "Reminder for " + bodyPart + " treatment number " + startupNumber + " have been set.";
         } else {
             toastText = "Maintenance reminders for " + bodyPart + " has been set.";
         }

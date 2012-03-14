@@ -78,10 +78,10 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         if (cell.thismonth) {
             int day = cell.getDayOfMonth();
             ArrayList<Integer> ed = mView.eventDay(day);
-            
+
             if (ed.size() == 1){
-            	String title = this.events.get(ed.get(0)).title;
-            	 String desc = this.events.get(ed.get(0)).description;
+                String title = this.events.get(ed.get(0)).title;
+                 String desc = this.events.get(ed.get(0)).description;
 
                  Intent eventInt = new Intent(this, EventViewActivity.class);
                  eventInt.putExtra("title", title);
@@ -96,20 +96,20 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
                  finish();
             }
             else if(ed.size() > 0){
-            	String title = "";
-            	for (int i = 0;i < ed.size();i++){
-            		if (this.events.get(ed.get(i)).title.contains("Bikini"))
-            			title += "Bikini Area, ";
-            		if (this.events.get(ed.get(i)).title.contains("Underarm"))
-            			title += "Underarm, ";
-            		if (this.events.get(ed.get(i)).title.contains("Lower"))
-            			title += "Lower Leg, ";
-            		if (this.events.get(ed.get(i)).title.contains("Upper"))
-            			title += "Upper Leg, ";
-            	}
-            	title += "Reminders";
+                String title = "";
+                for (int i = 0;i < ed.size();i++){
+                    if (this.events.get(ed.get(i)).title.contains("Bikini"))
+                        title += "Bikini Area, ";
+                    if (this.events.get(ed.get(i)).title.contains("Underarm"))
+                        title += "Underarm, ";
+                    if (this.events.get(ed.get(i)).title.contains("Lower"))
+                        title += "Lower Leg, ";
+                    if (this.events.get(ed.get(i)).title.contains("Upper"))
+                        title += "Upper Leg, ";
+                }
+                title += "Reminders";
                 String desc = "Mutliple reminders";
-                
+
                 Intent eventInt = new Intent(this, EventViewActivity.class);
                 eventInt.putExtra("title", title);
                 eventInt.putExtra("desc", desc);
