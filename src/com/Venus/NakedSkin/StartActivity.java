@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,9 +22,15 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Cursor eventCursor = Utilities.queryTodaysEvents( this );
+        String desc = "";
+        try {
+            eventCursor.moveToNext();
+            desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
+        } catch( CursorIndexOutOfBoundsException cioobe ) {
+            Log.d( "Venus", "No treatments scheduled today" );
+            return;
+        }
 
-        eventCursor.moveToNext();
-        String desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
         int treatmentNumberTemp = -1;
         try {
             treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ) );
