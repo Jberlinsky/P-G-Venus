@@ -30,7 +30,7 @@ public class StartActivity extends Activity {
         try { //calls proceed() with either only 1 choice, or after dialog
             String desc = null;
             int treatmentNumberTemp;
-            if( 1 > eventCursor.getCount() ) { //more than one event today.
+            if( 1 < eventCursor.getCount() ) { //more than one event today.
                 ArrayList<CharSequence> bodyParts = new ArrayList<CharSequence>(); //store body parts here, show these to user
                 ArrayList<Integer> treatmentNumbers = new ArrayList<Integer>(); //store (potential) treatment numbers here, keep internal
                 while( eventCursor.moveToNext() ) {
@@ -43,8 +43,8 @@ public class StartActivity extends Activity {
                     }
                     treatmentNumbers.add( treatmentNumberTemp );
                 }
-                final CharSequence[] bodyPartArray = (CharSequence[]) bodyParts.toArray();
-                final Integer[] treatmentNumberArray = (Integer[]) bodyParts.toArray();
+                final CharSequence[] bodyPartArray = bodyParts.toArray( new CharSequence[ bodyParts.size() ] );
+                final Integer[] treatmentNumberArray = treatmentNumbers.toArray( new Integer[ treatmentNumbers.size() ] );
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle( "Which body part are we treating right now?" );
                 builder.setItems(bodyPartArray, new DialogInterface.OnClickListener() {
@@ -65,6 +65,7 @@ public class StartActivity extends Activity {
                 }
                 proceed( bodyPart, new Integer( treatmentNumberTemp ) );
             } else {
+                Log.d( "Venus", Integer.toString( eventCursor.getCount() ) );
                 Log.d( "Venus", "No treatments scheduled today" );
                 return;
             }
