@@ -172,7 +172,7 @@ public class TutorialActivity extends Activity implements OnClickListener {
             }
         });
         dialog.show();*/
-            startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
+            startActivity( new Intent( getApplicationContext(), StartActivity.class ) );
             finish();
         }
     }

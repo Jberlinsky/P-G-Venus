@@ -39,13 +39,13 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     SelectionButton ul;
     SelectionButton ll;
 
-    private VenusDb vdb;
+    VenusDb vdb;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule);
-        vdb = new VenusDb( this );
         _calendar = Calendar.getInstance();
+        vdb = new VenusDb( this );
 
         /* Button names
          *  underarmleft
@@ -129,20 +129,24 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             return true;
         case R.id.treatmentmenu:
             startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
+            vdb.close();
             finish();
             return true;
         case R.id.howtomenu:
             startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
+            vdb.close();
             finish();
             return true;
         case R.id.settingmenu:
             startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
+            vdb.close();
             finish();
             return true;
         case R.id.homemenu:
             Intent intent =  new Intent( getApplicationContext(), TutorialActivity.class );
             intent.putExtra("first", false);
             startActivity(intent);
+            vdb.close();
             finish();
             return true;
 

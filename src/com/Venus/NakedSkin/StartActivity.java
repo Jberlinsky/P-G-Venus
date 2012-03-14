@@ -1,5 +1,6 @@
 package com.Venus.NakedSkin;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import Utility.Event;
@@ -7,10 +8,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class StartActivity extends Activity {
@@ -22,23 +27,58 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Cursor eventCursor = Utilities.queryTodaysEvents( this );
-        String desc = "";
-        try {
-            eventCursor.moveToNext();
-            desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
+        try { //calls proceed() with either only 1 choice, or after dialog
+            String desc = null;
+            int treatmentNumberTemp;
+            if( 1 > eventCursor.getCount() ) { //more than one event today.
+                ArrayList<CharSequence> bodyParts = new ArrayList<CharSequence>(); //store body parts here, show these to user
+                ArrayList<Integer> treatmentNumbers = new ArrayList<Integer>(); //store (potential) treatment numbers here, keep internal
+                while( eventCursor.moveToNext() ) {
+                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
+                    try { //try to get the treatment number (doesn't exist for maint)
+                        desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
+                        treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
+                    } catch( NumberFormatException nfe ) { //this exception means maintenance, set to -1
+                        treatmentNumberTemp = -1;
+                    }
+                    treatmentNumbers.add( treatmentNumberTemp );
+                }
+                final CharSequence[] bodyPartArray = (CharSequence[]) bodyParts.toArray();
+                final Integer[] treatmentNumberArray = (Integer[]) bodyParts.toArray();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle( "Which body part are we treating right now?" );
+                builder.setItems(bodyPartArray, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        proceed( bodyPartArray[ item ], treatmentNumberArray[ item ] );
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            } else if( 1 == eventCursor.getCount() ) {
+                eventCursor.moveToNext();
+                CharSequence bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
+                try { //try to get the treatment number (doesn't exist for maint)
+                    desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
+                    treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
+                } catch( NumberFormatException nfe ) { //this exception means maintenance, set to -1
+                    treatmentNumberTemp = -1;
+                }
+                proceed( bodyPart, new Integer( treatmentNumberTemp ) );
+            } else {
+                Log.d( "Venus", "No treatments scheduled today" );
+                return;
+            }
         } catch( CursorIndexOutOfBoundsException cioobe ) {
-            Log.d( "Venus", "No treatments scheduled today" );
-            return;
+            Log.d( "Venus", cioobe.getMessage() );
+            //error happened...
         }
+    }
 
-        int treatmentNumberTemp = -1;
-        try {
-            treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ) );
-        } catch( NumberFormatException nfe ) {
-            //maintenance phase, do nothing
-        }
-        final String bodyPartTemp = eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 );
-        if( 12 == treatmentNumberTemp ) {
+    private void proceed( final CharSequence bodyPartTemp, Integer treatmentNumberTemp ) { //only has to deal with one case.
+        if( -1 == treatmentNumberTemp ) {
+            Log.d( "Venus", "No action: in maintenance phase" );
+            return;
+        } else if( 12 == treatmentNumberTemp ) {
             scheduleMaintenance( bodyPartTemp );
             Log.d( "Venus", "Forcing maintenance reminders" );
         } else if( 6 <= treatmentNumberTemp ) {
@@ -63,13 +103,13 @@ public class StartActivity extends Activity {
             AlertDialog alert = builder.create();
             alert.show();
         } else {
-            Log.d( "Venus", "No action: in maintenance or startup phases" );
+            Log.d( "Venus", "No action: in startup phase" );
         }
+
     }
 
-    private void scheduleMaintenance( String desc ) {
-        String bodyPart = getBodyPartString( desc );
-        int treatmentDuration = getTreatmentLength( desc );
+    private void scheduleMaintenance( CharSequence bodyPart ) {
+        int treatmentDuration = getTreatmentLength( (String) bodyPart );
         Calendar _calendar = Calendar.getInstance();
         final Context ctx = this;
         for( int i = 0; i < 6; i++ ) {
@@ -90,14 +130,13 @@ public class StartActivity extends Activity {
                         Toast.LENGTH_LONG ).show();
     }
 
-    private void scheduleOneStartUp( String bodyPart, int treatmentNumber ) {
-        bodyPart = getBodyPartString( bodyPart );
-        int treatmentDuration = getTreatmentLength( bodyPart );
+    private void scheduleOneStartUp( CharSequence bodyPart, int treatmentNumber ) {
+        int treatmentDuration = getTreatmentLength( (String) bodyPart );
         Calendar _calendar = Calendar.getInstance();
         final Context ctx = this;
         _calendar.add( Calendar.WEEK_OF_YEAR, 2 );
         final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
-                                   "This is treatment number ",
+                                   "This is treatment number " + ( treatmentNumber + 1 ),
                                    _calendar.getTimeInMillis(),
                                    _calendar.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
 
@@ -107,7 +146,7 @@ public class StartActivity extends Activity {
             }
         } ).start();
         Toast.makeText( this,
-                        "Reminder for " + bodyPart + " treatment number " + ( treatmentNumber + 1 ) + " have been set.",
+                        "Reminder for " + bodyPart + " treatment number " + ( treatmentNumber + 1 ) + " has been set.",
                         Toast.LENGTH_LONG ).show();
 
     }
@@ -127,15 +166,53 @@ public class StartActivity extends Activity {
 
     private int getTreatmentLength( String bodyPart ) {
         VenusDb vdb = new VenusDb( this );
+        int treatmentLength = -1;
         if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( "Un" ) ) {
-            return vdb.getUnderarmBikiniTreatmentLength( this );
+            treatmentLength = vdb.getUnderarmBikiniTreatmentLength( this );
         } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( "Bi" ) ) {
-            return vdb.getUnderarmBikiniTreatmentLength( this );
+            treatmentLength = vdb.getUnderarmBikiniTreatmentLength( this );
         } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( "Up" ) ) {
-            return vdb.getUpperLowerLegTreatmentLength( this );
+            treatmentLength = vdb.getUpperLowerLegTreatmentLength( this );
         } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( "Lo" ) ) {
-            return vdb.getUpperLowerLegTreatmentLength( this );
+            treatmentLength = vdb.getUpperLowerLegTreatmentLength( this );
         }
-        return -1;
+        vdb.close();
+        return treatmentLength;
     }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.layout.tabmenu, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.schedulemenu:
+            startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
+            return true;
+        case R.id.treatmentmenu:
+            startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
+            finish();
+            return true;
+        case R.id.howtomenu:
+            startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
+            finish();
+            return true;
+        case R.id.settingmenu:
+            startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
+            finish();
+            return true;
+        case R.id.homemenu:
+            Intent intent =  new Intent( getApplicationContext(), TutorialActivity.class );
+            intent.putExtra("first", false);
+            startActivity(intent);
+            finish();
+            return true;
+
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
