@@ -365,27 +365,10 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             break;
         case R.id.phaseProceed:
             if( 0 == Integer.parseInt( startupNumber ) && isStartup ) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Set up recurring?")
-                       .setCancelable(false)
-                       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                           public void onClick(DialogInterface dialog, int id) {
-                               isFirstTreatment = true;
-                               checkStartupMaintenenceAndProceed();
-                           }
-                       })
-                       .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                           public void onClick(DialogInterface dialog, int id) {
-                               isFirstTreatment = false;
-                               checkStartupMaintenenceAndProceed();
-                           }
-                       });
-                AlertDialog alert = builder.create();
-                alert.show();
-            } else if( isStartup ) {
-                showDialog( DATE_DIALOG_ID );
-            } else {
+                isFirstTreatment = true;
                 checkStartupMaintenenceAndProceed();
+            } else {
+                showDialog( DATE_DIALOG_ID );
             }
             break;
         }
