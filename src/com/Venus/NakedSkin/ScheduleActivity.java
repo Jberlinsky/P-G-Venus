@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +31,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     private String startupNumber;
     private int treatmentDuration = -1;
     private boolean isFirstTreatment;
+    private boolean wholebodySelected = false;
     private Calendar _calendar;
 
     private static final int DATE_DIALOG_ID = 101;
@@ -38,6 +40,8 @@ public class ScheduleActivity extends Activity implements OnClickListener{
     SelectionButton ua;
     SelectionButton ul;
     SelectionButton ll;
+    
+    Button wb;
 
     VenusDb vdb;
 
@@ -98,6 +102,8 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         ul.setOnClickListener(this);
         ll = (SelectionButton)findViewById(R.id.lowerleg);
         ll.setOnClickListener(this);
+        wb = (Button)findViewById(R.id.wholebutton);
+        wb.setOnClickListener(this);
 
         findViewById(R.id.scheduleProceed).setOnClickListener(this);
     }
@@ -323,6 +329,22 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             }
             this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
             break;
+        case R.id.wholebutton:
+        	if (wholebodySelected) {
+        		ll.setUnselected();
+                ba.setUnselected();
+                ua.setUnselected();
+                ul.setUnselected();
+                wholebodySelected = false;
+        	} else {
+                ll.setSelectedCustom();
+                ba.setSelectedCustom();
+                ua.setSelectedCustom();
+                ul.setSelectedCustom();
+                wholebodySelected = true;
+        	}
+            this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
+            break; 
         case R.id.startupButton:
             isStartup = true;
             //Visual//
@@ -388,7 +410,8 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                                                                                     int year,
                                                                                     int monthOfYear,
                                                                                     int dayOfMonth ) {
-                                                                 _calendar.set( year, monthOfYear, dayOfMonth );
+                                                            	 
+                                                            	 _calendar.set(year, monthOfYear, dayOfMonth);
                                                              }
                                                          },
                                                          _calendar.get( Calendar.YEAR ),
@@ -396,6 +419,8 @@ public class ScheduleActivity extends Activity implements OnClickListener{
                                                          _calendar.get( Calendar.DATE ) ) {
                 public void onClick( DialogInterface d, int which ) {
                     if( -1 == which ) {
+                    	String x =  String.valueOf(_calendar.get(Calendar.YEAR)) + " " + String.valueOf(_calendar.get(Calendar.MONTH)) + " " + String.valueOf(_calendar.get(Calendar.DAY_OF_MONTH)); 
+                        Log.d("onClick Calendar",x);
                         checkStartupMaintenenceAndProceed();
                     }
                 }
@@ -413,19 +438,23 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         String bodyPart = null;
         int modifier;
         final Context ctx = this;
-
-        if( ba.isSelected ) {
-            bodyPart = getString( R.string.bikini_area );
-        } else if( ua.isSelected ) {
-            bodyPart = getString( R.string.underarm );
-        } else if( ul.isSelected ) {
-            bodyPart = getString( R.string.upper_leg );
-        } else if( ll.isSelected ) {
-            bodyPart = getString( R.string.lower_leg );
+        if (wholebodySelected) {
+        	bodyPart = "Whole Body";
         } else {
-            bodyPart = "Other";
+	        if( ba.isSelected ) {
+	            bodyPart = getString( R.string.bikini_area );
+	        } else if( ua.isSelected ) {
+	            bodyPart = getString( R.string.underarm );
+	        } else if( ul.isSelected ) {
+	            bodyPart = getString( R.string.upper_leg );
+	        } else if( ll.isSelected ) {
+	            bodyPart = getString( R.string.lower_leg );
+	        } else {
+	            bodyPart = "Other";
+	        }
         }
-
+        String x =  String.valueOf(_calendar.get(Calendar.YEAR)) + " " + String.valueOf(_calendar.get(Calendar.MONTH)) + " " + String.valueOf(_calendar.get(Calendar.DAY_OF_MONTH)); 
+        Log.d("setupEvent Calendar",x);
         int i = ( isFirstTreatment || !isStartup ) ? 0 : Integer.parseInt( startupNumber ) > 5 ? 5 : Integer.parseInt( startupNumber );
         for( ; i < 6; i++ ) {
             String desc = null;
@@ -451,7 +480,7 @@ public class ScheduleActivity extends Activity implements OnClickListener{
         }
 
         String toastText = "";
-        if( isStartup && isFirstTreatment ) {
+        if ( isStartup && isFirstTreatment ) {
             toastText = "Reminders for your first six "+ bodyPart + " treatments have been automatically set.";
         } else if( isStartup ) {
             toastText = "Reminder for " + bodyPart + " treatment number " + startupNumber + " have been set.";

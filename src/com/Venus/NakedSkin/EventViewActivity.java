@@ -35,18 +35,23 @@ public class EventViewActivity extends Activity{
             desc.setText(des);
             ;
             //img.setImageResource(R.drawable.bikiniarea);
-
-            if (tit.contains("Underarm")){
-                findViewById(R.id.underarmevent).setBackgroundColor(Color.parseColor("#500099cb"));
+            if (tit.contains("Whole")){
+            	findViewById(R.id.underarmevent).setBackgroundColor(Color.parseColor("#500099cb"));
+            	findViewById(R.id.upperevent).setBackgroundColor(Color.parseColor("#500099cb"));
+            	findViewById(R.id.lowerevent).setBackgroundColor(Color.parseColor("#500099cb"));
+            	findViewById(R.id.bikinievent).setBackgroundColor(Color.parseColor("#500099cb"));
+            } else {
+	            if (tit.contains("Underarm")){
+	                findViewById(R.id.underarmevent).setBackgroundColor(Color.parseColor("#500099cb"));
+	            }
+	            if (tit.contains("Upper Leg")){
+	                findViewById(R.id.upperevent).setBackgroundColor(Color.parseColor("#500099cb"));
+	            }
+	            if (tit.contains("Lower Leg"))
+	                findViewById(R.id.lowerevent).setBackgroundColor(Color.parseColor("#500099cb"));
+	            if (tit.contains("Bikini"))
+	                findViewById(R.id.bikinievent).setBackgroundColor(Color.parseColor("#500099cb"));
             }
-            if (tit.contains("Upper Leg")){
-                findViewById(R.id.upperevent).setBackgroundColor(Color.parseColor("#500099cb"));
-            }
-            if (tit.contains("Lower Leg"))
-                findViewById(R.id.lowerevent).setBackgroundColor(Color.parseColor("#500099cb"));
-            if (tit.contains("Bikini"))
-                findViewById(R.id.bikinievent).setBackgroundColor(Color.parseColor("#500099cb"));
-
             findViewById(R.id.treatmentBack).setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );

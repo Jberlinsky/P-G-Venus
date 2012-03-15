@@ -97,6 +97,7 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
             }
             else if(ed.size() > 0){
                 String title = "";
+                boolean checkforWhole = false;
                 for (int i = 0;i < ed.size();i++){
                     if (this.events.get(ed.get(i)).title.contains("Bikini"))
                         title += "Bikini Area, ";
@@ -106,8 +107,13 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
                         title += "Lower Leg, ";
                     if (this.events.get(ed.get(i)).title.contains("Upper"))
                         title += "Upper Leg, ";
+                    if (this.events.get(ed.get(i)).title.contains("Whole"))
+                    	checkforWhole = true;
                 }
-                title += "Reminders";
+                if (checkforWhole)
+                	title = "Whole Body Reminder";
+                else
+                	title += "Reminders";
                 String desc = "Mutliple reminders";
 
                 Intent eventInt = new Intent(this, EventViewActivity.class);

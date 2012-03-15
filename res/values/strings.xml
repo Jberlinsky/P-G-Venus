@@ -55,4 +55,5 @@
     <string name="set_bikiniunderarm">Set bikini area/underarm treatment period</string>
     <string name="set_upperlowerleg">Set upper/lower leg treatment period</string>
     <string name="choose">Choose Duration :</string>
+    <string name="wholebody">Whole Body</string>
 </resources>
