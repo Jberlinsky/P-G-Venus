@@ -450,8 +450,6 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             } ).start();
         }
 
-        setScheduleContent();
-
         String toastText = "";
         if( isStartup && isFirstTreatment ) {
             toastText = "Reminders for your first six "+ bodyPart + " treatments have been automatically set.";
@@ -461,6 +459,8 @@ public class ScheduleActivity extends Activity implements OnClickListener{
             toastText = "Maintenance reminders for " + bodyPart + " has been set.";
         }
         Toast.makeText( this, toastText, Toast.LENGTH_LONG ).show();
+
+        setScheduleContent();
     }
 
 
