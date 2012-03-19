@@ -8,9 +8,6 @@ public class Constants {
 
     public final static int SPLASH_TIMEOUT = 1000; //1 second
 
-
-
-
     //Tutorial copy
     public final static String TUTORIAL_POSITIVE = "Okay";
     public final static String TUTORIAL_NEGATIVE = "Go back";
@@ -67,5 +64,11 @@ public class Constants {
 
     //ScheduleActivity copy
     public final static String DATE_PICK_DIALOG = "Please select the date of your most recent treatment.";
+    public final static String TIME_PICK_DIALOG = "Please set the time for your reminder.";
+    public final static String MAINTENANCE = "Maintenance";
+
+
+    //Intent extras for TutorialActivity
+    public final static String TUTORIAL_INTENT_EXTRA_FIRSTRUN = "first";
 
 }

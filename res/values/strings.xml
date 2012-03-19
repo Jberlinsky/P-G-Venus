@@ -13,7 +13,6 @@
     <string name="right_lower_leg">Right Lower Leg</string>
     <string name="proceed">Proceed</string>
     <string-array name="sessions_array">
-        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -56,4 +55,6 @@
     <string name="set_upperlowerleg">Set upper/lower leg treatment period</string>
     <string name="choose">Choose Duration :</string>
     <string name="wholebody">Whole Body</string>
+    <string name="tutorial_negative">Go Back</string>
+    <string name="tutorial_positive">Okay</string>
 </resources>
