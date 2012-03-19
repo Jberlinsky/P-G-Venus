@@ -19,10 +19,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class StartActivity extends Activity {
-    /**
-     * @see android.app.Activity#onCreate(Bundle)
-     */
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -33,8 +30,10 @@ public class StartActivity extends Activity {
             if( 1 < eventCursor.getCount() ) { //more than one event today.
                 ArrayList<CharSequence> bodyParts = new ArrayList<CharSequence>(); //store body parts here, show these to user
                 ArrayList<Integer> treatmentNumbers = new ArrayList<Integer>(); //store (potential) treatment numbers here, keep internal
+                ArrayList<Long> startTimes = new ArrayList<Long>(); //store (potential) start times here, keep internal
                 while( eventCursor.moveToNext() ) {
                     bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
+                    startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
                     try { //try to get the treatment number (doesn't exist for maint)
                         desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
                         treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
@@ -45,11 +44,12 @@ public class StartActivity extends Activity {
                 }
                 final CharSequence[] bodyPartArray = bodyParts.toArray( new CharSequence[ bodyParts.size() ] );
                 final Integer[] treatmentNumberArray = treatmentNumbers.toArray( new Integer[ treatmentNumbers.size() ] );
+                final Long[] startTimeArray = startTimes.toArray( new Long[ startTimes.size() ] );
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle( "Which body part are we treating right now?" );
                 builder.setItems(bodyPartArray, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        proceed( bodyPartArray[ item ], treatmentNumberArray[ item ] );
+                        proceed( bodyPartArray[ item ], treatmentNumberArray[ item ], startTimeArray[ item ] );
                     }
                 });
                 AlertDialog alert = builder.create();
@@ -57,13 +57,14 @@ public class StartActivity extends Activity {
             } else if( 1 == eventCursor.getCount() ) {
                 eventCursor.moveToNext();
                 CharSequence bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
+                Long startTime = eventCursor.getLong( Constants.EVENT_START_INDEX );
                 try { //try to get the treatment number (doesn't exist for maint)
                     desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
                     treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
                 } catch( NumberFormatException nfe ) { //this exception means maintenance, set to -1
                     treatmentNumberTemp = -1;
                 }
-                proceed( bodyPart, new Integer( treatmentNumberTemp ) );
+                proceed( bodyPart, new Integer( treatmentNumberTemp ), new Long( startTime ) );
             } else {
                 Log.d( "Venus", Integer.toString( eventCursor.getCount() ) );
                 Log.d( "Venus", "No treatments scheduled today" );
@@ -75,12 +76,12 @@ public class StartActivity extends Activity {
         }
     }
 
-    private void proceed( final CharSequence bodyPartTemp, Integer treatmentNumberTemp ) { //only has to deal with one case.
+    private void proceed( final CharSequence bodyPartTemp, Integer treatmentNumberTemp, final Long startTime ) { //only has to deal with one case.
         if( -1 == treatmentNumberTemp ) {
             Log.d( "Venus", "No action: in maintenance phase" );
             return;
         } else if( 12 == treatmentNumberTemp ) {
-            scheduleMaintenance( bodyPartTemp );
+            scheduleMaintenance( bodyPartTemp, startTime );
             Log.d( "Venus", "Forcing maintenance reminders" );
         } else if( 6 <= treatmentNumberTemp ) {
             final int treatmentNumber = treatmentNumberTemp;
@@ -91,14 +92,14 @@ public class StartActivity extends Activity {
                                        new DialogInterface.OnClickListener() {
                                            public void onClick( DialogInterface dialog, int id ) {
                                                Log.d( "Venus", "User chose maintenance" );
-                                               scheduleMaintenance( bodyPartTemp );
+                                               scheduleMaintenance( bodyPartTemp, startTime );
                                            }
                                        } )
                    .setNegativeButton( "Start Up",
                                        new DialogInterface.OnClickListener() {
                                            public void onClick( DialogInterface dialog, int id ) {
                                                Log.d( "Venus", "User chose startup" );
-                                               scheduleOneStartUp( bodyPartTemp, treatmentNumber );
+                                               scheduleOneStartUp( bodyPartTemp, treatmentNumber, startTime );
                                            }
                                        } );
             AlertDialog alert = builder.create();
@@ -109,9 +110,10 @@ public class StartActivity extends Activity {
 
     }
 
-    private void scheduleMaintenance( CharSequence bodyPart ) {
+    private void scheduleMaintenance( CharSequence bodyPart, Long startTime ) {
         int treatmentDuration = getTreatmentLength( (String) bodyPart );
         Calendar _calendar = Calendar.getInstance();
+        _calendar.setTimeInMillis( startTime );
         final Context ctx = this;
         for( int i = 0; i < 6; i++ ) {
             _calendar.add( Calendar.MONTH, 2 );
@@ -131,9 +133,10 @@ public class StartActivity extends Activity {
                         Toast.LENGTH_LONG ).show();
     }
 
-    private void scheduleOneStartUp( CharSequence bodyPart, int treatmentNumber ) {
+    private void scheduleOneStartUp( CharSequence bodyPart, int treatmentNumber, Long startTime ) {
         int treatmentDuration = getTreatmentLength( (String) bodyPart );
         Calendar _calendar = Calendar.getInstance();
+        _calendar.setTimeInMillis( startTime );
         final Context ctx = this;
         _calendar.add( Calendar.WEEK_OF_YEAR, 2 );
         final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
