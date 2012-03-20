@@ -200,6 +200,7 @@ public class VenusDb {
 
       editor.putInt("underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
       editor.putInt("upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
+      editor.putInt("wholeBodyTreatmentLength", Constants.TWO_HOURS);
     }
 
     public void setBooleanPreference(Context ctx, String key, boolean value)
