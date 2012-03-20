@@ -57,4 +57,6 @@
     <string name="wholebody">Whole Body</string>
     <string name="tutorial_negative">Go Back</string>
     <string name="tutorial_positive">Okay</string>
+    <string name="todaysevents">Today\'s Treatments</string>
+    <string name="treatmentcontentimage">Treatmente Image</string>
 </resources>

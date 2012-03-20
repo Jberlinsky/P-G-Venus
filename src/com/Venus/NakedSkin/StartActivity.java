@@ -6,9 +6,11 @@ import java.util.Calendar;
 import Utility.Event;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
@@ -16,13 +18,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-public class StartActivity extends Activity {
+public class StartActivity extends ListActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.music);
         Cursor eventCursor = Utilities.queryTodaysEvents( this );
         try { //calls proceed() with either only 1 choice, or after dialog
             String desc = null;
@@ -31,8 +34,10 @@ public class StartActivity extends Activity {
                 ArrayList<CharSequence> bodyParts = new ArrayList<CharSequence>(); //store body parts here, show these to user
                 ArrayList<Integer> treatmentNumbers = new ArrayList<Integer>(); //store (potential) treatment numbers here, keep internal
                 ArrayList<Long> startTimes = new ArrayList<Long>(); //store (potential) start times here, keep internal
+                ArrayList<String> bodyPartString = new ArrayList<String>();
                 while( eventCursor.moveToNext() ) {
                     bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
+                    bodyPartString.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
                     startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
                     try { //try to get the treatment number (doesn't exist for maint)
                         desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
@@ -42,6 +47,10 @@ public class StartActivity extends Activity {
                     }
                     treatmentNumbers.add( treatmentNumberTemp );
                 }
+                //for view;
+                
+                EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
+                setListAdapter(adapter);
                 final CharSequence[] bodyPartArray = bodyParts.toArray( new CharSequence[ bodyParts.size() ] );
                 final Integer[] treatmentNumberArray = treatmentNumbers.toArray( new Integer[ treatmentNumbers.size() ] );
                 final Long[] startTimeArray = startTimes.toArray( new Long[ startTimes.size() ] );
@@ -56,8 +65,15 @@ public class StartActivity extends Activity {
                 alert.show();
             } else if( 1 == eventCursor.getCount() ) {
                 eventCursor.moveToNext();
-                CharSequence bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
+                ArrayList<String> bodyPartString = new ArrayList<String>();
+                
+                String bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
+                bodyPartString.add(bodyPart);
                 Long startTime = eventCursor.getLong( Constants.EVENT_START_INDEX );
+                ArrayList<Long> startTimes = new ArrayList<Long>();
+                startTimes.add(startTime);
+                EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
+                setListAdapter(adapter);
                 try { //try to get the treatment number (doesn't exist for maint)
                     desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
                     treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
@@ -109,7 +125,12 @@ public class StartActivity extends Activity {
         }
 
     }
-
+    
+    public void onBackPressed(){
+        //This is to prevent user from accidently exiting the app
+        //pressing Home will exit the app
+    }
+    
     private void scheduleMaintenance( CharSequence bodyPart, Long startTime ) {
         int treatmentDuration = getTreatmentLength( (String) bodyPart );
         Calendar _calendar = Calendar.getInstance();
