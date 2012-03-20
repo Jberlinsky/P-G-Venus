@@ -112,7 +112,7 @@
             android:layout_gravity="center"/>
         <TextView
             android:layout_column="1"
-            android:text="@string/proceed"
+            android:text="@string/view"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
     </TableRow>

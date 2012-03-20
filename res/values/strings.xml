@@ -12,7 +12,10 @@
     <string name="left_lower_leg">Left Lower Leg</string>
     <string name="right_lower_leg">Right Lower Leg</string>
     <string name="proceed">Proceed</string>
+    <string name="view">View</string>
+    
     <string-array name="sessions_array">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>

@@ -24,7 +24,6 @@
             android:layout_weight="0.09"
             android:background="#00FFFFFF"
             android:textColor="#ffffff"
-            android:textSize="25dp"
             android:text="@string/wholebody" />
 
         <view class="com.Venus.NakedSkin.SelectionButton"

@@ -78,81 +78,15 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         if (cell.thismonth) {
             int day = cell.getDayOfMonth();
             ArrayList<Integer> ed = mView.eventDay(day);
+            Intent eventInt = new Intent(this, EventViewActivity.class);
+            eventInt.putExtra("year", this.events.get(ed.get(0)).year);
+            eventInt.putExtra("month", this.events.get(ed.get(0)).month);
+            eventInt.putExtra("day", this.events.get(ed.get(0)).day);
 
-            if (ed.size() == 1){
-                String title = this.events.get(ed.get(0)).title;
-                 String desc = this.events.get(ed.get(0)).description;
-
-                 Intent eventInt = new Intent(this, EventViewActivity.class);
-                 eventInt.putExtra("title", title);
-                 eventInt.putExtra("desc", desc);
-                 eventInt.putExtra("year", this.events.get(ed.get(0)).year);
-                 eventInt.putExtra("month", this.events.get(ed.get(0)).month);
-                 eventInt.putExtra("day", this.events.get(ed.get(0)).day);
-                 eventInt.putExtra("hour", this.events.get(ed.get(0)).hour);
-                 eventInt.putExtra("min", this.events.get(ed.get(0)).minute);
-                 eventInt.putExtra("ampm", this.events.get(ed.get(0)).AMPM);
-                 startActivity(eventInt);
-                 finish();
-            }
-            else if(ed.size() > 0){
-                String title = "";
-                boolean checkforWhole = false;
-                for (int i = 0;i < ed.size();i++){
-                    if (this.events.get(ed.get(i)).title.contains("Bikini"))
-                        title += "Bikini Area, ";
-                    if (this.events.get(ed.get(i)).title.contains("Underarm"))
-                        title += "Underarm, ";
-                    if (this.events.get(ed.get(i)).title.contains("Lower"))
-                        title += "Lower Leg, ";
-                    if (this.events.get(ed.get(i)).title.contains("Upper"))
-                        title += "Upper Leg, ";
-                    if (this.events.get(ed.get(i)).title.contains("Whole"))
-                    	checkforWhole = true;
-                }
-                if (checkforWhole)
-                	title = "Whole Body Reminder";
-                else
-                	title += "Reminders";
-                String desc = "Mutliple reminders";
-
-                Intent eventInt = new Intent(this, EventViewActivity.class);
-                eventInt.putExtra("title", title);
-                eventInt.putExtra("desc", desc);
-                eventInt.putExtra("year", this.events.get(ed.get(0)).year);
-                eventInt.putExtra("month", this.events.get(ed.get(0)).month);
-                eventInt.putExtra("day", this.events.get(ed.get(0)).day);
-                eventInt.putExtra("hour", this.events.get(ed.get(0)).hour);
-                eventInt.putExtra("min", this.events.get(ed.get(0)).minute);
-                eventInt.putExtra("ampm", this.events.get(ed.get(0)).AMPM);
-                startActivity(eventInt);
-                finish();
-            }
+            startActivity(eventInt);
+          
         }
-//        if(action.equals(Intent.ACTION_PICK) || action.equals(Intent.ACTION_GET_CONTENT)) {
-//            Intent ret = new Intent();
-//            ret.putExtra("year", mView.getYear());
-//            ret.putExtra("month", mView.getMonth());
-//            ret.putExtra("day", cell.getDayOfMonth());
-//            this.setResult(RESULT_OK, ret);
-//            finish();
-//            return;
-//        }
-        /*
-        int day = cell.getDayOfMonth();
-        if(mView.firstDay(day))
-            mView.previousMonth();
-        else if(mView.lastDay(day))
-            mView.nextMonth();
-        else
-            return;
 
-        mHandler.post(new Runnable() {
-            public void run() {
-                Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        */
     }
         public void returnCalendar(){
             setContentView(R.layout.calendar);
@@ -287,5 +221,7 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         eventCursor.close();
         return events;
     }
+    
+    
 
 }

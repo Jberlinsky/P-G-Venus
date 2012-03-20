@@ -47,6 +47,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
 
     private static final int DATE_DIALOG_ID = 101;
     private static final int TIME_DIALOG_ID = 102;
+    private static final int FIRST_DIALOG_ID = 103;
 
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -384,9 +385,9 @@ public class ScheduleActivity extends Activity implements OnClickListener {
             setScheduleContent();
             break;
         case R.id.phaseProceed:
-            if( 1 == Integer.parseInt( startupNumber ) && isStartup ) {
+        	if( 0 == Integer.parseInt( startupNumber ) && isStartup ) {
                 isFirstTreatment = true;
-                showDialog( TIME_DIALOG_ID );
+                showDialog( FIRST_DIALOG_ID );
             } else {
                 showDialog( DATE_DIALOG_ID );
             }
@@ -397,6 +398,21 @@ public class ScheduleActivity extends Activity implements OnClickListener {
     @Override
     protected Dialog onCreateDialog( int id ) {
         switch( id ) {
+        case FIRST_DIALOG_ID:
+            DatePickerDialog fpd = new DatePickerDialog( this,
+                                                         new OnDateSetListener() {
+                                                             public void onDateSet( DatePicker view,
+                                                                                    int year,
+                                                                                    int monthOfYear,
+                                                                                    int dayOfMonth ) {
+                                                                 _calendar.set( year, monthOfYear, dayOfMonth );
+                                                                 showDialog( TIME_DIALOG_ID );
+                                                             } },
+                                                         _calendar.get( Calendar.YEAR ),
+                                                         _calendar.get( Calendar.MONTH ),
+                                                         _calendar.get( Calendar.DATE ) );
+            fpd.setTitle( Constants.FIRST_PICK_DIALOG );
+            return fpd;
         case DATE_DIALOG_ID:
             DatePickerDialog dpd = new DatePickerDialog( this,
                                                          new OnDateSetListener() {
@@ -454,8 +470,18 @@ public class ScheduleActivity extends Activity implements OnClickListener {
             }
         }
         int i = ( isFirstTreatment || !isStartup ) ? 0 : Integer.parseInt( startupNumber ) > 5 ? 5 : Integer.parseInt( startupNumber );
+        String desc = null;
+        if( isStartup ) {
+            desc = "This is treatment number " + ( i + 1 );
+            modifier = Calendar.WEEK_OF_YEAR;
+        } else {
+            desc = "Maintenance phase";
+            modifier = Calendar.MONTH;
+        }
+        if (i > 0)
+        	_calendar.add( modifier, 2 );
         for( ; i < 6; i++ ) {
-            String desc = null;
+            desc = null;
             if( isStartup ) {
                 desc = "This is treatment number " + ( i + 1 );
                 modifier = Calendar.WEEK_OF_YEAR;
@@ -463,13 +489,12 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                 desc = "Maintenance phase";
                 modifier = Calendar.MONTH;
             }
-            _calendar.add( modifier, 2 );
-
+            
             final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
                                        desc,
                                        _calendar.getTimeInMillis(),
                                        _calendar.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
-
+            _calendar.add( modifier, 2 );
             new Thread( new Runnable() {
                 public void run() {
                     Utilities.addToCalendar( ctx, e );

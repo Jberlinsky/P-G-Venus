@@ -1,145 +1,111 @@
 package com.Venus.NakedSkin;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-public class EventViewActivity extends Activity{
+public class EventViewActivity extends ListActivity{
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.treatment);
-
-            String tit = this.getIntent().getStringExtra("title");
-            String des = this.getIntent().getStringExtra("desc");
+            
             int month = this.getIntent().getIntExtra("month",-1);
             int day = this.getIntent().getIntExtra("day",-1);
-            int hour = this.getIntent().getIntExtra("hour",-1);
-            int minute = this.getIntent().getIntExtra("min",-1);
-            int ampm = this.getIntent().getIntExtra("ampm",-1);
             int year = this.getIntent().getIntExtra("year",-1);
-
-
-            TextView title = (TextView) findViewById(R.id.treatmenttitle);
-            TextView desc = (TextView) findViewById(R.id.treatmentdescription);
-            TextView date = (TextView) findViewById(R.id.treatmentdate);
-
-            date.setText(this.setDate(month, day)+ year + ", " + this.setTime(hour, minute, ampm));
-            title.setText(tit);
-            desc.setText(des);
-            ;
-            //img.setImageResource(R.drawable.bikiniarea);
-            if (tit.contains("Whole")){
-            	findViewById(R.id.underarmevent).setBackgroundColor(Color.parseColor("#500099cb"));
-            	findViewById(R.id.upperevent).setBackgroundColor(Color.parseColor("#500099cb"));
-            	findViewById(R.id.lowerevent).setBackgroundColor(Color.parseColor("#500099cb"));
-            	findViewById(R.id.bikinievent).setBackgroundColor(Color.parseColor("#500099cb"));
-            } else {
-	            if (tit.contains("Underarm")){
-	                findViewById(R.id.underarmevent).setBackgroundColor(Color.parseColor("#500099cb"));
-	            }
-	            if (tit.contains("Upper Leg")){
-	                findViewById(R.id.upperevent).setBackgroundColor(Color.parseColor("#500099cb"));
-	            }
-	            if (tit.contains("Lower Leg"))
-	                findViewById(R.id.lowerevent).setBackgroundColor(Color.parseColor("#500099cb"));
-	            if (tit.contains("Bikini"))
-	                findViewById(R.id.bikinievent).setBackgroundColor(Color.parseColor("#500099cb"));
-            }
-            findViewById(R.id.treatmentBack).setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
-                    finish();
+            
+            TextView eventTitle = (TextView) findViewById(R.id.eventcalendartitle);
+            
+            Calendar cal = Calendar.getInstance();
+            cal.clear();
+            cal.set( year, month, day );
+            Date date = cal.getTime();
+            eventTitle.setText(date.toString());
+            Cursor eventCursor = Utilities.queryDayEvents( this, cal);
+            try { //calls proceed() with either only 1 choice, or after dialog
+                String desc = null;
+                int treatmentNumberTemp;
+                if( 1 < eventCursor.getCount() ) { //more than one event today.
+                    ArrayList<CharSequence> bodyParts = new ArrayList<CharSequence>(); //store body parts here, show these to user
+                    ArrayList<Integer> treatmentNumbers = new ArrayList<Integer>(); //store (potential) treatment numbers here, keep internal
+                    ArrayList<Long> startTimes = new ArrayList<Long>(); //store (potential) start times here, keep internal
+                    ArrayList<String> bodyPartString = new ArrayList<String>();
+                    while( eventCursor.moveToNext() ) {
+                        bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
+                        bodyPartString.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
+                        startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
+                        try { //try to get the treatment number (doesn't exist for maint)
+                            desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
+                            treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
+                        } catch( NumberFormatException nfe ) { //this exception means maintenance, set to -1
+                            treatmentNumberTemp = -1;
+                        }
+                        treatmentNumbers.add( treatmentNumberTemp );
+                    }
+                    //for view;
+                    
+                    EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
+                    setListAdapter(adapter);
+           
+                } else if( 1 == eventCursor.getCount() ) {
+                    eventCursor.moveToNext();
+                    ArrayList<String> bodyPartString = new ArrayList<String>();
+                    
+                    String bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
+                    bodyPartString.add(bodyPart);
+                    Long startTime = eventCursor.getLong( Constants.EVENT_START_INDEX );
+                    ArrayList<Long> startTimes = new ArrayList<Long>();
+                    startTimes.add(startTime);
+                    EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
+                    setListAdapter(adapter);
+                   
+                   
+                } else {
+                    Log.d( "Venus", Integer.toString( eventCursor.getCount() ) );
+                    Log.d( "Venus", "No treatments scheduled today" );
+                    return;
                 }
-             });
+            } catch( CursorIndexOutOfBoundsException cioobe ) {
+                Log.d( "Venus", cioobe.getMessage() );
+                //error happened...
+            }
+            
+            
+            
+            
         }
 
-        private String setTime(int hour, int min, int ampm) {
-            String timeText = "";
-            if (hour > 12)
-                hour = hour - 12;
-            timeText = timeText + String.valueOf(hour) + ":";
-            String minn = String.valueOf(min);
-            if (minn.length() == 1)
-                timeText = timeText + "0" + minn + " ";
-            else
-                timeText = timeText + minn + " ";
-            if (ampm == Calendar.AM)
-                timeText = timeText + "AM";
-            else
-                timeText = timeText + "PM";
-            return timeText;
+        public void onBackPressed(){
+        	finish();
         }
-
-        private String setDate(int mon, int day) {
-            String date = "";
-            String sday = String.valueOf(day);
-            if (mon == 11)
-            {
-                date = date + "December " + sday;
+        
+        private String getBodyPartString( String subString ) {
+            if( subString.substring( 0, 2 ).equalsIgnoreCase( "Un" ) ) {
+                return "Underarm";
+            } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Bi" ) ) {
+                return "Bikini Area";
+            } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Up" ) ) {
+                return "Upper Leg";
+            } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Lo" ) ) {
+                return "Lower Leg";
+            } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Wh" ) ) {
+                return "Whole Body";
+            } else {
+                return "Other";
             }
-            else if (mon == 10)
-            {
-
-                date = date + "November " + sday;
-            }
-            else if (mon == 9)
-            {
-
-                date = date + "October " + sday;
-            }
-            else if (mon == 8)
-            {
-
-                date = date + "September " + sday;
-            }
-            else if (mon == 7)
-            {
-
-                date = date + "August " + sday;
-            }
-            else if (mon == 6)
-            {
-
-                date = date + "July " + sday;
-            }
-            else if (mon == 5)
-            {
-
-                date = date + "June " + sday;
-            }
-            else if (mon == 4)
-            {
-
-                date = date + "May " + sday;
-            }
-            else if (mon == 3)
-            {
-
-                date = date + "April " + sday;
-            }
-            else if (mon == 2)
-            {
-
-                date = date + "March " + sday;
-            }
-            else if (mon == 1)
-            {
-
-                date = date + "February " + sday;
-            }
-            else if (mon == 0)
-            {
-
-                date = date + "January " + sday;
-            }
-            date = date + " ";
-            return date;
         }
 }
