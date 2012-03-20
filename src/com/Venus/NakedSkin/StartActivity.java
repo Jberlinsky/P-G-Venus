@@ -185,6 +185,8 @@ public class StartActivity extends ListActivity {
             return "Upper Leg";
         } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Lo" ) ) {
             return "Lower Leg";
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Wh" ) ) {
+            return "Whole Body";
         }
         return null;
     }

@@ -35,7 +35,9 @@ public class EventArrayAdapter extends ArrayAdapter<String> {
 		textView.setText(values.get(position));
 		// Change the icon for Windows and iPhone
 		String s = values.get(position);
-		if (s.contains("Under")) {
+		if (s.contains("Whole")) {
+			imageView.setImageResource(R.drawable.backgroundbody);
+		}else if (s.contains("Under")) {
 			imageView.setImageResource(R.drawable.underarm);
 		} else if (s.contains("Lower")) {
 			imageView.setImageResource(R.drawable.lowerleg);
