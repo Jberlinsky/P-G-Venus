@@ -338,7 +338,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                     ul.setSelectedCustom();
                     wholebodySelected = true;
                 }
-                this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
+                this.prepopulateMinutes(vdb.getWholeBodyTreatmentLength(getApplicationContext()));
                 break;
             case R.id.startupButton:
                 isStartup = true;

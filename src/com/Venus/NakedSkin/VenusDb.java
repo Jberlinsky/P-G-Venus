@@ -238,6 +238,12 @@ public class VenusDb {
     {
       return this.getIntegerPreference(ctx, "underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
     }
+
+    public int getWholeBodyTreatmentLength(Context ctx)
+    {
+        return this.getIntegerPreference(ctx, "wholeBodyTreatmentLength", Constants.TWO_HOURS);
+    }
+
     public int getUpperLowerLegTreatmentLength(Context ctx)
     {
       return this.getIntegerPreference(ctx, "upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);

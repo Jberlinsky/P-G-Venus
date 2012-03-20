@@ -46,6 +46,7 @@ public class Constants {
     public final static int ONE_HOUR = 1000 * 60 * 60;
     public final static int TEN_MINUTES = 1000 * 60 * 10;
     public final static int FOURTY_FIVE_MINUTES = 1000 * 60 * 45;
+    public final static int TWO_HOURS = 1000 * 60 * 60 * 2;
 
     //Enum for alarms
     public final static int MINUTE = 0;
