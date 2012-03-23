@@ -78,13 +78,13 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         if (cell.thismonth) {
             int day = cell.getDayOfMonth();
             ArrayList<Integer> ed = mView.eventDay(day);
-            Intent eventInt = new Intent(this, EventViewActivity.class);
-            eventInt.putExtra("year", this.events.get(ed.get(0)).year);
-            eventInt.putExtra("month", this.events.get(ed.get(0)).month);
-            eventInt.putExtra("day", this.events.get(ed.get(0)).day);
-
-            startActivity(eventInt);
-          
+            if (ed.size() > 0){
+	            Intent eventInt = new Intent(this, EventViewActivity.class);
+	            eventInt.putExtra("year", this.events.get(ed.get(0)).year);
+	            eventInt.putExtra("month", this.events.get(ed.get(0)).month);
+	            eventInt.putExtra("day", this.events.get(ed.get(0)).day);
+	            startActivity(eventInt);
+            }
         }
 
     }
