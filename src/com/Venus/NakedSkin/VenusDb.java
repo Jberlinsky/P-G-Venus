@@ -200,6 +200,7 @@ public class VenusDb {
 
       editor.putInt("underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
       editor.putInt("upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
+      editor.putInt("wholeBodyTreatmentLength", Constants.TWO_HOURS);
     }
 
     public void setBooleanPreference(Context ctx, String key, boolean value)
@@ -238,6 +239,12 @@ public class VenusDb {
     {
       return this.getIntegerPreference(ctx, "underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
     }
+
+    public int getWholeBodyTreatmentLength(Context ctx)
+    {
+        return this.getIntegerPreference(ctx, "wholeBodyTreatmentLength", Constants.TWO_HOURS);
+    }
+
     public int getUpperLowerLegTreatmentLength(Context ctx)
     {
       return this.getIntegerPreference(ctx, "upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);

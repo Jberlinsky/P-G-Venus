@@ -1,65 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.Venus.NakedSkin"
-    android:versionCode="1"
-    android:versionName="1.0" >
-
-    <uses-sdk android:minSdkVersion="7" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-
-
-    <application
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name">
-        <activity
-            android:label="@string/app_name"
-            android:name=".LoadingActivity"
-            android:screenOrientation="portrait">
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest android:versionCode="1" android:versionName="1.0"
+    package="com.Venus.NakedSkin" xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-sdk android:minSdkVersion="7"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <application android:icon="@drawable/ic_launcher" android:label="@string/app_name">
+        <activity android:label="@string/app_name"
+            android:name=".LoadingActivity" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".DiaryActivity" android:label="@string/app_name"
-          android:theme="@android:style/Theme.NoTitleBar"
-          android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".EventViewActivity" android:label="@string/app_name"
-          android:theme="@android:style/Theme.NoTitleBar"
-          android:screenOrientation="portrait">
-        </activity>
-
-        <activity android:name=".ScheduleActivity" android:label="@string/app_name"
-          android:theme="@android:style/Theme.NoTitleBar"
-          android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".TreatmentActivity" android:label="@string/app_name"
-          android:theme="@android:style/Theme.NoTitleBar"
-          android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".HowtoActivity" android:label="@string/app_name"
-          android:theme="@android:style/Theme.NoTitleBar"
-          android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".MusicActivity" android:label="@string/app_name"
-          android:theme="@android:style/Theme.NoTitleBar"
-          android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".TutorialActivity" android:label="@string/app_name"
-          android:theme="@android:style/Theme.NoTitleBar"
-          android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".SettingActivity" android:label="@string/app_name"
-          android:theme="@android:style/Theme.NoTitleBar"
-          android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".VideoPlayer" android:label="@string/app_name"
-          android:theme="@android:style/Theme.NoTitleBar"
-          android:screenOrientation="portrait">
-        </activity>
+        <activity android:label="@string/app_name"
+            android:name=".DiaryActivity"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:label="@string/app_name"
+            android:name=".EventViewActivity"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:label="@string/app_name"
+            android:name=".ScheduleActivity"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:label="@string/app_name"
+            android:name=".TreatmentActivity"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:label="@string/app_name"
+            android:name=".HowtoActivity"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:label="@string/app_name"
+            android:name=".MusicActivity"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:label="@string/app_name"
+            android:name=".TutorialActivity"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:label="@string/app_name"
+            android:name=".SettingActivity"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:label="@string/app_name"
+            android:name=".VideoPlayer"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:name=".StartActivity"/>
     </application>
-
 </manifest>

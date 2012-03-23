@@ -77,48 +77,16 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         //TODO : Change to slide action maybe use gestureoverlay?
         if (cell.thismonth) {
             int day = cell.getDayOfMonth();
-            int inde = mView.eventDay(day);
-            if(inde > -1){
-                String title = this.events.get(inde).title;
-                String desc = this.events.get(inde).description;
+            ArrayList<Integer> ed = mView.eventDay(day);
+            Intent eventInt = new Intent(this, EventViewActivity.class);
+            eventInt.putExtra("year", this.events.get(ed.get(0)).year);
+            eventInt.putExtra("month", this.events.get(ed.get(0)).month);
+            eventInt.putExtra("day", this.events.get(ed.get(0)).day);
 
-                Intent eventInt = new Intent(this, EventViewActivity.class);
-                eventInt.putExtra("title", title);
-                eventInt.putExtra("desc", desc);
-                eventInt.putExtra("year", this.events.get(inde).year);
-                eventInt.putExtra("month", this.events.get(inde).month);
-                eventInt.putExtra("day", this.events.get(inde).day);
-                eventInt.putExtra("hour", this.events.get(inde).hour);
-                eventInt.putExtra("min", this.events.get(inde).minute);
-                eventInt.putExtra("ampm", this.events.get(inde).AMPM);
-                startActivity(eventInt);
-                finish();
-            }
+            startActivity(eventInt);
+          
         }
-//        if(action.equals(Intent.ACTION_PICK) || action.equals(Intent.ACTION_GET_CONTENT)) {
-//            Intent ret = new Intent();
-//            ret.putExtra("year", mView.getYear());
-//            ret.putExtra("month", mView.getMonth());
-//            ret.putExtra("day", cell.getDayOfMonth());
-//            this.setResult(RESULT_OK, ret);
-//            finish();
-//            return;
-//        }
-        /*
-        int day = cell.getDayOfMonth();
-        if(mView.firstDay(day))
-            mView.previousMonth();
-        else if(mView.lastDay(day))
-            mView.nextMonth();
-        else
-            return;
 
-        mHandler.post(new Runnable() {
-            public void run() {
-                Toast.makeText(TreatmentActivity.this, DateUtils.getMonthString(mView.getMonth(), DateUtils.LENGTH_LONG) + " "+mView.getYear(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        */
     }
         public void returnCalendar(){
             setContentView(R.layout.calendar);
@@ -253,5 +221,7 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         eventCursor.close();
         return events;
     }
+    
+    
 
 }

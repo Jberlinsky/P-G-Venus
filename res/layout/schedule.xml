@@ -7,20 +7,24 @@
     android:background="@drawable/vbackground"
     android:paddingRight="3dp"
     android:paddingLeft="3dp">
-   <LinearLayout
-       android:layout_width="fill_parent"
-     android:layout_height="fill_parent"
-       android:background="@drawable/bodyimage022712"
-       android:orientation="vertical"
-       android:weightSum="1">
-
-       <LinearLayout
-           android:id="@+id/linearLayout1"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_weight="0.21"
-           android:orientation="vertical" >
-       </LinearLayout>
+      <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bodyLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bodyimage022712"
+    android:paddingRight="3dp"
+    android:paddingLeft="3dp">    
+           <Button
+            android:id="@+id/wholebutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right|center"
+            android:layout_weight="0.09"
+            android:background="#00FFFFFF"
+            android:textColor="#ffffff"
+            android:text="@string/wholebody" />
 
         <view class="com.Venus.NakedSkin.SelectionButton"
             android:id="@+id/underarm"
@@ -73,7 +77,7 @@
 
         <Button
             android:id="@+id/scheduleProceed"
-            android:layout_width="fill_parent"
+            android:layout_width="120dp"
             android:layout_height="0dp"
             android:layout_weight="0.07"
             android:background="@drawable/buttonbackground"
@@ -82,7 +86,6 @@
             android:text="@string/proceed"
             android:textColor="#FFFFFF"
             android:textSize="15sp" />
-
 
   </LinearLayout>
 

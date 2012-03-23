@@ -12,6 +12,8 @@
     <string name="left_lower_leg">Left Lower Leg</string>
     <string name="right_lower_leg">Right Lower Leg</string>
     <string name="proceed">Proceed</string>
+    <string name="view">View</string>
+    
     <string-array name="sessions_array">
         <item>0</item>
         <item>1</item>
@@ -55,4 +57,9 @@
     <string name="set_bikiniunderarm">Set bikini area/underarm treatment period</string>
     <string name="set_upperlowerleg">Set upper/lower leg treatment period</string>
     <string name="choose">Choose Duration :</string>
+    <string name="wholebody">Whole Body</string>
+    <string name="tutorial_negative">Go Back</string>
+    <string name="tutorial_positive">Okay</string>
+    <string name="todaysevents">Today\'s Treatments</string>
+    <string name="treatmentcontentimage">Treatmente Image</string>
 </resources>

@@ -139,6 +139,7 @@ public class TutorialActivity extends Activity implements OnClickListener {
             });
             final AlertDialog alert = builder.create();
 
+            
             //Build the app tutorial dialog that goes first
             final Dialog dialog = new Dialog(this);
             TextView dialogtext;
@@ -155,7 +156,25 @@ public class TutorialActivity extends Activity implements OnClickListener {
                     alert.show();
                 }
             });
-            dialog.show();
+            
+          //First dialog
+            final Dialog dialog1 = new Dialog(this);
+            TextView dialogtext1;
+            Button button1;
+            dialog1.setContentView(R.layout.customdialog);
+            dialog1.setTitle("App Tutorial");
+            dialog1.setCancelable(true);
+            dialogtext1 = (TextView) dialog1.findViewById(R.id.contenttext);
+            dialogtext1.setText(Constants.TUTORIAL_START_MESSAGE);
+            button1 = (Button) dialog1.findViewById(R.id.okaybutton);
+            button1.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    dialog1.cancel();
+                    dialog.show();
+                }
+            });
+            dialog1.show();
+            
         } else {
         /*final Dialog dialog = new Dialog(this);
 
@@ -172,7 +191,7 @@ public class TutorialActivity extends Activity implements OnClickListener {
             }
         });
         dialog.show();*/
-            startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
+            startActivity( new Intent( getApplicationContext(), StartActivity.class ) );
             finish();
         }
     }
