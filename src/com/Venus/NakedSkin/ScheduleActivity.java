@@ -163,7 +163,6 @@ public class ScheduleActivity extends Activity implements OnClickListener {
 
     public void checkStartupMaintenenceAndProceed() {
         final Context ctx = this;
-<<<<<<< HEAD
       // If this is after the first set of treatments, but we have not switched to the maintenence phase yet, warn
             if (Integer.parseInt(startupNumber) >= 6 && (isStartup && !vdb.isFirstTreatmentReminder( this )) )
             {
@@ -190,31 +189,6 @@ public class ScheduleActivity extends Activity implements OnClickListener {
             else {
               setUpEvent();
             }
-=======
-        // If this is after the first set of treatments, but we have not switched to the maintenence phase yet, warn
-        if( Integer.parseInt( startupNumber ) >= 6 || ( isStartup && !vdb.isFirstTreatmentReminder( this ) ) ) {
-            // Prompt with option of switching to maintenence
-            AlertDialog.Builder builder = new AlertDialog.Builder( this );
-            builder.setMessage( Constants.TREATMENT_OPTION_MESSAGE )
-                   .setPositiveButton( "Maintenance", new DialogInterface.OnClickListener() {
-                       public void onClick( DialogInterface dialog, int id ) {
-                           // Change to maintenence
-                           vdb.setIsNotFirstTreatmentReminder( ctx );
-                           isStartup = false;
-                           setUpEvent();
-                       } } )
-                   .setNegativeButton( "Start Up", new DialogInterface.OnClickListener() {
-                       public void onClick( DialogInterface dialog, int id ) {
-                           setUpEvent();
-                       }
-                   } );
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-        else {
-            setUpEvent();
-        }
->>>>>>> f8f50682a31f3d8b6c85134a7743fe52a9fa44c9
     }
 /*
     public void proceed(boolean isStartup)
