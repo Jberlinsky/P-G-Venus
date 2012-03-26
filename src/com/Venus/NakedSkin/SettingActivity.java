@@ -49,6 +49,20 @@ public class SettingActivity extends Activity implements OnClickListener {
         adapterBU.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
         Spinner sessionSpinnerBU = (Spinner)findViewById( R.id.daySpinner1 );
         sessionSpinnerBU.setAdapter(adapterBU);
+        int UABA = (new VenusDb(this)).getUnderarmBikiniTreatmentLength(this);
+        if (UABA == 10*60*1000)
+        	sessionSpinnerBU.setSelection(0);
+        else if (UABA == 20*60*1000)
+        	sessionSpinnerBU.setSelection(1);
+        else if (UABA == 30*60*1000)
+        	sessionSpinnerBU.setSelection(2);
+        else if (UABA == 45*60*1000)
+        	sessionSpinnerBU.setSelection(3);
+        else if (UABA == 60*60*1000)
+        	sessionSpinnerBU.setSelection(4);
+        else
+        	sessionSpinnerBU.setSelection(0);
+        
         sessionSpinnerBU.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
         public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
             switch( pos ) {
@@ -57,24 +71,20 @@ public class SettingActivity extends Activity implements OnClickListener {
                 mod = Constants.MINUTE;
                 break;
             case 1:
-                valueBU = 20;
-                mod = Constants.HOUR;
+                valueBU = 15;
+                mod = Constants.MINUTE;
                 break;
             case 2:
                 valueBU = 30;
-                mod = Constants.DAY;
+                mod = Constants.MINUTE;
                 break;
             case 3:
-                valueBU = 40;
-                mod = Constants.DAY;
+                valueBU = 45;
+                mod = Constants.MINUTE;
                 break;
             case 4:
-                valueBU = 50;
-                mod = Constants.DAY;
-                break;
-            case 5:
                 valueBU = 60;
-                mod = Constants.WEEK;
+                mod = Constants.MINUTE;
                 break;
             default:
                 break;
@@ -90,7 +100,21 @@ public class SettingActivity extends Activity implements OnClickListener {
         adapterLU.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
         Spinner sessionSpinnerLU = (Spinner)findViewById( R.id.daySpinner2 );
         sessionSpinnerLU.setAdapter(adapterLU);
+        int LULU = (new VenusDb(this)).getUpperLowerLegTreatmentLength(this);
+        if (LULU == 10*60*1000)
+        	sessionSpinnerLU.setSelection(0);
+        else if (LULU == 20*60*1000)
+        	sessionSpinnerLU.setSelection(1);
+        else if (LULU == 30*60*1000)
+        	sessionSpinnerLU.setSelection(2);
+        else if (LULU == 45*60*1000)
+        	sessionSpinnerLU.setSelection(3);
+        else if (LULU == 60*60*1000)
+        	sessionSpinnerLU.setSelection(4);
+        else
+        	sessionSpinnerLU.setSelection(0);
         sessionSpinnerLU.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+        
         public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
             switch( pos ) {
             case 0:
@@ -99,19 +123,19 @@ public class SettingActivity extends Activity implements OnClickListener {
                 break;
             case 1:
                 valueLU = 15;
-                mod = Constants.HOUR;
+                mod = Constants.MINUTE;
                 break;
             case 2:
                 valueLU = 30;
-                mod = Constants.DAY;
+                mod = Constants.MINUTE;
                 break;
             case 3:
                 valueLU = 45;
-                mod = Constants.DAY;
+                mod = Constants.MINUTE;
                 break;
             case 4:
                 valueLU = 60;
-                mod = Constants.WEEK;
+                mod = Constants.MINUTE;
                 break;
             default:
                 break;

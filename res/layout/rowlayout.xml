@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center">
+    android:gravity="center" >
 
     <ImageView
         android:id="@+id/icon"
@@ -15,21 +15,26 @@
         android:layout_marginBottom="1dp"
         android:src="@drawable/ic_launcher" >
     </ImageView>
-
+
     <TextView
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@+id/label"
         android:layout_marginRight="3dp"
-        android:textSize="20dp" >
+        android:text="@+id/label"
+        android:textSize="20dp"
+        android:textStyle="bold" >
+
     </TextView>
+
     <TextView
         android:id="@+id/listtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="right"
         android:text="@+id/listtime"
-        android:textSize="10dp" >
+        android:textSize="20dp" >
+
     </TextView>
 
 </LinearLayout>

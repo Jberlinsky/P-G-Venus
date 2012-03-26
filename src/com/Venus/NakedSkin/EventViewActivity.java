@@ -1,5 +1,6 @@
 package com.Venus.NakedSkin;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,7 +35,10 @@ public class EventViewActivity extends ListActivity{
             cal.clear();
             cal.set( year, month, day );
             Date date = cal.getTime();
-            eventTitle.setText(date.toString());
+            
+            DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+            String timeText = "    " +  df.format(date);
+            eventTitle.setText( timeText);
             Cursor eventCursor = Utilities.queryDayEvents( this, cal);
             try { //calls proceed() with either only 1 choice, or after dialog
                 String desc = null;

@@ -1,5 +1,6 @@
 package com.Venus.NakedSkin;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,7 +32,8 @@ public class EventArrayAdapter extends ArrayAdapter<String> {
 		TextView textTimeView = (TextView) rowView.findViewById(R.id.listtime);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 		Date date = new Date(this.timeValues.get(position));
-		textTimeView.setText(date.toString());
+		DateFormat df = DateFormat.getTimeInstance(DateFormat.SHORT);
+		textTimeView.setText(df.format(date));
 		textView.setText(values.get(position));
 		// Change the icon for Windows and iPhone
 		String s = values.get(position);
