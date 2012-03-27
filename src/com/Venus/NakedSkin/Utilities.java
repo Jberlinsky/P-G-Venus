@@ -88,7 +88,7 @@ public class Utilities {
             return cursor;
         }
     }
-    
+
     public static Cursor queryDayEvents( Context c, Calendar day) {
         VenusDb vdb = new VenusDb( c );
         ContentResolver cr = c.getContentResolver();
@@ -135,7 +135,8 @@ public class Utilities {
         }
     }
 
-    public static Cursor queryTodaysEvents( Context c ) {
+    //this function ignores "Complete" at the end of events
+    public static Cursor queryTodaysIncompleteEvents( Context c ) {
         VenusDb vdb = new VenusDb( c );
         ContentResolver cr = c.getContentResolver();
         Cursor cursor;
@@ -158,11 +159,12 @@ public class Utilities {
         try {
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart" },
-                               "( calendar_id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? )",
+                               "( calendar_id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? AND description NOT LIKE ? )",
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%" },
+                                              "Naked%",
+                                              "%Complete!" },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
@@ -170,11 +172,12 @@ public class Utilities {
             Log.d( "Venus", e.getMessage() );
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart" },
-                               "( Calendars._id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? )",
+                               "( Calendars._id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? AND description NOT LIKE ? )",
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%" },
+                                              "Naked%",
+                                              "%Complete!" },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
@@ -194,13 +197,71 @@ public class Utilities {
         cv.put( "dtend", e.end );
         cv.put( "eventTimezone", TimeZone.getDefault().getDisplayName() );
 
+        vdb.close();
+
         if( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8) {
             uri = "content://com.android.calendar/events";
         } else {
             uri = "content://calendar/events";
         }
+        cr.insert( Uri.parse( uri ), cv );
+    }
+
+    public static void markAsComplete( Context c, Event e ) {
+        //first we need to find the event again
+        VenusDb vdb = new VenusDb( c );
+        int calendarId = vdb.getCalendarId();
         vdb.close();
-        cr.insert( Uri.parse( uri ), cv);
+
+        String calendarIdString;
+
+        ContentResolver cr = c.getContentResolver();
+        Cursor cursor;
+
+        String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
+                     "content://com.android.calendar/events" :
+                     "content://calendar/events";
+        Uri.Builder builder = Uri.parse( uri ).buildUpon();
+
+        try {
+            calendarIdString = "calendar_id";
+            cursor = cr.query( builder.build(),
+                               new String[] { "title", "description", "dtstart" },
+                               "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
+                               new String[] { Long.toString( calendarId ),
+                                              Long.toString( e.start ),
+                                              "Naked%" },
+                               "dtstart ASC" );
+        } catch( SQLiteException sqle ) {
+            calendarIdString = "Calendars._id";
+            Log.d( "Venus", sqle.getMessage() );
+            cursor = cr.query( builder.build(),
+                               new String[] { "title", "description", "dtstart" },
+                               "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
+                               new String[] { Long.toString( calendarId ),
+                                              Long.toString( e.start ),
+                                              "Naked%" },
+                               "dtstart ASC" );
+        }
+        //now we have a cursor to the one event, hopefully
+        cursor.moveToFirst();
+
+        ContentValues cv = new ContentValues();
+
+        cv.put( "description", cursor.getString( 1 ) + " Complete!" );
+        e.description = cursor.getString( 1 );
+        try {
+            cr.update( Uri.parse( uri ),
+                       cv,
+                       "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? AND description = ? )",
+                       new String[] { Long.toString( calendarId ),
+                                      Long.toString( e.start ),
+                                      e.title,
+                                      e.description } );
+        } catch( SQLiteException sqle ) {
+            //serious exception here, we are supposed to catch the correct ID string previously
+            Log.d( "Venus", sqle.getMessage() );
+        }
     }
 
 }

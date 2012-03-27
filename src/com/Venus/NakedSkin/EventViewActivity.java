@@ -5,17 +5,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 public class EventViewActivity extends ListActivity{
@@ -24,18 +18,18 @@ public class EventViewActivity extends ListActivity{
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.treatment);
-            
+
             int month = this.getIntent().getIntExtra("month",-1);
             int day = this.getIntent().getIntExtra("day",-1);
             int year = this.getIntent().getIntExtra("year",-1);
-            
+
             TextView eventTitle = (TextView) findViewById(R.id.eventcalendartitle);
-            
+
             Calendar cal = Calendar.getInstance();
             cal.clear();
             cal.set( year, month, day );
             Date date = cal.getTime();
-            
+
             DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
             String timeText = "    " +  df.format(date);
             eventTitle.setText( timeText);
@@ -61,14 +55,14 @@ public class EventViewActivity extends ListActivity{
                         treatmentNumbers.add( treatmentNumberTemp );
                     }
                     //for view;
-                    
+
                     EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
                     setListAdapter(adapter);
-           
+
                 } else if( 1 == eventCursor.getCount() ) {
                     eventCursor.moveToNext();
                     ArrayList<String> bodyPartString = new ArrayList<String>();
-                    
+
                     String bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
                     bodyPartString.add(bodyPart);
                     Long startTime = eventCursor.getLong( Constants.EVENT_START_INDEX );
@@ -76,8 +70,8 @@ public class EventViewActivity extends ListActivity{
                     startTimes.add(startTime);
                     EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
                     setListAdapter(adapter);
-                   
-                   
+
+
                 } else {
                     Log.d( "Venus", Integer.toString( eventCursor.getCount() ) );
                     Log.d( "Venus", "No treatments scheduled today" );
@@ -87,16 +81,16 @@ public class EventViewActivity extends ListActivity{
                 Log.d( "Venus", cioobe.getMessage() );
                 //error happened...
             }
-            
-            
-            
-            
+
+
+
+
         }
 
         public void onBackPressed(){
-        	finish();
+            finish();
         }
-        
+
         private String getBodyPartString( String subString ) {
             if( subString.substring( 0, 2 ).equalsIgnoreCase( "Un" ) ) {
                 return "Underarm";

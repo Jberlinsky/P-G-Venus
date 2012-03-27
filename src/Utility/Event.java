@@ -36,4 +36,9 @@ public class Event {
         end         = e;
     }
 
+    public Event( CharSequence bodyPart, Long startTime ) {
+        title = "Naked Skin " + bodyPart + " treatment reminder";
+        start = startTime;
+    }
+
 }

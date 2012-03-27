@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import Utility.Event;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 public class StartActivity extends ListActivity {
@@ -26,7 +23,7 @@ public class StartActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.music);
-        Cursor eventCursor = Utilities.queryTodaysEvents( this );
+        Cursor eventCursor = Utilities.queryTodaysIncompleteEvents( this );
         try { //calls proceed() with either only 1 choice, or after dialog
             String desc = null;
             int treatmentNumberTemp;
@@ -48,7 +45,7 @@ public class StartActivity extends ListActivity {
                     treatmentNumbers.add( treatmentNumberTemp );
                 }
                 //for view;
-                
+
                 EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
                 setListAdapter(adapter);
                 final CharSequence[] bodyPartArray = bodyParts.toArray( new CharSequence[ bodyParts.size() ] );
@@ -66,7 +63,7 @@ public class StartActivity extends ListActivity {
             } else if( 1 == eventCursor.getCount() ) {
                 eventCursor.moveToNext();
                 ArrayList<String> bodyPartString = new ArrayList<String>();
-                
+
                 String bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
                 bodyPartString.add(bodyPart);
                 Long startTime = eventCursor.getLong( Constants.EVENT_START_INDEX );
@@ -82,7 +79,7 @@ public class StartActivity extends ListActivity {
                 }
                 proceed( bodyPart, new Integer( treatmentNumberTemp ), new Long( startTime ) );
             } else {
-                Log.d( "Venus", Integer.toString( eventCursor.getCount() ) );
+                Log.d( "Venus", "Number of treatments: " + Integer.toString( eventCursor.getCount() ) );
                 Log.d( "Venus", "No treatments scheduled today" );
                 return;
             }
@@ -95,7 +92,6 @@ public class StartActivity extends ListActivity {
     private void proceed( final CharSequence bodyPartTemp, Integer treatmentNumberTemp, final Long startTime ) { //only has to deal with one case.
         if( -1 == treatmentNumberTemp ) {
             Log.d( "Venus", "No action: in maintenance phase" );
-            return;
         } else if( 12 == treatmentNumberTemp ) {
             scheduleMaintenance( bodyPartTemp, startTime );
             Log.d( "Venus", "Forcing maintenance reminders" );
@@ -123,14 +119,18 @@ public class StartActivity extends ListActivity {
         } else {
             Log.d( "Venus", "No action: in startup phase" );
         }
+        //for all treatments, mark as complete
+        Event e = new Event( bodyPartTemp, startTime );
+        Utilities.markAsComplete( this, e );
+
 
     }
-    
+
     public void onBackPressed(){
         //This is to prevent user from accidently exiting the app
         //pressing Home will exit the app
     }
-    
+
     private void scheduleMaintenance( CharSequence bodyPart, Long startTime ) {
         int treatmentDuration = getTreatmentLength( (String) bodyPart );
         Calendar _calendar = Calendar.getInstance();
