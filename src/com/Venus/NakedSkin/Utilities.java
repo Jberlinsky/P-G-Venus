@@ -232,28 +232,26 @@ public class Utilities {
             calendarIdString = "calendar_id";
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart", "dtend" },
-                               "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
+                               "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? )",
                                new String[] { Long.toString( calendarId ),
                                               Long.toString( e.start ),
-                                              "Naked%" + e.title },
+                                              e.title },
                                "dtstart ASC" );
         } catch( SQLiteException sqle ) {
             calendarIdString = "Calendars._id";
             Log.d( "Venus", sqle.getMessage() );
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart", "dtend" },
-                               "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
+                               "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? )",
                                new String[] { Long.toString( calendarId ),
                                               Long.toString( e.start ),
-                                              "Naked%" + e.title },
+                                              e.title },
                                "dtstart ASC" );
         }
 
         //now we have a cursor to the one event, hopefully
         cursor.moveToFirst();
-        e.title = cursor.getString( 0 );
         e.description = cursor.getString( 1 ) + " Completed!";
-        e.start = cursor.getLong( 2 );
         e.end = cursor.getLong( 3 );
 
         try {
