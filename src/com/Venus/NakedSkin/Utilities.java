@@ -293,13 +293,12 @@ public class Utilities {
             Log.d( "Venus", iae.getMessage() );
             uri = "content://com.android.calendar/events";
             builder = Uri.parse( uri ).buildUpon();
-            cr.update( builder.build(),
-                       cv,
-                       "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? AND description = ? )",
+            cr.delete( builder.build(),
+//                       cv,
+                       "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? )",
                        new String[] { Long.toString( calendarId ),
                                       Long.toString( e.start ),
-                                      e.title,
-                                      e.description } );
+                                      e.title } );
 
         }
     }
