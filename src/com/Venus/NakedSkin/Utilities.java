@@ -207,7 +207,12 @@ public class Utilities {
         cr.insert( Uri.parse( uri ), cv );
     }
 
-    public static void markAsComplete( Context c, Event e ) {
+    /**
+     * Misnomer, this actually deletes the event and re-adds a "marked as complete" event
+     * @param c Context to use
+     * @param e Event to "mark as complete"
+     */
+    public static void markAsComplete( final Context c, Event e ) {
         //first we need to find the event again
         VenusDb vdb = new VenusDb( c );
         int calendarId = vdb.getCalendarId();
@@ -218,89 +223,56 @@ public class Utilities {
         ContentResolver cr = c.getContentResolver();
         Cursor cursor;
 
-        //begin hack
-//        String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
-//                     "content://com.android.calendar/events" :
-//                     "content://calendar/events";
-        String uri = "content://com.android.calendar/events";
+        String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
+                     "content://com.android.calendar/events" :
+                     "content://calendar/events";
         Uri.Builder builder = Uri.parse( uri ).buildUpon();
 
         try {
             calendarIdString = "calendar_id";
             cursor = cr.query( builder.build(),
-                               new String[] { "title", "description", "dtstart" },
+                               new String[] { "title", "description", "dtstart", "dtend" },
                                "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
                                new String[] { Long.toString( calendarId ),
                                               Long.toString( e.start ),
-                                              "Naked%" },
+                                              "Naked%" + e.title },
                                "dtstart ASC" );
         } catch( SQLiteException sqle ) {
             calendarIdString = "Calendars._id";
             Log.d( "Venus", sqle.getMessage() );
             cursor = cr.query( builder.build(),
-                               new String[] { "title", "description", "dtstart" },
+                               new String[] { "title", "description", "dtstart", "dtend" },
                                "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
                                new String[] { Long.toString( calendarId ),
                                               Long.toString( e.start ),
-                                              "Naked%" },
+                                              "Naked%" + e.title },
                                "dtstart ASC" );
-        } catch( IllegalArgumentException iae ) {
-            Log.d( "Venus", iae.getMessage() );
-            uri = "content://calendar/events";
-            builder = Uri.parse( uri ).buildUpon();
-            try {
-                calendarIdString = "calendar_id";
-                cursor = cr.query( builder.build(),
-                                   new String[] { "title", "description", "dtstart" },
-                                   "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
-                                   new String[] { Long.toString( calendarId ),
-                                                  Long.toString( e.start ),
-                                                  "Naked%" },
-                                   "dtstart ASC" );
-            } catch( SQLiteException sqle ) {
-                calendarIdString = "Calendars._id";
-                Log.d( "Venus", sqle.getMessage() );
-                cursor = cr.query( builder.build(),
-                                   new String[] { "title", "description", "dtstart" },
-                                   "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
-                                   new String[] { Long.toString( calendarId ),
-                                                  Long.toString( e.start ),
-                                                  "Naked%" },
-                                   "dtstart ASC" );
-            }
         }
+
         //now we have a cursor to the one event, hopefully
         cursor.moveToFirst();
+        e.title = cursor.getString( 0 );
+        e.description = cursor.getString( 1 ) + " Completed!";
+        e.start = cursor.getLong( 2 );
+        e.end = cursor.getLong( 3 );
 
-        ContentValues cv = new ContentValues();
-
-        cv.put( "description", cursor.getString( 1 ) + " Complete!" );
-        e.description = cursor.getString( 1 );
         try {
-            uri = "content://calendar/events";
-            builder = Uri.parse( uri ).buildUpon();
-            cr.update( builder.build(),
-                       cv,
-                       "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? AND description = ? )",
-                       new String[] { Long.toString( calendarId ),
-                                      Long.toString( e.start ),
-                                      e.title,
-                                      e.description } );
-        } catch( SQLiteException sqle ) {
-            //serious exception here, we are supposed to catch the correct ID string previously
-            Log.d( "Venus", sqle.getMessage() );
-        } catch( IllegalArgumentException iae ) {
-            Log.d( "Venus", iae.getMessage() );
-            uri = "content://com.android.calendar/events";
-            builder = Uri.parse( uri ).buildUpon();
             cr.delete( builder.build(),
-//                       cv,
                        "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? )",
                        new String[] { Long.toString( calendarId ),
                                       Long.toString( e.start ),
                                       e.title } );
-
+        } catch( SQLiteException sqle ) {
+            //serious exception here, we are supposed to catch the correct ID string previously
+            Log.d( "Venus", sqle.getMessage() );
         }
-    }
 
+        final Event ev = new Event( e );
+        new Thread( new Runnable() {
+            public void run() {
+                Utilities.addToCalendar( c, ev );
+            }
+        } ).start();
+
+    }
 }

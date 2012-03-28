@@ -41,4 +41,11 @@ public class Event {
         start = startTime;
     }
 
+    public Event( Event e ) {
+        title       = e.title;
+        description = e.description;
+        start       = e.start;
+        end         = e.end;
+    }
+
 }

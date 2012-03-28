@@ -173,7 +173,6 @@ public class StartActivity extends ListActivity {
         Toast.makeText( this,
                         "Reminder for " + bodyPart + " treatment number " + ( treatmentNumber + 1 ) + " has been set.",
                         Toast.LENGTH_LONG ).show();
-
     }
 
     private String getBodyPartString( String subString ) {
