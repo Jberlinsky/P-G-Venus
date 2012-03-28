@@ -218,9 +218,11 @@ public class Utilities {
         ContentResolver cr = c.getContentResolver();
         Cursor cursor;
 
-        String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
-                     "content://com.android.calendar/events" :
-                     "content://calendar/events";
+        //begin hack
+//        String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
+//                     "content://com.android.calendar/events" :
+//                     "content://calendar/events";
+        String uri = "content://com.android.calendar/events";
         Uri.Builder builder = Uri.parse( uri ).buildUpon();
 
         try {
@@ -242,6 +244,29 @@ public class Utilities {
                                               Long.toString( e.start ),
                                               "Naked%" },
                                "dtstart ASC" );
+        } catch( IllegalArgumentException iae ) {
+            Log.d( "Venus", iae.getMessage() );
+            uri = "content://calendar/events";
+            try {
+                calendarIdString = "calendar_id";
+                cursor = cr.query( builder.build(),
+                                   new String[] { "title", "description", "dtstart" },
+                                   "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
+                                   new String[] { Long.toString( calendarId ),
+                                                  Long.toString( e.start ),
+                                                  "Naked%" },
+                                   "dtstart ASC" );
+            } catch( SQLiteException sqle ) {
+                calendarIdString = "Calendars._id";
+                Log.d( "Venus", sqle.getMessage() );
+                cursor = cr.query( builder.build(),
+                                   new String[] { "title", "description", "dtstart" },
+                                   "( " + calendarIdString + " = ? AND dtstart = ? AND title LIKE ? )",
+                                   new String[] { Long.toString( calendarId ),
+                                                  Long.toString( e.start ),
+                                                  "Naked%" },
+                                   "dtstart ASC" );
+            }
         }
         //now we have a cursor to the one event, hopefully
         cursor.moveToFirst();
