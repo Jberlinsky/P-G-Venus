@@ -164,7 +164,7 @@ public class Utilities {
                                               Long.toString( start ),
                                               Long.toString( end ),
                                               "Naked%",
-                                              "%Complete!" },
+                                              "%Completed!" },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
@@ -177,7 +177,7 @@ public class Utilities {
                                               Long.toString( start ),
                                               Long.toString( end ),
                                               "Naked%",
-                                              "%Complete!" },
+                                              "%Completed!" },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
