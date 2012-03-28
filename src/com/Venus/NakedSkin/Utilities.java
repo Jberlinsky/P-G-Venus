@@ -251,7 +251,7 @@ public class Utilities {
         cv.put( "description", cursor.getString( 1 ) + " Complete!" );
         e.description = cursor.getString( 1 );
         try {
-            cr.update( Uri.parse( uri ),
+            cr.update( builder.build(),
                        cv,
                        "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? AND description = ? )",
                        new String[] { Long.toString( calendarId ),
