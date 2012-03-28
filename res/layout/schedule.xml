@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:gravity="right|center"
-            android:layout_weight="0.09"
+            android:layout_weight="0.19"
             android:background="#00FFFFFF"
             android:textColor="#ffffff"
             android:text="@string/wholebody" />
@@ -30,11 +30,12 @@
             android:id="@+id/underarm"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.12"
+            android:layout_weight="0.095"
             android:background="#20ffffff"
             android:gravity="right|center"
             android:text="@string/underarm"
             android:textColor="#ffffff" />
+        
         <LinearLayout
            android:id="@+id/linearLayout1"
            android:layout_width="fill_parent"
@@ -48,7 +49,7 @@
             android:id="@+id/bikiniarea"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.125"
+            android:layout_weight="0.12"
             android:background="#20ffffff"
             android:gravity="right|center"
             android:text="@string/bikini_area"
@@ -59,7 +60,7 @@
             android:id="@+id/upperleg"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.13"
             android:background="#20ffffff"
             android:gravity="right|center"
             android:text="@string/upper_leg"

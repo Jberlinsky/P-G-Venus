@@ -43,8 +43,13 @@ public class EventViewActivity extends ListActivity{
                     ArrayList<Long> startTimes = new ArrayList<Long>(); //store (potential) start times here, keep internal
                     ArrayList<String> bodyPartString = new ArrayList<String>();
                     while( eventCursor.moveToNext() ) {
-                        bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
-                        bodyPartString.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
+                    	String bodyTitle = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ));
+                    	
+                        
+                        if (eventCursor.getString( Constants.EVENT_DESC_INDEX ).contains("Completed"))
+                        	bodyTitle = bodyTitle + " Done";
+                        bodyParts.add(bodyTitle); //getting the body parts	
+                        bodyPartString.add(bodyTitle); //getting the body parts
                         startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
                         try { //try to get the treatment number (doesn't exist for maint)
                             desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
@@ -62,8 +67,10 @@ public class EventViewActivity extends ListActivity{
                 } else if( 1 == eventCursor.getCount() ) {
                     eventCursor.moveToNext();
                     ArrayList<String> bodyPartString = new ArrayList<String>();
-
+                    
                     String bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
+                    if (eventCursor.getString( Constants.EVENT_DESC_INDEX ).contains("Completed"))
+                    	bodyPart = bodyPart + " Done";	
                     bodyPartString.add(bodyPart);
                     Long startTime = eventCursor.getLong( Constants.EVENT_START_INDEX );
                     ArrayList<Long> startTimes = new ArrayList<Long>();
