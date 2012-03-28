@@ -247,6 +247,7 @@ public class Utilities {
         } catch( IllegalArgumentException iae ) {
             Log.d( "Venus", iae.getMessage() );
             uri = "content://calendar/events";
+            builder = Uri.parse( uri ).buildUpon();
             try {
                 calendarIdString = "calendar_id";
                 cursor = cr.query( builder.build(),
@@ -276,6 +277,8 @@ public class Utilities {
         cv.put( "description", cursor.getString( 1 ) + " Complete!" );
         e.description = cursor.getString( 1 );
         try {
+            uri = "content://calendar/events";
+            builder = Uri.parse( uri ).buildUpon();
             cr.update( builder.build(),
                        cv,
                        "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? AND description = ? )",
@@ -286,6 +289,18 @@ public class Utilities {
         } catch( SQLiteException sqle ) {
             //serious exception here, we are supposed to catch the correct ID string previously
             Log.d( "Venus", sqle.getMessage() );
+        } catch( IllegalArgumentException iae ) {
+            Log.d( "Venus", iae.getMessage() );
+            uri = "content://com.android.calendar/events";
+            builder = Uri.parse( uri ).buildUpon();
+            cr.update( builder.build(),
+                       cv,
+                       "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? AND description = ? )",
+                       new String[] { Long.toString( calendarId ),
+                                      Long.toString( e.start ),
+                                      e.title,
+                                      e.description } );
+
         }
     }
 
