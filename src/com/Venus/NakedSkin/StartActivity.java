@@ -12,80 +12,59 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.Toast;
 
-public class StartActivity extends ListActivity {
+public class StartActivity extends ListActivity implements OnItemClickListener {
+
+    ListView _listView;
+    ArrayList<String> bodyParts = new ArrayList<String>();
+    ArrayList<Integer> treatmentNumbers = new ArrayList<Integer>();
+    ArrayList<Long> startTimes = new ArrayList<Long>();
+
+    class RefreshHandler extends Handler {
+        public void handleMessage( Message msg ) {
+            Log.d( "Venus", "Handling a message, refreshing screen" );
+            refresh();
+        }
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.music);
-        Cursor eventCursor = Utilities.queryTodaysIncompleteEvents( this );
-        try { //calls proceed() with either only 1 choice, or after dialog
-            String desc = null;
-            int treatmentNumberTemp;
-            if( 1 < eventCursor.getCount() ) { //more than one event today.
-                ArrayList<CharSequence> bodyParts = new ArrayList<CharSequence>(); //store body parts here, show these to user
-                ArrayList<Integer> treatmentNumbers = new ArrayList<Integer>(); //store (potential) treatment numbers here, keep internal
-                ArrayList<Long> startTimes = new ArrayList<Long>(); //store (potential) start times here, keep internal
-                ArrayList<String> bodyPartString = new ArrayList<String>();
-                while( eventCursor.moveToNext() ) {
-                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
-                    bodyPartString.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) ); //getting the body parts
-                    startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
-                    try { //try to get the treatment number (doesn't exist for maint)
-                        desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
-                        treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
-                    } catch( NumberFormatException nfe ) { //this exception means maintenance, set to -1
-                        treatmentNumberTemp = -1;
-                    }
-                    treatmentNumbers.add( treatmentNumberTemp );
-                }
-                //for view;
+        _listView = (ListView) findViewById( android.R.id.list );
+        _listView.setOnItemClickListener( this );
+        refresh();
+    }
 
-                EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
-                setListAdapter(adapter);
-                final CharSequence[] bodyPartArray = bodyParts.toArray( new CharSequence[ bodyParts.size() ] );
-                final Integer[] treatmentNumberArray = treatmentNumbers.toArray( new Integer[ treatmentNumbers.size() ] );
-                final Long[] startTimeArray = startTimes.toArray( new Long[ startTimes.size() ] );
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle( "Which body part are we treating right now?" );
-                builder.setItems(bodyPartArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        proceed( bodyPartArray[ item ], treatmentNumberArray[ item ], startTimeArray[ item ] );
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-            } else if( 1 == eventCursor.getCount() ) {
-                eventCursor.moveToNext();
-                ArrayList<String> bodyPartString = new ArrayList<String>();
-
-                String bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
-                bodyPartString.add(bodyPart);
-                Long startTime = eventCursor.getLong( Constants.EVENT_START_INDEX );
-                ArrayList<Long> startTimes = new ArrayList<Long>();
-                startTimes.add(startTime);
-                EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
-                setListAdapter(adapter);
-                try { //try to get the treatment number (doesn't exist for maint)
-                    desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
-                    treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
-                } catch( NumberFormatException nfe ) { //this exception means maintenance, set to -1
-                    treatmentNumberTemp = -1;
-                }
-                proceed( bodyPart, new Integer( treatmentNumberTemp ), new Long( startTime ) );
-            } else {
-                Log.d( "Venus", "Number of treatments: " + Integer.toString( eventCursor.getCount() ) );
-                Log.d( "Venus", "No treatments scheduled today" );
-                return;
-            }
-        } catch( CursorIndexOutOfBoundsException cioobe ) {
-            Log.d( "Venus", cioobe.getMessage() );
-            //error happened...
+    public void onItemClick( AdapterView<?> arg0, View arg1, final int arg2, long arg3 ) {
+        String bodyPart = bodyParts.get( arg2 );
+        Log.d( "Venus", bodyPart );
+        if( bodyPart.contains( "Done" ) ) {
+            return;
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder( this );
+            builder.setMessage( "Are you treating " + bodyPart + " now?" )
+                   .setCancelable( false )
+                   .setPositiveButton( "Yes", new DialogInterface.OnClickListener() {
+                       public void onClick( DialogInterface dialog, int id ) {
+                           proceed( bodyParts.get( arg2 ), treatmentNumbers.get( arg2 ), startTimes.get( arg2 ) );
+                       } } )
+                   .setNegativeButton( "No", new DialogInterface.OnClickListener() {
+                       public void onClick( DialogInterface dialog, int id ) {
+                           dialog.cancel();
+                       } } );
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
 
@@ -100,6 +79,7 @@ public class StartActivity extends ListActivity {
             Log.d( "Venus", "Dialog about maintenance or startup" );
             AlertDialog.Builder builder = new AlertDialog.Builder( this );
             builder.setMessage( Constants.TREATMENT_OPTION_MESSAGE )
+                   .setCancelable( false )
                    .setPositiveButton( "Maintenance",
                                        new DialogInterface.OnClickListener() {
                                            public void onClick( DialogInterface dialog, int id ) {
@@ -121,9 +101,41 @@ public class StartActivity extends ListActivity {
         }
         //for all treatments, mark as complete
         Event e = new Event( bodyPartTemp, startTime );
-        Utilities.markAsComplete( this, e );
+        Utilities.markAsComplete( this, e, new RefreshHandler() );
+    }
 
+    private void refresh() {
+        bodyParts = new ArrayList<String>();
+        treatmentNumbers = new ArrayList<Integer>();
+        startTimes = new ArrayList<Long>();
+        Cursor eventCursor = Utilities.queryTodaysEvents( this );
+        try {
+            String desc = null;
+            int treatmentNumberTemp;
 
+            while( eventCursor.moveToNext() ) {
+                startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
+                try { //try to get the treatment number (doesn't exist for maint)
+                    desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
+                    treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
+                } catch( NumberFormatException nfe ) { //this exception means maintenance, set to -1
+                    treatmentNumberTemp = -1;
+                }
+                treatmentNumbers.add( treatmentNumberTemp );
+                if( desc.contains( "Completed!" ) ) {
+                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + " Done" );
+                } else {
+                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) );
+                }
+            }
+
+            EventArrayAdapter adapter = new EventArrayAdapter( this, bodyParts, startTimes );
+            setListAdapter( adapter );
+
+        } catch( CursorIndexOutOfBoundsException cioobe ) {
+            Log.d( "Venus", cioobe.getMessage() );
+            //error happened...
+        }
     }
 
     public void onBackPressed(){
@@ -211,6 +223,7 @@ public class StartActivity extends ListActivity {
         inflater.inflate(R.layout.tabmenu, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
@@ -240,5 +253,6 @@ public class StartActivity extends ListActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
 
 }

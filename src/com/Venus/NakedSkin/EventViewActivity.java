@@ -14,103 +14,66 @@ import android.widget.TextView;
 
 public class EventViewActivity extends ListActivity{
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.treatment);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.treatment);
 
-            int month = this.getIntent().getIntExtra("month",-1);
-            int day = this.getIntent().getIntExtra("day",-1);
-            int year = this.getIntent().getIntExtra("year",-1);
+        int month = this.getIntent().getIntExtra("month",-1);
+        int day = this.getIntent().getIntExtra("day",-1);
+        int year = this.getIntent().getIntExtra("year",-1);
 
-            TextView eventTitle = (TextView) findViewById(R.id.eventcalendartitle);
+        TextView eventTitle = (TextView) findViewById(R.id.eventcalendartitle);
 
-            Calendar cal = Calendar.getInstance();
-            cal.clear();
-            cal.set( year, month, day );
-            Date date = cal.getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set( year, month, day );
+        Date date = cal.getTime();
 
-            DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-            String timeText = "    " +  df.format(date);
-            eventTitle.setText( timeText);
-            Cursor eventCursor = Utilities.queryDayEvents( this, cal);
-            try { //calls proceed() with either only 1 choice, or after dialog
-                String desc = null;
-                int treatmentNumberTemp;
-                if( 1 < eventCursor.getCount() ) { //more than one event today.
-                    ArrayList<CharSequence> bodyParts = new ArrayList<CharSequence>(); //store body parts here, show these to user
-                    ArrayList<Integer> treatmentNumbers = new ArrayList<Integer>(); //store (potential) treatment numbers here, keep internal
-                    ArrayList<Long> startTimes = new ArrayList<Long>(); //store (potential) start times here, keep internal
-                    ArrayList<String> bodyPartString = new ArrayList<String>();
-                    while( eventCursor.moveToNext() ) {
-                    	String bodyTitle = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ));
-                    	
-                        
-                        if (eventCursor.getString( Constants.EVENT_DESC_INDEX ).contains("Completed"))
-                        	bodyTitle = bodyTitle + " Done";
-                        bodyParts.add(bodyTitle); //getting the body parts	
-                        bodyPartString.add(bodyTitle); //getting the body parts
-                        startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
-                        try { //try to get the treatment number (doesn't exist for maint)
-                            desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
-                            treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
-                        } catch( NumberFormatException nfe ) { //this exception means maintenance, set to -1
-                            treatmentNumberTemp = -1;
-                        }
-                        treatmentNumbers.add( treatmentNumberTemp );
-                    }
-                    //for view;
+        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        String timeText = "    " +  df.format(date);
+        eventTitle.setText( timeText);
 
-                    EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
-                    setListAdapter(adapter);
-
-                } else if( 1 == eventCursor.getCount() ) {
-                    eventCursor.moveToNext();
-                    ArrayList<String> bodyPartString = new ArrayList<String>();
-                    
-                    String bodyPart = getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) );
-                    if (eventCursor.getString( Constants.EVENT_DESC_INDEX ).contains("Completed"))
-                    	bodyPart = bodyPart + " Done";	
-                    bodyPartString.add(bodyPart);
-                    Long startTime = eventCursor.getLong( Constants.EVENT_START_INDEX );
-                    ArrayList<Long> startTimes = new ArrayList<Long>();
-                    startTimes.add(startTime);
-                    EventArrayAdapter adapter = new EventArrayAdapter(this, bodyPartString,startTimes);
-                    setListAdapter(adapter);
-
-
+        //duplicate of StartActivity.refresh()
+        ArrayList<String> bodyParts = new ArrayList<String>();
+        ArrayList<Long> startTimes = new ArrayList<Long>();
+        Cursor eventCursor = Utilities.queryDayEvents( this, cal );
+        try {
+            while( eventCursor.moveToNext() ) {
+                startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
+                if( eventCursor.getString( Constants.EVENT_DESC_INDEX ).contains( "Completed!" ) ) {
+                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + " Done" );
                 } else {
-                    Log.d( "Venus", Integer.toString( eventCursor.getCount() ) );
-                    Log.d( "Venus", "No treatments scheduled today" );
-                    return;
+                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) );
                 }
-            } catch( CursorIndexOutOfBoundsException cioobe ) {
-                Log.d( "Venus", cioobe.getMessage() );
-                //error happened...
             }
 
+            EventArrayAdapter adapter = new EventArrayAdapter( this, bodyParts, startTimes );
+            setListAdapter( adapter );
 
-
-
+        } catch( CursorIndexOutOfBoundsException cioobe ) {
+            Log.d( "Venus", cioobe.getMessage() );
+            //error happened...
         }
+    }
 
-        public void onBackPressed(){
-            finish();
-        }
+    public void onBackPressed(){
+        finish();
+    }
 
-        private String getBodyPartString( String subString ) {
-            if( subString.substring( 0, 2 ).equalsIgnoreCase( "Un" ) ) {
-                return "Underarm";
-            } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Bi" ) ) {
-                return "Bikini Area";
-            } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Up" ) ) {
-                return "Upper Leg";
-            } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Lo" ) ) {
-                return "Lower Leg";
-            } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Wh" ) ) {
-                return "Whole Body";
-            } else {
-                return "Other";
-            }
+    private String getBodyPartString( String subString ) {
+        if( subString.substring( 0, 2 ).equalsIgnoreCase( "Un" ) ) {
+            return "Underarm";
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Bi" ) ) {
+            return "Bikini Area";
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Up" ) ) {
+            return "Upper Leg";
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Lo" ) ) {
+            return "Lower Leg";
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Wh" ) ) {
+            return "Whole Body";
+        } else {
+            return "Other";
         }
+    }
 }

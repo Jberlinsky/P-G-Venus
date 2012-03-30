@@ -135,8 +135,7 @@ public class Utilities {
         }
     }
 
-    //this function ignores "Complete" at the end of events
-    public static Cursor queryTodaysIncompleteEvents( Context c ) {
+    public static Cursor queryTodaysEvents( Context c ) {
         VenusDb vdb = new VenusDb( c );
         ContentResolver cr = c.getContentResolver();
         Cursor cursor;
@@ -159,12 +158,11 @@ public class Utilities {
         try {
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart" },
-                               "( calendar_id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? AND description NOT LIKE ? )",
+                               "( calendar_id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? )",
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%",
-                                              "%Completed!" },
+                                              "Naked%" },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
@@ -172,12 +170,11 @@ public class Utilities {
             Log.d( "Venus", e.getMessage() );
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart" },
-                               "( Calendars._id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? AND description NOT LIKE ? )",
+                               "( Calendars._id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? )",
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%",
-                                              "%Completed!" },
+                                              "Naked%" },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
@@ -212,7 +209,7 @@ public class Utilities {
      * @param c Context to use
      * @param e Event to "mark as complete"
      */
-    public static void markAsComplete( final Context c, Event e ) {
+    public static void markAsComplete( final Context c, Event e, final StartActivity.RefreshHandler rh ) {
         //first we need to find the event again
         VenusDb vdb = new VenusDb( c );
         int calendarId = vdb.getCalendarId();
@@ -269,8 +266,8 @@ public class Utilities {
         new Thread( new Runnable() {
             public void run() {
                 Utilities.addToCalendar( c, ev );
+                rh.sendEmptyMessage( 0 );
             }
         } ).start();
-
     }
 }
