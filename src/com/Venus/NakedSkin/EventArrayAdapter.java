@@ -53,4 +53,10 @@ public class EventArrayAdapter extends ArrayAdapter<String> {
 
         return rowView;
     }
+
+    public void update( int index ) {
+        String original = values.get( index );
+        remove( original );
+        insert( original + " Done", index );
+    }
 }

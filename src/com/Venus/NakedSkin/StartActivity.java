@@ -30,11 +30,13 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
     ArrayList<String> bodyParts = new ArrayList<String>();
     ArrayList<Integer> treatmentNumbers = new ArrayList<Integer>();
     ArrayList<Long> startTimes = new ArrayList<Long>();
+    int lastItemClicked = -1;
+    EventArrayAdapter _adapter;
 
     class RefreshHandler extends Handler {
         public void handleMessage( Message msg ) {
             Log.d( "Venus", "Handling a message, refreshing screen" );
-            refresh();
+            _adapter.update( lastItemClicked );
         }
     }
 
@@ -57,6 +59,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                    .setCancelable( false )
                    .setPositiveButton( "Yes", new DialogInterface.OnClickListener() {
                        public void onClick( DialogInterface dialog, int id ) {
+                           lastItemClicked = arg2;
                            proceed( bodyParts.get( arg2 ), treatmentNumbers.get( arg2 ), startTimes.get( arg2 ) );
                        } } )
                    .setNegativeButton( "No", new DialogInterface.OnClickListener() {
@@ -105,9 +108,6 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
     }
 
     private void refresh() {
-        bodyParts = new ArrayList<String>();
-        treatmentNumbers = new ArrayList<Integer>();
-        startTimes = new ArrayList<Long>();
         Cursor eventCursor = Utilities.queryTodaysEvents( this );
         try {
             String desc = null;
@@ -129,8 +129,8 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                 }
             }
 
-            EventArrayAdapter adapter = new EventArrayAdapter( this, bodyParts, startTimes );
-            setListAdapter( adapter );
+            _adapter = new EventArrayAdapter( this, bodyParts, startTimes );
+            setListAdapter( _adapter );
 
         } catch( CursorIndexOutOfBoundsException cioobe ) {
             Log.d( "Venus", cioobe.getMessage() );
