@@ -201,6 +201,7 @@ public class VenusDb {
       editor.putInt("underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
       editor.putInt("upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
       editor.putInt("wholeBodyTreatmentLength", Constants.TWO_HOURS);
+      editor.commit();
     }
 
     public void setBooleanPreference(Context ctx, String key, boolean value)
@@ -208,6 +209,7 @@ public class VenusDb {
       SharedPreferences settings = getSharedPreferences(ctx);
       SharedPreferences.Editor editor = settings.edit();
       editor.putBoolean(key, value);
+      editor.commit();
     }
 
     public boolean isFirstTreatmentReminder(Context ctx)
@@ -227,6 +229,7 @@ public class VenusDb {
       SharedPreferences settings = getSharedPreferences(ctx);
       SharedPreferences.Editor editor = settings.edit();
       editor.putInt(key, value);
+      editor.commit();
     }
 
     public int getIntegerPreference(Context ctx, String key, int default_value)
