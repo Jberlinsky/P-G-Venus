@@ -27,9 +27,9 @@ public class TutorialActivity extends Activity implements OnClickListener {
 
         firstUsage = this.getIntent().getBooleanExtra("first", false);
 
-        if (firstUsage)
-            openDialog(Constants.TUTORIAL_MESSAGE);
-
+        if (firstUsage){
+        	openDialog(Constants.TUTORIAL_MESSAGE);
+        }
         /*
         mBuilder = new AlertDialog.Builder( this );
         mBuilder.setMessage( Constants.TUTORIAL_MESSAGE )
@@ -210,11 +210,11 @@ public class TutorialActivity extends Activity implements OnClickListener {
         button.setOnClickListener(new OnClickListener() {
         public void onClick(View v) {
             dialog.cancel();
+            
             }
         });
         dialog.show();
     }
-
     private void openDialog(Spanned string)
     {
         final Dialog dialog = new Dialog(this);
@@ -229,7 +229,7 @@ public class TutorialActivity extends Activity implements OnClickListener {
         button.setOnClickListener(new OnClickListener() {
         public void onClick(View v) {
             dialog.cancel();
-            }
+        }
         });
         dialog.show();
     }

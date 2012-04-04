@@ -285,48 +285,60 @@ public class ScheduleActivity extends Activity implements OnClickListener {
     public void onClick( View v ) {
         switch( v.getId() ) {
             case R.id.underarm:
-                if( ua.isSelected ) {
-                    ua.setUnselected();
-                } else {
-                    ua.setSelectedCustom();
-                    ba.setUnselected();
-                    ul.setUnselected();
-                    ll.setUnselected();
-                }
-                this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength(getApplicationContext()));
+            	if (!wholebodySelected)
+            	{
+	                if( ua.isSelected ) {
+	                    ua.setUnselected();
+	                } else {
+	                    ua.setSelectedCustom();
+	                    ba.setUnselected();
+	                    ul.setUnselected();
+	                    ll.setUnselected();
+	                }
+	                this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength(getApplicationContext()));
+            	}
                 break;
             case R.id.bikiniarea:
-                if( ba.isSelected ) {
-                    ba.setUnselected();
-                } else {
-                    ba.setSelectedCustom();
-                    ua.setUnselected();
-                    ul.setUnselected();
-                    ll.setUnselected();
-                }
-                this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength(getApplicationContext()));
+            	if (!wholebodySelected)
+            	{
+	                if( ba.isSelected ) {
+	                    ba.setUnselected();
+	                } else {
+	                    ba.setSelectedCustom();
+	                    ua.setUnselected();
+	                    ul.setUnselected();
+	                    ll.setUnselected();
+	                }
+	                this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength(getApplicationContext()));
+            	}
                 break;
             case R.id.upperleg:
-                if( ul.isSelected ) {
-                    ul.setUnselected();
-                } else {
-                    ul.setSelectedCustom();
-                    ba.setUnselected();
-                    ua.setUnselected();
-                    ll.setUnselected();
-                }
-                this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
+            	if (!wholebodySelected)
+            	{
+	                if( ul.isSelected ) {
+	                    ul.setUnselected();
+	                } else {
+	                    ul.setSelectedCustom();
+	                    ba.setUnselected();
+	                    ua.setUnselected();
+	                    ll.setUnselected();
+	                }
+	                this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
+            	}
                 break;
             case R.id.lowerleg:
-                if( ll.isSelected ) {
-                    ll.setUnselected();
-                } else {
-                    ll.setSelectedCustom();
-                    ba.setUnselected();
-                    ua.setUnselected();
-                    ul.setUnselected();
-                }
-                this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
+            	if (!wholebodySelected)
+            	{
+	                if( ll.isSelected ) {
+	                    ll.setUnselected();
+	                } else {
+	                    ll.setSelectedCustom();
+	                    ba.setUnselected();
+	                    ua.setUnselected();
+	                    ul.setUnselected();
+	                }
+	                this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
+            	}
                 break;
             case R.id.wholebutton:
                 if (wholebodySelected) {

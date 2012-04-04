@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:gravity="right|center"
-            android:layout_weight="0.19"
+            android:layout_weight="0.15"
             android:background="#00FFFFFF"
             android:textColor="#ffffff"
             android:text="@string/wholebody" />
@@ -30,26 +30,20 @@
             android:id="@+id/underarm"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.095"
+            android:layout_weight="0.135"
             android:background="#20ffffff"
             android:gravity="right|center"
             android:text="@string/underarm"
             android:textColor="#ffffff" />
         
-        <LinearLayout
-           android:id="@+id/linearLayout1"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_weight="0.075"
-           android:orientation="vertical" >
-       </LinearLayout>
+       
 
 
         <view class="com.Venus.NakedSkin.SelectionButton"
             android:id="@+id/bikiniarea"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.12"
+            android:layout_weight="0.195"
             android:background="#20ffffff"
             android:gravity="right|center"
             android:text="@string/bikini_area"

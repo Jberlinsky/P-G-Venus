@@ -13,7 +13,8 @@ public class Constants {
     public final static String TUTORIAL_NEGATIVE = "Go back";
 
     public final static Spanned TUTORIAL_MESSAGE =
-            Html.fromHtml("Hi there, goddess!</br> Your journey to Naked Skin<sup><small>®</small></sup> starts now. Click \"Okay\" to learn how this app is going to make your journey easier.");
+            Html.fromHtml("Hi there, goddess!</br> Your journey to Naked Skin<sup><small>®</small></sup> starts now. Click \"Okay\" to learn how this app is going to make your journey easier.You must click through each icon to proceed and finish the tutorial.");
+    public final static String TUTORIAL_MESSAGE_2 = "You must click through each icon to proceed and finish the tutorial.";
     public final static Spanned TUTORIAL_SCHEDULE_MESSAGE =
         Html.fromHtml("Simply go to the Calendar View to view both past and upcoming treatments (circled in blue) as well as today's date (circled in white). Click on any blue circled date to see the details of your appointment with Naked Skin<sup><small>®</small></sup>.");
     public final static String TUTORIAL_TREATMENT_MESSAGE = "Treat the Treatment Area Scheduler like your personal assistant. " +
