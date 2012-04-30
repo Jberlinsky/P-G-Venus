@@ -152,62 +152,62 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         if (mView.getMonth() == 11)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("December " + mView.getYear());
+            tempView.setText(Constants.december +" " + mView.getYear());
         }
         else if (mView.getMonth() == 10)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("November " + mView.getYear());
+            tempView.setText(Constants.november + " " + mView.getYear());
         }
         else if (mView.getMonth() == 9)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("October " + mView.getYear());
+            tempView.setText(Constants.october+" " + mView.getYear());
         }
         else if (mView.getMonth() == 8)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("September " + mView.getYear());
+            tempView.setText(Constants.september+" " + mView.getYear());
         }
         else if (mView.getMonth() == 7)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("August " + mView.getYear());
+            tempView.setText(Constants.august + " " + mView.getYear());
         }
         else if (mView.getMonth() == 6)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("July " + mView.getYear());
+            tempView.setText(Constants.july + " " + mView.getYear());
         }
         else if (mView.getMonth() == 5)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("June " + mView.getYear());
+            tempView.setText(Constants.june + " " + mView.getYear());
         }
         else if (mView.getMonth() == 4)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("May " + mView.getYear());
+            tempView.setText(Constants.may + " " + mView.getYear());
         }
         else if (mView.getMonth() == 3)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("April " + mView.getYear());
+            tempView.setText(Constants.april + " " + mView.getYear());
         }
         else if (mView.getMonth() == 2)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("March " + mView.getYear());
+            tempView.setText(Constants.march + " " + mView.getYear());
         }
         else if (mView.getMonth() == 1)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("February " + mView.getYear());
+            tempView.setText(Constants.february + " " + mView.getYear());
         }
         else if (mView.getMonth() == 0)
         {
             tempView = (TextView)findViewById(R.id.monthtext);
-            tempView.setText("January " + mView.getYear());
+            tempView.setText(Constants.january + " " + mView.getYear());
         }
     }
 

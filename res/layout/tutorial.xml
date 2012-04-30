@@ -101,7 +101,7 @@
 		    android:background="#000000"
 		    android:scaleType = "centerInside"
 		    android:layout_gravity="center"
-            android:src="@drawable/start"/>
+            android:src="@drawable/startfrench"/>
     </TableRow>
     
     <TableRow android:gravity="center">

@@ -171,14 +171,14 @@ public class ScheduleActivity extends Activity implements OnClickListener {
               AlertDialog.Builder builder = new AlertDialog.Builder(this);
               builder.setMessage(
                   Constants.TREATMENT_OPTION_MESSAGE
-              ).setPositiveButton("Maintenance", new DialogInterface.OnClickListener() {
+              ).setPositiveButton(Constants.MAINTENANCE, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                   // Change to maintenence
                     vdb.setIsNotFirstTreatmentReminder( ctx );
                     isStartup = false;
                     setUpEvent();
                 }
-              }).setNegativeButton("Start Up", new DialogInterface.OnClickListener() {
+              }).setNegativeButton(Constants.STARTUP, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                   setUpEvent();
                 }
@@ -519,11 +519,11 @@ public class ScheduleActivity extends Activity implements OnClickListener {
 
         String toastText = "";
         if ( isStartup && isFirstTreatment ) {
-            toastText = "Reminders for your first six "+ bodyPart + " treatments have been automatically set.";
+            toastText = Constants.REMINDER_FIRST + bodyPart + Constants.REMINDER_SECOND;
         } else if( isStartup ) {
-            toastText = "Reminder for " + bodyPart + " treatment number " + startupNumber + " have been set.";
+            toastText = Constants.REMINDER_THIRD + bodyPart + Constants.REMINDER_FOURTH + startupNumber + Constants.REMINDER_FIFTH;
         } else {
-            toastText = "Maintenance reminders for " + bodyPart + " has been set.";
+            toastText = Constants.REMINDER_SIXTH + bodyPart + Constants.REMINDER_FIFTH;
         }
         Toast.makeText( this, toastText, Toast.LENGTH_LONG ).show();
 

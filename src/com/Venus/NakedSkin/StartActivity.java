@@ -14,7 +14,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+//import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,7 +35,6 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
 
     class RefreshHandler extends Handler {
         public void handleMessage( Message msg ) {
-            Log.d( "Venus", "Handling a message, refreshing screen" );
             _adapter.update( lastItemClicked );
         }
     }
@@ -50,19 +49,19 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
 
     public void onItemClick( AdapterView<?> arg0, View arg1, final int arg2, long arg3 ) {
         String bodyPart = bodyParts.get( arg2 );
-        Log.d( "Venus", bodyPart );
-        if( bodyPart.contains( "Done" ) ) {
+        //Log.d( "Venus", bodyPart );
+        if( bodyPart.contains( Constants.DONE ) ) {
             return;
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder( this );
-            builder.setMessage( "Are you treating " + bodyPart + " now?" )
+            builder.setMessage( bodyPart + "?" )
                    .setCancelable( false )
-                   .setPositiveButton( "Yes", new DialogInterface.OnClickListener() {
+                   .setPositiveButton( Constants.YES, new DialogInterface.OnClickListener() {
                        public void onClick( DialogInterface dialog, int id ) {
                            lastItemClicked = arg2;
                            proceed( bodyParts.get( arg2 ), treatmentNumbers.get( arg2 ), startTimes.get( arg2 ) );
                        } } )
-                   .setNegativeButton( "No", new DialogInterface.OnClickListener() {
+                   .setNegativeButton( Constants.NO, new DialogInterface.OnClickListener() {
                        public void onClick( DialogInterface dialog, int id ) {
                            dialog.cancel();
                        } } );
@@ -73,34 +72,34 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
 
     private void proceed( final CharSequence bodyPartTemp, Integer treatmentNumberTemp, final Long startTime ) { //only has to deal with one case.
         if( -1 == treatmentNumberTemp ) {
-            Log.d( "Venus", "No action: in maintenance phase" );
+            //Log.d( "Venus", "No action: in maintenance phase" );
         } else if( 12 == treatmentNumberTemp ) {
             scheduleMaintenance( bodyPartTemp, startTime );
-            Log.d( "Venus", "Forcing maintenance reminders" );
+            //Log.d( "Venus", "Forcing maintenance reminders" );
         } else if( 6 <= treatmentNumberTemp ) {
             final int treatmentNumber = treatmentNumberTemp;
-            Log.d( "Venus", "Dialog about maintenance or startup" );
+            //Log.d( "Venus", "Dialog about maintenance or startup" );
             AlertDialog.Builder builder = new AlertDialog.Builder( this );
             builder.setMessage( Constants.TREATMENT_OPTION_MESSAGE )
                    .setCancelable( false )
-                   .setPositiveButton( "Maintenance",
+                   .setPositiveButton( Constants.MAINTENANCE,
                                        new DialogInterface.OnClickListener() {
                                            public void onClick( DialogInterface dialog, int id ) {
-                                               Log.d( "Venus", "User chose maintenance" );
+                                               //Log.d( "Venus", "User chose maintenance" );
                                                scheduleMaintenance( bodyPartTemp, startTime );
                                            }
                                        } )
-                   .setNegativeButton( "Start Up",
+                   .setNegativeButton( Constants.STARTUP,
                                        new DialogInterface.OnClickListener() {
                                            public void onClick( DialogInterface dialog, int id ) {
-                                               Log.d( "Venus", "User chose startup" );
+                                               //Log.d( "Venus", "User chose startup" );
                                                scheduleOneStartUp( bodyPartTemp, treatmentNumber, startTime );
                                            }
                                        } );
             AlertDialog alert = builder.create();
             alert.show();
         } else {
-            Log.d( "Venus", "No action: in startup phase" );
+            //Log.d( "Venus", "No action: in startup phase" );
         }
         //for all treatments, mark as complete
         Event e = new Event( bodyPartTemp, startTime );
@@ -122,8 +121,8 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                     treatmentNumberTemp = -1;
                 }
                 treatmentNumbers.add( treatmentNumberTemp );
-                if( desc.contains( "Completed!" ) ) {
-                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + " Done" );
+                if( desc.contains( Constants.COMPLETED ) ) {
+                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + Constants.DONE );
                 } else {
                     bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) );
                 }
@@ -133,8 +132,18 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
             setListAdapter( _adapter );
 
         } catch( CursorIndexOutOfBoundsException cioobe ) {
-            Log.d( "Venus", cioobe.getMessage() );
             //error happened...
+        } catch (NullPointerException npe ){
+        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        	builder.setMessage(Constants.TUTORIAL_CALENDAR_MISSING)
+        	.setCancelable(false)
+        	.setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+        		public void onClick( DialogInterface dialog, int id){
+        			dialog.cancel();
+        		}
+        	});
+        	AlertDialog alert = builder.create();
+        	alert.show();
         }
     }
 
@@ -150,8 +159,8 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
         final Context ctx = this;
         for( int i = 0; i < 6; i++ ) {
             _calendar.add( Calendar.MONTH, 2 );
-            final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
-                                       "Maintenance phase",
+            final Event e = new Event( Constants.NAKED_SKIN + bodyPart + Constants.TREATMENT_REMINDER,
+                                       Constants.MAINTENANCE,
                                        _calendar.getTimeInMillis(),
                                        _calendar.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
 
@@ -162,7 +171,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
             } ).start();
         }
         Toast.makeText( this,
-                        "Maintenance reminders for " + bodyPart + " have been set.",
+                        Constants.REMINDER_SIXTH + bodyPart + Constants.REMINDER_FIFTH,
                         Toast.LENGTH_LONG ).show();
     }
 
@@ -172,8 +181,8 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
         _calendar.setTimeInMillis( startTime );
         final Context ctx = this;
         _calendar.add( Calendar.WEEK_OF_YEAR, 2 );
-        final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
-                                   "This is treatment number " + ( treatmentNumber + 1 ),
+        final Event e = new Event( Constants.NAKED_SKIN + bodyPart + Constants.TREATMENT_REMINDER,
+                                   Constants.THISISTREATMENTREMINDER + ( treatmentNumber + 1 ),
                                    _calendar.getTimeInMillis(),
                                    _calendar.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
 
@@ -183,21 +192,21 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
             }
         } ).start();
         Toast.makeText( this,
-                        "Reminder for " + bodyPart + " treatment number " + ( treatmentNumber + 1 ) + " has been set.",
+                        Constants.REMINDER_THIRD + bodyPart + Constants.REMINDER_FOURTH + ( treatmentNumber + 1 ) + Constants.REMINDER_FIFTH,
                         Toast.LENGTH_LONG ).show();
     }
 
     private String getBodyPartString( String subString ) {
-        if( subString.substring( 0, 2 ).equalsIgnoreCase( "Un" ) ) {
-            return "Underarm";
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Bi" ) ) {
-            return "Bikini Area";
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Up" ) ) {
-            return "Upper Leg";
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Lo" ) ) {
-            return "Lower Leg";
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Wh" ) ) {
-            return "Whole Body";
+        if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.UN ) ) {
+            return Constants.UNDERARM;
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.BI ) ) {
+            return Constants.BIKINIAREA;
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.UP ) ) {
+            return Constants.UPPERLEG;
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.LO ) ) {
+            return Constants.LOWERLEG;
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.WH ) ) {
+            return Constants.WHOLEBODY;
         }
         return null;
     }
@@ -205,13 +214,13 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
     private int getTreatmentLength( String bodyPart ) {
         VenusDb vdb = new VenusDb( this );
         int treatmentLength = -1;
-        if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( "Un" ) ) {
+        if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.UN ) ) {
             treatmentLength = vdb.getUnderarmBikiniTreatmentLength( this );
-        } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( "Bi" ) ) {
+        } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.BI ) ) {
             treatmentLength = vdb.getUnderarmBikiniTreatmentLength( this );
-        } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( "Up" ) ) {
+        } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.UP ) ) {
             treatmentLength = vdb.getUpperLowerLegTreatmentLength( this );
-        } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( "Lo" ) ) {
+        } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.LO ) ) {
             treatmentLength = vdb.getUpperLowerLegTreatmentLength( this );
         }
         vdb.close();

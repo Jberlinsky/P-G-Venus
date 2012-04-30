@@ -61,15 +61,24 @@ public class HowtoActivity extends Activity implements View.OnClickListener{
         switch( v.getId() ) {
         
         case R.id.howtoVideoButton :
-        	browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=P-9Q1ppDVI8"));
+        	//French
+        	browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=J6LNzyn95mc"));
+        	//English
+        	//browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=P-9Q1ppDVI8"));
             startActivity(browserIntent);
             break;
         case R.id.trVideoButton :
-        	browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=YHWc1btzmr8"));
+        	//French
+        	browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=z9sD1gbFwhg "));
+        	//English
+        	//browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=YHWc1btzmr8"));
             startActivity(browserIntent);
             break;
         case R.id.workVideoButton :
-        	browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=8YaO9RYPBaE"));
+        	//French
+        	browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=UZSXBZ_gmQk"));
+        	//English
+        	//browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=8YaO9RYPBaE"));
             startActivity(browserIntent);
             break;
         default :

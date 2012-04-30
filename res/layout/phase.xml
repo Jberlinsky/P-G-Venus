@@ -16,7 +16,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:gravity="center"
-	        android:text="Which phase are you in?"/>
+	        android:text="@string/whichphase"/>
     </TableRow>
 		
 	<TableRow android:layout_weight="0.01">
@@ -41,14 +41,14 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center|top"
-	        android:text="Start-up" />
+	        android:text="@string/startupphase" />
 
 	    <TextView
 	        android:id="@+id/maintenanceText"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center|top"
-	        android:text="Maintenance" />
+	        android:text="@string/maintenancephase" />
 
 	</TableRow>
 	    
@@ -59,7 +59,7 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 			android:layout_gravity="center|bottom"
-	        android:text="How many sessions have you done?"/>
+	        android:text="@string/howmanysession"/>
 	</TableRow>
 	<TableRow android:layout_weight="0.2">
 	    <Spinner
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:text="Back"
+            android:text="@string/back"
             android:paddingTop="5dp"
 			 android:paddingBottom="5dp"
 			 android:paddingLeft="30dp"
@@ -89,7 +89,7 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="50dp"
 		    android:layout_gravity="right"
-		    android:text="Next"
+		    android:text="@string/next"
 		    android:paddingTop="5dp"
 			 android:paddingBottom="5dp"
 			 android:paddingLeft="30dp"

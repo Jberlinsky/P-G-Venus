@@ -37,15 +37,15 @@ public class EventArrayAdapter extends ArrayAdapter<String> {
         textView.setText(values.get(position));
         // Change the icon for Windows and iPhone
         String s = values.get(position);
-        if (s.contains("Whole")) {
+        if (s.contains(Constants.WHOLE)) {
             imageView.setImageResource(R.drawable.backgroundbody);
-        }else if (s.contains("Under")) {
+        }else if (s.contains(Constants.UNDER)) {
             imageView.setImageResource(R.drawable.underarm);
-        } else if (s.contains("Lower")) {
+        } else if (s.contains(Constants.LOWER)) {
             imageView.setImageResource(R.drawable.lowerleg);
-        } else if (s.contains("Upper")) {
+        } else if (s.contains(Constants.UPPER)) {
             imageView.setImageResource(R.drawable.upperleg);
-        } else if (s.contains("Bikini")) {
+        } else if (s.contains(Constants.BIKINI)) {
             imageView.setImageResource(R.drawable.bikiniarea);
         } else{
             imageView.setImageResource(R.drawable.backgroundbody);
@@ -57,6 +57,6 @@ public class EventArrayAdapter extends ArrayAdapter<String> {
     public void update( int index ) {
         String original = values.get( index );
         remove( original );
-        insert( original + " Done", index );
+        insert( original + Constants.DONE, index );
     }
 }

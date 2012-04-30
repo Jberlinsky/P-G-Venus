@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="hello">Hello World, VenusDiaryActivity!</string>
     <string name="app_name">NakedSkin</string>
-    <string name="left_underarm">Left Underarm</string>
-    <string name="right_underarm">Right Underarm</string>
+    <string name="left_underarm">Aisselle gauche</string>
+    <string name="right_underarm">Aisselle droite</string>
     <string name="left_forearm">Left Forearm</string>
     <string name="right_forearm">Right Forearm</string>
-    <string name="bikini_area">Bikini Area</string>
+    <string name="bikini_area">Maillot</string>
     <string name="left_upper_leg">Left Upper Leg</string>
     <string name="right_upper_leg">Right Upper Leg</string>
     <string name="left_lower_leg">Left Lower Leg</string>
     <string name="right_lower_leg">Right Lower Leg</string>
-    <string name="proceed">Proceed</string>
-    <string name="view">View</string>
+    <string name="proceed">Commencer</string>
+    <string name="view">Voir</string>
+    <string name="whichphase">Dans quelle phase êtes-vous?</string>
+    <string name="startupphase">Première phase de traitement</string>
+    <string name="maintenancephase">Suivi</string>
+    <string name="howmanysession">Combien de séances avez-vous réalisées?</string>
+    <string name="next">Suivant</string>
+    <string name="back">Retour</string>
+    <string name="apply">Appliquer</string>
     
     <string-array name="sessions_array">
         <item>0</item>
@@ -34,32 +40,32 @@
         <item>15 minutes</item>
         <item>30 minutes</item>
         <item>45 minutes</item>
-        <item>1 hour</item>
+        <item>1 heure</item>
     </string-array>
-    <string name="none">None</string>
-    <string name="hint">Nothing</string>
-    <string name="set_underarm">Set underarm treatment period</string>
-    <string name="save">Save</string>
-    <string name="view_tutorial">View Application Tutorial</string>
-    <string name="underarm">Underarm</string>
-    <string name="upper_leg">Upper Leg</string>
-    <string name="lower_leg">Lower Leg</string>
-    <string name="schedule">Calendar View</string>
-    <string name="treatment">Treatment Area Scheduler</string>
-    <string name="howtovideos">Videos</string>
-    <string name="setting">Reminder Settings</string>
-    <string name="buygel">Buy More Gel</string>
-    <string name="regimen">How Often to Use?</string>
-    <string name="howitworks">How It Works</string>
-    <string name="howtouse">How to Use It</string>
-    <string name="home">Home</string>
-    <string name="set_bikini">Set bikini area treatment period</string>
-    <string name="set_bikiniunderarm">Set bikini area/underarm treatment period</string>
-    <string name="set_upperlowerleg">Set upper/lower leg treatment period</string>
-    <string name="choose">Choose Duration :</string>
-    <string name="wholebody">Whole Body</string>
-    <string name="tutorial_negative">Go Back</string>
-    <string name="tutorial_positive">Okay</string>
-    <string name="todaysevents">Today\'s Treatments</string>
+    <string name="none">Aucun</string>
+    <string name="hint">Rien</string>
+    <string name="set_underarm">Programmer la période de traitement des aisselles</string>
+    <string name="save">Sauvegarder</string>
+    <string name="view_tutorial">Voir le Guide de l\'Application</string>
+    <string name="underarm">Aisselles</string>
+    <string name="upper_leg">Cuisse</string>
+    <string name="lower_leg">Demi-jambe</string>
+    <string name="schedule">Voir Calendrier</string>
+    <string name="treatment">Agenda des zones à traiter</string>
+    <string name="howtovideos">Vidéos</string>
+    <string name="setting">Programmation des rappels</string>
+    <string name="buygel">Acheter du gel</string>
+    <string name="regimen">A quelle fréquence dois-je l\'utiliser?</string>
+    <string name="howitworks">Comment ça marche</string>
+    <string name="howtouse">Comment l\'utiliser</string>
+    <string name="home">Menu</string>
+    <string name="set_bikini">Programmer la période de traitement des aisselles</string>
+    <string name="set_bikiniunderarm">Programmer la période de traitement du maillot/des aisselles</string>
+    <string name="set_upperlowerleg">Programmer la période de traitement du haut/bas des jambes</string>
+    <string name="choose">Choisir la période:</string>
+    <string name="wholebody">Corps entier</string>
+    <string name="tutorial_negative">Retour</string>
+    <string name="tutorial_positive">Ok</string>
+    <string name="todaysevents">Traitements du jour</string>
     <string name="treatmentcontentimage">Treatmente Image</string>
 </resources>

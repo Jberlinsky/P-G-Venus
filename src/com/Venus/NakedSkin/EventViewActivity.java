@@ -9,7 +9,7 @@ import android.app.ListActivity;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
-import android.util.Log;
+//import android.util.Log;
 import android.widget.TextView;
 
 public class EventViewActivity extends ListActivity{
@@ -41,8 +41,8 @@ public class EventViewActivity extends ListActivity{
         try {
             while( eventCursor.moveToNext() ) {
                 startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
-                if( eventCursor.getString( Constants.EVENT_DESC_INDEX ).contains( "Completed!" ) ) {
-                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + " Done" );
+                if( eventCursor.getString( Constants.EVENT_DESC_INDEX ).contains( Constants.COMPLETED ) ) {
+                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + Constants.DONE );
                 } else {
                     bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) );
                 }
@@ -52,7 +52,7 @@ public class EventViewActivity extends ListActivity{
             setListAdapter( adapter );
 
         } catch( CursorIndexOutOfBoundsException cioobe ) {
-            Log.d( "Venus", cioobe.getMessage() );
+            //Log.d( "Venus", cioobe.getMessage() );
             //error happened...
         }
     }
@@ -62,18 +62,18 @@ public class EventViewActivity extends ListActivity{
     }
 
     private String getBodyPartString( String subString ) {
-        if( subString.substring( 0, 2 ).equalsIgnoreCase( "Un" ) ) {
-            return "Underarm";
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Bi" ) ) {
-            return "Bikini Area";
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Up" ) ) {
-            return "Upper Leg";
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Lo" ) ) {
-            return "Lower Leg";
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( "Wh" ) ) {
-            return "Whole Body";
+        if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.UN) ) {
+            return Constants.UNDERARM;
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.BI ) ) {
+            return Constants.BIKINIAREA;
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.UP ) ) {
+            return Constants.UPPERLEG;
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.LO ) ) {
+            return Constants.LOWERLEG;
+        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.WH ) ) {
+            return Constants.WHOLEBODY;
         } else {
-            return "Other";
+            return Constants.OTHER;
         }
     }
 }

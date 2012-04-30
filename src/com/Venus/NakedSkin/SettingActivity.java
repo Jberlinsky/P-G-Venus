@@ -52,7 +52,7 @@ public class SettingActivity extends Activity implements OnClickListener {
         int UABA = (new VenusDb(this)).getUnderarmBikiniTreatmentLength(this);
         if (UABA == 10*60*1000)
         	sessionSpinnerBU.setSelection(0);
-        else if (UABA == 20*60*1000)
+        else if (UABA == 15*60*1000)
         	sessionSpinnerBU.setSelection(1);
         else if (UABA == 30*60*1000)
         	sessionSpinnerBU.setSelection(2);
@@ -103,7 +103,7 @@ public class SettingActivity extends Activity implements OnClickListener {
         int LULU = (new VenusDb(this)).getUpperLowerLegTreatmentLength(this);
         if (LULU == 10*60*1000)
         	sessionSpinnerLU.setSelection(0);
-        else if (LULU == 20*60*1000)
+        else if (LULU == 15*60*1000)
         	sessionSpinnerLU.setSelection(1);
         else if (LULU == 30*60*1000)
         	sessionSpinnerLU.setSelection(2);

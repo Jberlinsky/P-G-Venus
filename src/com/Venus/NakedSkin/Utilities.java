@@ -10,7 +10,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
-import android.util.Log;
 
 public class Utilities {
 
@@ -37,7 +36,7 @@ public class Utilities {
                                null );
             return cursor;
         } catch( SQLiteException e ) {
-            Log.d( "Venus", e.getMessage() );
+            //Log.d( "Venus", e.getMessage() );
             cursor = cr.query( Uri.parse( uri ),
                                new String[]{ "_id", displayName },
                                null,
@@ -75,7 +74,7 @@ public class Utilities {
             vdb.close();
             return cursor;
         } catch( SQLiteException e ) {
-            Log.d( "Venus", e.getMessage() );
+            //Log.d( "Venus", e.getMessage() );
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart" },
                                "( Calendars._id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? )",
@@ -121,7 +120,7 @@ public class Utilities {
             vdb.close();
             return cursor;
         } catch( SQLiteException e ) {
-            Log.d( "Venus", e.getMessage() );
+            //Log.d( "Venus", e.getMessage() );
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart" },
                                "( Calendars._id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? )",
@@ -167,7 +166,7 @@ public class Utilities {
             vdb.close();
             return cursor;
         } catch( SQLiteException e ) {
-            Log.d( "Venus", e.getMessage() );
+            //Log.d( "Venus", e.getMessage() );
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart" },
                                "( Calendars._id = ? AND dtstart BETWEEN ? AND ? AND title LIKE ? )",
@@ -236,7 +235,7 @@ public class Utilities {
                                "dtstart ASC" );
         } catch( SQLiteException sqle ) {
             calendarIdString = "Calendars._id";
-            Log.d( "Venus", sqle.getMessage() );
+            //Log.d( "Venus", sqle.getMessage() );
             cursor = cr.query( builder.build(),
                                new String[] { "title", "description", "dtstart", "dtend" },
                                "( " + calendarIdString + " = ? AND dtstart = ? AND title = ? )",
@@ -259,7 +258,7 @@ public class Utilities {
                                       e.title } );
         } catch( SQLiteException sqle ) {
             //serious exception here, we are supposed to catch the correct ID string previously
-            Log.d( "Venus", sqle.getMessage() );
+            //Log.d( "Venus", sqle.getMessage() );
         }
 
         final Event ev = new Event( e );
