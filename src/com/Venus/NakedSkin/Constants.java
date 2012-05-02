@@ -58,7 +58,7 @@ public class Constants {
   //      "Here, you'll be able to select a playlist to listen to while you treat yourself.";
     public final static String TUTORIAL_SETTINGS_MESSAGE = "Vous pouvez changer le mode de rappel des traitements sous Programmation des rappels. Vous �tes maintenant pr�te � commencer.";
     public final static String TUTORIAL_START_MESSAGE = "Dans la rubrique �Traitement du jour� vous pouvez facilement voir quels traitements sont pr�vus aujourd�hui.";
-    public final static String TREATMENT_OPTION_MESSAGE = "Souhaitez-vous continuer la premi�re phase de traitement et programmer un rappel pour traiter dans deux semaines, ou �tes-vous pr�te pour la phase de suivi et programmer un rappel dans deux mois?";
+
 
     public final static String TUTORIAL_CALENDAR_SELECT_TITLE = "Choisir un calendrier";
     public final static Spanned TUTORIAL_CALENDAR_SELECT_MESSAGE = Html.fromHtml( "Avant de commencer, vous devrez choisir un calendrier � utiliser avec Naked Skin<sup><small>�</small></sup>. Vous pouvez toujours le changer dans le menu." );
@@ -98,18 +98,7 @@ public class Constants {
     public final static String FIRST_PICK_DIALOG = "Merci de s�lectionner la date � laquelle vous souhaitez commencer.";
     public final static String DATE_PICK_DIALOG = "Merci de s�lectionner la date de votre traitement le plus r�cent.";
     public final static String TIME_PICK_DIALOG = "Merci de s�lectionner l'heure de votre rappel.";
-    public final static String MAINTENANCE = "Suivi";
-    public final static String STARTUP = "Premi�re phase de traitement";
 
-    //Intent extras for TutorialActivity
-    public final static String TUTORIAL_INTENT_EXTRA_FIRSTRUN = "first";
-
-    public final static String REMINDER_FIRST = "Les rappels pour vos six premiers ";
-    public final static String REMINDER_SECOND = " traitements ont �t� programm�s automatiquement.";
-    public final static String REMINDER_THIRD = "Le rappel du ";
-    public final static String REMINDER_FOURTH = " nombre de traitements ";
-    public final static String REMINDER_FIFTH = " a �t� programm�.";
-    public final static String REMINDER_SIXTH = "Rappel(s) pour l'entretien de ";
     public final static String TREATMENT_REMINDER = " Rappel(s) pour le traitements";
     public final static String THISISTREATMENTREMINDER = "Nombre de Traitements ";
     public final static String YES = "Oui";

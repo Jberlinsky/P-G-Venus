@@ -3,18 +3,13 @@
     <string name="app_name">NakedSkin</string>
     <string name="left_underarm">Aisselle gauche</string>
     <string name="right_underarm">Aisselle droite</string>
-    <string name="left_forearm">Left Forearm</string>
     <string name="right_forearm">Right Forearm</string>
     <string name="bikini_area">Maillot</string>
-    <string name="left_upper_leg">Left Upper Leg</string>
     <string name="right_upper_leg">Right Upper Leg</string>
-    <string name="left_lower_leg">Left Lower Leg</string>
     <string name="right_lower_leg">Right Lower Leg</string>
     <string name="proceed">Commencer</string>
     <string name="view">Voir</string>
     <string name="whichphase">Dans quelle phase êtes-vous?</string>
-    <string name="startupphase">Première phase de traitement</string>
-    <string name="maintenancephase">Suivi</string>
     <string name="howmanysession">Combien de séances avez-vous réalisées?</string>
     <string name="next">Suivant</string>
     <string name="back">Retour</string>
@@ -81,4 +76,14 @@
         <item>Novembre</item>
         <item>Décembre</item>
     </string-array>
+    <string name="treatment_option_message">Souhaitez-vous continuer la première phase de traitement et programmer un rappel pour traiter dans deux semaines, ou êtes-vous prête pour la phase de suivi et programmer un rappel dans deux mois?</string>
+    <string name="maintenance">Suivi</string>
+    <string name="startup">Première phase de traitement</string>
+    <string name="reminder_first_startup_suffix"> traitements ont été programmés automatiquement.</string>
+    <string name="reminder_first_startup_prefix">Les rappels pour vos six premiers </string>
+    <string name="reminder_startup_prefix">Le rappel du </string>
+    <string name="reminder_startup_middle"> nombre de traitements </string>
+    <string name="reminder_startup_suffix"> a été programmé.</string>
+    <string name="reminder_maintenance_suffix"> a été programmé.</string>
+    <string name="reminder_maintenance_prefix">Rappel(s) pour l\'entretien de </string>
 </resources>

@@ -13,6 +13,7 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,6 +41,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
     private Spinner sessionSpinner;
 
     private Button wb;
+    private Button proceedButton;
     private SelectionButton ua;
     private SelectionButton ba;
     private SelectionButton ul;
@@ -49,53 +51,27 @@ public class ScheduleActivity extends Activity implements OnClickListener {
     private static final int TIME_DIALOG_ID = 102;
     private static final int FIRST_DIALOG_ID = 103;
 
+    /**
+     * Sets everything up correctly for this Activity.
+     * Weird visual fix necessary.
+     */
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.schedule );
         _calendar = Calendar.getInstance();
         vdb = new VenusDb( this );
 
-        /* Button names
-         *  underarmleft
-            underarmright
-            forearmleft
-            forearmright
-            bikiniarea
-            upperlegleft
-            upperlegright
-            lowerlegleft
-            lowerlegright
-            scheduleproceed
-            phaseProceed
-            phaseBack
-            setReminderBack
-            startupButton
-            maintenanceButton
-            saveReminder
-         */
-
-        /*Edit TExt
-         * setReminderEmail
-         */
-
-        /*Spinner
-         * alarmSoundSpinner
-         * daysBeforeSpinner
-         */
-
-        /* Checkbox
-         * emailCheckBox
-         * alertCheckBox
-         */
-
         //Visual Fix
-        Button proceedButton = (Button)findViewById( R.id.scheduleProceed );
+        proceedButton = (Button)findViewById( R.id.scheduleProceed );
         int buttonHeight = proceedButton.getHeight();
         proceedButton.layout( buttonHeight * 2, buttonHeight, 3, 0 );
         proceedButton.setWidth( buttonHeight * 2 );
         setListeners();
     }
 
+    /**
+     * Sets the OnClickListeners for all of the buttons
+     */
     private void setListeners() {
         ba = (SelectionButton)findViewById( R.id.bikiniarea );
         ba.setOnClickListener( this );
@@ -108,52 +84,48 @@ public class ScheduleActivity extends Activity implements OnClickListener {
         wb = (Button)findViewById( R.id.wholebutton );
         wb.setOnClickListener( this );
 
-        findViewById(R.id.scheduleProceed).setOnClickListener(this);
+        proceedButton.setOnClickListener( this );
     }
 
+    /**
+     * Prepopulates the duration of a treatment
+     * @param duration Duration of treatment
+     */
     private void prepopulateMinutes( int duration ) {
-        // Prepopuate the length of a treatment
         treatmentDuration = duration;
     }
 
+    /**
+     * Creates the menu
+     */
     public boolean onCreateOptionsMenu( Menu menu ) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate( R.layout.tabmenu, menu );
         return true;
     }
 
-    public void onBackPressed() {
-        //This is to prevent user from accidently exiting the app
-        //pressing Home will exit the app
-        setScheduleContent();
-    }
-
+    /**
+     * Handles menu clicks
+     */
     public boolean onOptionsItemSelected( MenuItem item ) {
-        // Handle item selection
         switch( item.getItemId() ) {
         case R.id.schedulemenu:
             setScheduleContent();
-            //startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
             return true;
         case R.id.treatmentmenu:
-            startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
-            vdb.close();
+            startActivity( new Intent( this, TreatmentActivity.class ) );
             finish();
             return true;
         case R.id.howtomenu:
-            startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
-            vdb.close();
+            startActivity( new Intent( this, HowtoActivity.class ) );
             finish();
             return true;
         case R.id.settingmenu:
-            startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
-            vdb.close();
+            startActivity( new Intent( this, SettingActivity.class ) );
             finish();
             return true;
         case R.id.homemenu:
-            startActivity( new Intent( getApplicationContext(), TutorialActivity.class )
-                               .putExtra( Constants.TUTORIAL_INTENT_EXTRA_FIRSTRUN, false ) );
-            vdb.close();
+            startActivity( new Intent( this, TutorialActivity.class ).putExtra( Constants.FIRST, false ) );
             finish();
             return true;
         default:
@@ -161,240 +133,164 @@ public class ScheduleActivity extends Activity implements OnClickListener {
         }
     }
 
+    /**
+     * Ensures we close the DB
+     */
+    public void onDestroy() {
+        vdb.close();
+        super.onDestroy();
+    }
+
+    /**
+     * Prevents user from accidentally exiting the app.
+     * User needs to press "home"
+     * Could be changed to "Do you want to exit?" dialog.
+     * This one also resets the view to the first page.
+     */
+    public void onBackPressed(){
+        setScheduleContent();
+    }
+
+    /**
+     * This checks for the status of treatment / maintenance phases, and proceeds accordingly
+     */
     public void checkStartupMaintenenceAndProceed() {
         final Context ctx = this;
-      // If this is after the first set of treatments, but we have not switched to the maintenence phase yet, warn
-            if (Integer.parseInt(startupNumber) >= 6 && (isStartup && !vdb.isFirstTreatmentReminder()) )
-            {
-//              final ScheduleActivity self = this;
-              // Prompt with option of switching to maintenence
-              AlertDialog.Builder builder = new AlertDialog.Builder(this);
-              builder.setMessage(
-                  Constants.TREATMENT_OPTION_MESSAGE
-              ).setPositiveButton(Constants.MAINTENANCE, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                  // Change to maintenence
-                    vdb.setIsNotFirstTreatmentReminder( ctx );
-                    isStartup = false;
-                    setUpEvent();
-                }
-              }).setNegativeButton(Constants.STARTUP, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                  setUpEvent();
-                }
-              });
-              AlertDialog alert = builder.create();
-              alert.show();
-            }
-            else {
-              setUpEvent();
-            }
+        //If this is after the first set of treatments, but we have not switched to the maintenance phase yet, warn
+        if( Integer.parseInt( startupNumber ) >= 6 &&
+            (isStartup && !vdb.isFirstTreatmentReminder()) ) {
+            // Prompt with option of switching to maintenance
+            AlertDialog.Builder builder = new AlertDialog.Builder( this );
+            builder.setMessage( getString( R.string.treatment_option_message ) )
+                   .setPositiveButton( getString( R.string.maintenance ), new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int id) {
+                           // Change to maintenance
+                           vdb.setIsNotFirstTreatmentReminder( ctx );
+                           isStartup = false;
+                           setUpEvent();
+                       } } )
+                   .setNegativeButton( getString( R.string.startup ), new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int id) {
+                           setUpEvent();
+                       } } );
+            builder.create().show();
+        } else {
+            setUpEvent();
+        }
     }
-/*
-    public void proceed(boolean isStartup)
-    {
-      //Visual and listener//
-            findViewById(R.id.saveReminder).setOnClickListener(this);
-            findViewById(R.id.setReminderBack).setOnClickListener(this);
-            String bodyPart = null;
-            if( ba.isSelected ) {
-                bodyPart = getString( R.string.bikini_area );
-            } else if( ua.isSelected ) {
-                bodyPart = getString( R.string.underarm );
-            } else if( ul.isSelected ) {
-                bodyPart = getString( R.string.upper_leg );
-            } else if( ll.isSelected ) {
-                bodyPart = getString( R.string.lower_leg );
-            }
-            else
-                bodyPart = "Other";
-            //Is this start up or maintenance?
-            String desc = null;
-            int modifier = 0;
-            if( isStartup ) {
-                desc = "This is treatment number " + startupNumber;
-                modifier = Calendar.WEEK_OF_YEAR;
-            } else {
-                desc = "Maintenance phase";
-                modifier = Calendar.MONTH;
-            }
-            _calendar.add( modifier, 2 );
-            Intent calendarIntent = new Intent( Intent.ACTION_INSERT );
-            calendarIntent.setType( "vnd.android.cursor.item/event" );
-            calendarIntent.putExtra( "title", "Naked Skin " + bodyPart + " treatment reminder" );
-            calendarIntent.putExtra( "description", desc );
-            calendarIntent.putExtra( "beginTime", _calendar.getTimeInMillis() );
-            if (this.treatmentDuration != -1)
-              calendarIntent.putExtra("endTime", _calendar.getTimeInMillis() + this.treatmentDuration);
-            else
-              calendarIntent.putExtra( "endTime", _calendar.getTimeInMillis() + Constants.ONE_HOUR );
-            calendarIntent.putExtra("allDay", 0);
-   //status: 0~ tentative; 1~ confirmed; 2~ canceled
-            calendarIntent.putExtra("eventStatus", 1);
-   //0~ default; 1~ confidential; 2~ private; 3~ public
-            calendarIntent.putExtra("visibility", 0);    //
-   //0~ opaque, no timing conflict is allowed; 1~ transparency, allow overlap of scheduling
-            calendarIntent.putExtra("transparency", 0);
 
-            //TODO Alarm settings don't actually work
-            //Alarm settings
-   //0~ false; 1~ true
-            calendarIntent.putExtra("hasAlarm", 0);
-            //Alarm time in UTC long
-            switch( vdb.getAlarmMod() ) {
-            case Constants.MINUTE:
-                modifier = Calendar.MINUTE;
-                break;
-            case Constants.HOUR:
-                modifier = Calendar.HOUR;
-                break;
-            case Constants.DAY:
-                modifier = Calendar.DATE;
-                break;
-            case Constants.WEEK:
-                modifier = Calendar.WEEK_OF_YEAR;
-                break;
-            default:
-                break;
-            }
-            _calendar.add( modifier, -vdb.getAlarmValue() );
-            vdb.close();
-            calendarIntent.putExtra( "alarmTime", _calendar.getTimeInMillis() );
-
-
-            try {
-                //TODO user needs to select the correct calendar, as it isn't available as an intent.  the only other way is to force it, which is what we used to do...see addToCalendar right below.
-                startActivity( calendarIntent );
-            } catch ( Exception e ) {
-                Toast.makeText(this.getApplicationContext(), "Sorry, no compatible calendar is found!", Toast.LENGTH_LONG).show();
-                //Log.d( "TAG", e.getMessage() );
-            }
-            finally {
-                setContentView(R.layout.schedule);
-                this.setListeners();
-                ba.setUnselected();
-                ua.setUnselected();
-                ul.setUnselected();
-                ll.setUnselected();
-            }
-
-            //addToCalendar(this, bodyPart + " treatment reminder", c.getTimeInMillis(), c.getTimeInMillis() + Constants.ONE_HOUR );
-
-    }*/
-
+    /**
+     * Handles clicks of the body parts and other clicks
+     */
     public void onClick( View v ) {
         switch( v.getId() ) {
-            case R.id.underarm:
-                if (!wholebodySelected)
-                {
-                    if( ua.isSelected ) {
-                        ua.setUnselected();
-                    } else {
-                        ua.setSelectedCustom();
-                        ba.setUnselected();
-                        ul.setUnselected();
-                        ll.setUnselected();
-                    }
-                    this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
-                }
-                break;
-            case R.id.bikiniarea:
-                if (!wholebodySelected)
-                {
-                    if( ba.isSelected ) {
-                        ba.setUnselected();
-                    } else {
-                        ba.setSelectedCustom();
-                        ua.setUnselected();
-                        ul.setUnselected();
-                        ll.setUnselected();
-                    }
-                    this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
-                }
-                break;
-            case R.id.upperleg:
-                if (!wholebodySelected)
-                {
-                    if( ul.isSelected ) {
-                        ul.setUnselected();
-                    } else {
-                        ul.setSelectedCustom();
-                        ba.setUnselected();
-                        ua.setUnselected();
-                        ll.setUnselected();
-                    }
-                    this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength());
-                }
-                break;
-            case R.id.lowerleg:
-                if (!wholebodySelected)
-                {
-                    if( ll.isSelected ) {
-                        ll.setUnselected();
-                    } else {
-                        ll.setSelectedCustom();
-                        ba.setUnselected();
-                        ua.setUnselected();
-                        ul.setUnselected();
-                    }
-                    this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength());
-                }
-                break;
-            case R.id.wholebutton:
-                if (wholebodySelected) {
+        case R.id.underarm:
+            if( !wholebodySelected ) {
+                if( ua.isSelected ) {
+                    ua.setUnselected();
+                } else {
+                    ua.setSelectedCustom();
+                    ba.setUnselected();
+                    ul.setUnselected();
                     ll.setUnselected();
+                }
+                prepopulateMinutes( vdb.getUnderarmBikiniTreatmentLength() );
+            }
+            break;
+        case R.id.bikiniarea:
+            if( !wholebodySelected ) {
+                if( ba.isSelected ) {
+                    ba.setUnselected();
+                } else {
+                    ba.setSelectedCustom();
+                    ua.setUnselected();
+                    ul.setUnselected();
+                    ll.setUnselected();
+                }
+                prepopulateMinutes( vdb.getUnderarmBikiniTreatmentLength() );
+            }
+            break;
+        case R.id.upperleg:
+            if( !wholebodySelected ) {
+                if( ul.isSelected ) {
+                    ul.setUnselected();
+                } else {
+                    ul.setSelectedCustom();
+                    ba.setUnselected();
+                    ua.setUnselected();
+                    ll.setUnselected();
+                }
+                prepopulateMinutes( vdb.getUpperLowerLegTreatmentLength() );
+            }
+            break;
+        case R.id.lowerleg:
+            if( !wholebodySelected ) {
+                if( ll.isSelected ) {
+                    ll.setUnselected();
+                } else {
+                    ll.setSelectedCustom();
                     ba.setUnselected();
                     ua.setUnselected();
                     ul.setUnselected();
-                    wholebodySelected = false;
-                } else {
-                    ll.setSelectedCustom();
-                    ba.setSelectedCustom();
-                    ua.setSelectedCustom();
-                    ul.setSelectedCustom();
-                    wholebodySelected = true;
                 }
-                this.prepopulateMinutes(vdb.getWholeBodyTreatmentLength());
-                break;
-            case R.id.startupButton:
-                isStartup = true;
-                //Visual//
-                findViewById(R.id.startupButton).setBackgroundColor(0xFFFFFFFF);
-                findViewById(R.id.maintenanceButton).setBackgroundColor(0x00000000);
-                findViewById(R.id.sessionSpinner).setVisibility(View.VISIBLE);
-                findViewById(R.id.sessionText).setVisibility(View.VISIBLE);
-                /////////
-                break;
-            case R.id.maintenanceButton:
-                isStartup = false;
-                //Visual//
-                findViewById(R.id.startupButton).setBackgroundColor(0x00000000);
-                findViewById(R.id.maintenanceButton).setBackgroundColor(0xFFFFFFFF);
-                findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
-                findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
-                break;
-            case R.id.scheduleProceed:
-                setContentView( R.layout.phase );
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource( this,
-                                                                                      R.array.sessions_array,
-                                                                                      android.R.layout.simple_spinner_item );
-                adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-                sessionSpinner = (Spinner)findViewById( R.id.sessionSpinner );
-                sessionSpinner.setAdapter(adapter);
-                sessionSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
-                    public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
-                        startupNumber = parent.getItemAtPosition(pos).toString();
-                    }
-                    public void onNothingSelected( AdapterView<?> arg0 ) { }
-                } );
+                prepopulateMinutes( vdb.getUpperLowerLegTreatmentLength() );
+            }
+            break;
+        case R.id.wholebutton:
+            if( wholebodySelected ) {
+                ll.setUnselected();
+                ba.setUnselected();
+                ua.setUnselected();
+                ul.setUnselected();
+                wholebodySelected = false;
+            } else {
+                ll.setSelectedCustom();
+                ba.setSelectedCustom();
+                ua.setSelectedCustom();
+                ul.setSelectedCustom();
+                wholebodySelected = true;
+            }
+            prepopulateMinutes( vdb.getWholeBodyTreatmentLength() );
+            break;
+        case R.id.startupButton:
+            isStartup = true;
+            //Visual//
+            findViewById( R.id.startupButton ).setBackgroundColor( Color.WHITE );
+            findViewById( R.id.maintenanceButton ).setBackgroundColor( Color.BLACK );
+            findViewById( R.id.sessionSpinner ).setVisibility( View.VISIBLE );
+            findViewById( R.id.sessionText ).setVisibility( View.VISIBLE );
+            /////////
+            break;
+        case R.id.maintenanceButton:
+            isStartup = false;
+            //Visual//
+            findViewById( R.id.startupButton ).setBackgroundColor( Color.BLACK );
+            findViewById( R.id.maintenanceButton ).setBackgroundColor( Color.WHITE );
+            findViewById( R.id.sessionSpinner ).setVisibility( View.INVISIBLE );
+            findViewById( R.id.sessionText ).setVisibility( View.INVISIBLE );
+            break;
+        case R.id.scheduleProceed:
+            setContentView( R.layout.phase );
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource( this,
+                                                                                  R.array.sessions_array,
+                                                                                  android.R.layout.simple_spinner_item );
+            adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+            sessionSpinner = (Spinner)findViewById( R.id.sessionSpinner );
+            sessionSpinner.setAdapter(adapter);
+            sessionSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
+                    startupNumber = parent.getItemAtPosition(pos).toString();
+                }
+                public void onNothingSelected( AdapterView<?> arg0 ) { }
+            } );
 
             //Visual and listener//
-            findViewById(R.id.sessionSpinner).setVisibility(View.INVISIBLE);
-            findViewById(R.id.sessionText).setVisibility(View.INVISIBLE);
-            findViewById(R.id.startupButton).setOnClickListener(this);
-            findViewById(R.id.maintenanceButton).setOnClickListener(this);
-            findViewById(R.id.phaseProceed).setOnClickListener(this);
-            findViewById(R.id.phaseBack).setOnClickListener(this);
+            sessionSpinner.setVisibility( View.INVISIBLE );
+            findViewById(R.id.sessionText).setVisibility( View.INVISIBLE );
+            findViewById(R.id.startupButton).setOnClickListener( this );
+            findViewById(R.id.maintenanceButton).setOnClickListener( this );
+            findViewById(R.id.phaseProceed).setOnClickListener( this );
+            findViewById(R.id.phaseBack).setOnClickListener( this );
             break;
         case R.id.phaseBack:
             setScheduleContent();
@@ -407,10 +303,14 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                 showDialog( DATE_DIALOG_ID );
             }
             break;
+        default:
+            break;
         }
     }
 
-    @Override
+    /**
+     * Overrides onCreateDialog so we can modify the date picker dialog
+     */
     protected Dialog onCreateDialog( int id ) {
         switch( id ) {
         case FIRST_DIALOG_ID:
@@ -459,18 +359,19 @@ public class ScheduleActivity extends Activity implements OnClickListener {
             tpd.setTitle( Constants.TIME_PICK_DIALOG );
             return tpd;
         default:
-            break;
+            return null;
         }
-
-        return null;
     }
 
+    /**
+     * Sets up the Event to schedule, and adds it to the Calendar
+     */
     private void setUpEvent() {
         String bodyPart = null;
         int modifier;
         final Context ctx = this;
-        if (wholebodySelected) {
-            bodyPart = "Whole Body";
+        if( wholebodySelected ) {
+            bodyPart = getString( R.string.wholebody );
         } else {
             if( ba.isSelected ) {
                 bodyPart = getString( R.string.bikini_area );
@@ -480,64 +381,74 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                 bodyPart = getString( R.string.upper_leg );
             } else if( ll.isSelected ) {
                 bodyPart = getString( R.string.lower_leg );
-            } else {
-                bodyPart = "Other";
             }
         }
-        int i = ( isFirstTreatment || !isStartup ) ? 0 : Integer.parseInt( startupNumber ) > 5 ? 5 : Integer.parseInt( startupNumber );
-        String desc = null;
-        if( isStartup ) {
-            desc = "This is treatment number " + ( i + 1 );
-            modifier = Calendar.WEEK_OF_YEAR;
-        } else {
-            desc = "Maintenance phase";
-            modifier = Calendar.MONTH;
-        }
-        if (i > 0)
-            _calendar.add( modifier, 2 );
-        for( ; i < 6; i++ ) {
-            desc = null;
+
+        //i tells us how many new events to add.
+        //It can add up to 5 new events (i == 0)
+        for( int i = ( isFirstTreatment || !isStartup ) ?
+                         0 :
+                         Integer.parseInt( startupNumber ) > 5 ?
+                             5 :
+                             Integer.parseInt( startupNumber );
+             i < 6;
+             i++ ) {
+            String desc = null;
             if( isStartup ) {
-                desc = "This is treatment number " + ( i + 1 );
+                desc =  getString( R.string.event_desc_startup_prefix );
+                desc += (i + 1);
+                desc += getString( R.string.event_desc_startup_suffix );
                 modifier = Calendar.WEEK_OF_YEAR;
             } else {
-                desc = "Maintenance phase";
+                desc = getString( R.string.maintenance_phase );
                 modifier = Calendar.MONTH;
             }
+            _calendar.add( modifier, 2 );
 
-            final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
+            final Event e = new Event( getString( R.string.event_title_prefix ) +
+                                       bodyPart +
+                                       getString( R.string.event_title_suffix ),
                                        desc,
                                        _calendar.getTimeInMillis(),
                                        _calendar.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
-            _calendar.add( modifier, 2 );
             new Thread( new Runnable() {
                 public void run() {
                     Utilities.addToCalendar( ctx, e );
                 }
             } ).start();
-        }
+        } //end for
 
         String toastText = "";
-        if ( isStartup && isFirstTreatment ) {
-            toastText = Constants.REMINDER_FIRST + bodyPart + Constants.REMINDER_SECOND;
+        if( isStartup && isFirstTreatment ) {
+            toastText = getString( R.string.reminder_first_startup_prefix ) +
+                        bodyPart +
+                        getString( R.string.reminder_first_startup_suffix );
         } else if( isStartup ) {
-            toastText = Constants.REMINDER_THIRD + bodyPart + Constants.REMINDER_FOURTH + startupNumber + Constants.REMINDER_FIFTH;
+            toastText = getString( R.string.reminder_startup_prefix ) +
+                        bodyPart +
+                        getString( R.string.reminder_startup_middle ) +
+                        startupNumber +
+                        getString( R.string.reminder_startup_suffix );
         } else {
-            toastText = Constants.REMINDER_SIXTH + bodyPart + Constants.REMINDER_FIFTH;
+            toastText = getString( R.string.reminder_maintenance_prefix ) +
+                        bodyPart +
+                        getString( R.string.reminder_maintenance_suffix );
         }
         Toast.makeText( this, toastText, Toast.LENGTH_LONG ).show();
 
         setScheduleContent();
     }
 
-
+    /**
+     * Makes the view the schedule view, and resets everything.
+     */
     private void setScheduleContent(){
         setContentView(R.layout.schedule);
         //Visual and listener//
         _calendar = Calendar.getInstance();
         isStartup = false;
         isFirstTreatment = false;
-        this.setListeners();
+        setListeners();
         ba.setUnselected();
         ua.setUnselected();
         ul.setUnselected();

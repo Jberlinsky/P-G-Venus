@@ -80,16 +80,16 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
             final int treatmentNumber = treatmentNumberTemp;
             //Log.d( "Venus", "Dialog about maintenance or startup" );
             AlertDialog.Builder builder = new AlertDialog.Builder( this );
-            builder.setMessage( Constants.TREATMENT_OPTION_MESSAGE )
+            builder.setMessage( getString( R.string.treatment_option_message) )
                    .setCancelable( false )
-                   .setPositiveButton( Constants.MAINTENANCE,
+                   .setPositiveButton( getString( R.string.maintenance ),
                                        new DialogInterface.OnClickListener() {
                                            public void onClick( DialogInterface dialog, int id ) {
                                                //Log.d( "Venus", "User chose maintenance" );
                                                scheduleMaintenance( bodyPartTemp, startTime );
                                            }
                                        } )
-                   .setNegativeButton( Constants.STARTUP,
+                   .setNegativeButton( getString( R.string.startup ),
                                        new DialogInterface.OnClickListener() {
                                            public void onClick( DialogInterface dialog, int id ) {
                                                //Log.d( "Venus", "User chose startup" );
@@ -160,7 +160,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
         for( int i = 0; i < 6; i++ ) {
             _calendar.add( Calendar.MONTH, 2 );
             final Event e = new Event( Constants.NAKED_SKIN + bodyPart + Constants.TREATMENT_REMINDER,
-                                       Constants.MAINTENANCE,
+                                       getString( R.string.maintenance ),
                                        _calendar.getTimeInMillis(),
                                        _calendar.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
 
@@ -171,7 +171,9 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
             } ).start();
         }
         Toast.makeText( this,
-                        Constants.REMINDER_SIXTH + bodyPart + Constants.REMINDER_FIFTH,
+                        getString( R.string.reminder_maintenance_prefix ) +
+                        bodyPart +
+                        getString( R.string.reminder_maintenance_suffix ),
                         Toast.LENGTH_LONG ).show();
     }
 
@@ -192,7 +194,11 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
             }
         } ).start();
         Toast.makeText( this,
-                        Constants.REMINDER_THIRD + bodyPart + Constants.REMINDER_FOURTH + ( treatmentNumber + 1 ) + Constants.REMINDER_FIFTH,
+                        getString( R.string.reminder_startup_prefix ) +
+                        bodyPart +
+                        getString( R.string.reminder_startup_middle ) +
+                        ( treatmentNumber + 1 ) +
+                        getString( R.string.reminder_startup_suffix ),
                         Toast.LENGTH_LONG ).show();
     }
 

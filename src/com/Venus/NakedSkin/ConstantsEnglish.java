@@ -25,7 +25,7 @@ public class ConstantsEnglish {
         "Here, you'll be able to select a playlist to listen to while you treat yourself.";
     public final static String TUTORIAL_SETTINGS_MESSAGE = "You can change how you want to be reminded under Reminder Settings.  Now you're ready to get started.";
     public final static String TUTORIAL_START_MESSAGE = "Here, under �Today�s Treatments,� you can easily check what treatments are scheduled for today.";
-    public final static String TREATMENT_OPTION_MESSAGE = "Would you like to continue with the Start Up phase and set a reminder to treat in two weeks, or are you ready to start the Maintenance Phase and set a reminder to treat in two months?";
+
 
     public final static String TUTORIAL_CALENDAR_SELECT_TITLE = "Choose a calendar";
     public final static Spanned TUTORIAL_CALENDAR_SELECT_MESSAGE = Html.fromHtml( "Now before we get started, you will have to choose a calendar to use with Naked Skin<sup><small>�</small></sup>.  You can always change this in the settings menu" );
@@ -73,14 +73,6 @@ public class ConstantsEnglish {
     public final static String STARTUP = "Start Up";
 
     //Intent extras for TutorialActivity
-    public final static String TUTORIAL_INTENT_EXTRA_FIRSTRUN = "first";
-
-    public final static String REMINDER_FIRST = "Reminders for your first six ";
-    public final static String REMINDER_SECOND = " treatments have been automatically set.";
-    public final static String REMINDER_THIRD = "Reminder for ";
-    public final static String REMINDER_FOURTH = " treatment number ";
-    public final static String REMINDER_FIFTH = " have been set.";
-    public final static String REMINDER_SIXTH = "Maintenance reminders for ";
 
     public final static String WHOLE = "Whole";
     public final static String UNDER = "Under";
