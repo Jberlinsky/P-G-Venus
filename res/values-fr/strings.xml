@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="app_name">NakedSkin</string>
+    <string name="left_underarm">Aisselle gauche</string>
+    <string name="right_underarm">Aisselle droite</string>
+    <string name="left_forearm">Left Forearm</string>
+    <string name="right_forearm">Right Forearm</string>
+    <string name="bikini_area">Maillot</string>
+    <string name="left_upper_leg">Left Upper Leg</string>
+    <string name="right_upper_leg">Right Upper Leg</string>
+    <string name="left_lower_leg">Left Lower Leg</string>
+    <string name="right_lower_leg">Right Lower Leg</string>
+    <string name="proceed">Commencer</string>
+    <string name="view">Voir</string>
+    <string name="whichphase">Dans quelle phase êtes-vous?</string>
+    <string name="startupphase">Première phase de traitement</string>
+    <string name="maintenancephase">Suivi</string>
+    <string name="howmanysession">Combien de séances avez-vous réalisées?</string>
+    <string name="next">Suivant</string>
+    <string name="back">Retour</string>
+    <string name="apply">Appliquer</string>
+    
+    <string-array name="sessions_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="reminder_array">
+        <item>10 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>1 heure</item>
+    </string-array>
+    <string name="none">Aucun</string>
+    <string name="hint">Rien</string>
+    <string name="set_underarm">Programmer la période de traitement des aisselles</string>
+    <string name="save">Sauvegarder</string>
+    <string name="view_tutorial">Voir le Guide de l\'Application</string>
+    <string name="underarm">Aisselles</string>
+    <string name="upper_leg">Cuisse</string>
+    <string name="lower_leg">Demi-jambe</string>
+    <string name="schedule">Voir Calendrier</string>
+    <string name="treatment">Agenda des zones à traiter</string>
+    <string name="howtovideos">Vidéos</string>
+    <string name="setting">Programmation des rappels</string>
+    <string name="buygel">Acheter du gel</string>
+    <string name="regimen">A quelle fréquence dois-je l\'utiliser?</string>
+    <string name="howitworks">Comment ça marche</string>
+    <string name="howtouse">Comment l\'utiliser</string>
+    <string name="home">Menu</string>
+    <string name="set_bikini">Programmer la période de traitement des aisselles</string>
+    <string name="set_bikiniunderarm">Programmer la période de traitement du maillot/des aisselles</string>
+    <string name="set_upperlowerleg">Programmer la période de traitement du haut/bas des jambes</string>
+    <string name="choose">Choisir la période:</string>
+    <string name="wholebody">Corps entier</string>
+    <string name="tutorial_negative">Retour</string>
+    <string name="tutorial_positive">Ok</string>
+    <string name="todaysevents">Traitements du jour</string>
+    <string name="treatmentcontentimage">Treatmente Image</string>
+</resources>
