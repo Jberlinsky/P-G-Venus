@@ -11,6 +11,7 @@ public class Constants {
     //Intent Extras
     //Tutorial Activity
     public final static String FIRST = "first";
+    public final static String HAS_CALENDARS = "cals";
     //Treatment Activity
     public final static String CALENDAR_YEAR_EXTRA  = "year";
     public final static String CALENDAR_MONTH_EXTRA = "month";
