@@ -14,36 +14,46 @@ public class VenusDb {
     private SQLiteDatabase mDatabase;
     private Context mContext;
 
-    private static final String KEY_ID = "_ID";
-    private static final String KEY_FIRST_RUN = "FIRST_RUN";
-    private static final String KEY_ALARM_MOD = "ALARM_MOD";
-    private static final String KEY_ALARM_VALUE = "ALARM_VALUE";
+    private static final String KEY_ID             = "_ID";
+    private static final String KEY_FIRST_RUN      = "FIRST_RUN";
+    private static final String KEY_ALARM_MOD      = "ALARM_MOD";
+    private static final String KEY_ALARM_VALUE    = "ALARM_VALUE";
     private static final String KEY_CALENDAR_INDEX = "CALENDAR_INDEX";
 
     private static final String DB_NAME = "VenusDb";
-    private static final int DB_VERSION = 4; //TODO Reset version to 1 for release
+    private static final int DB_VERSION = 4;
 
     private static final String DB_TABLE = "VenusTable";
     private static final String DB_TABLE_CREATE =
-        "CREATE TABLE " +
-        DB_TABLE +
-        " (" +
-        KEY_ID +
-        " integer primary key autoincrement, " +
-        KEY_FIRST_RUN +
-        " integer not null, " +
-        KEY_ALARM_MOD +
-        " integer, " +
-        KEY_ALARM_VALUE +
-        " integer, " +
-        KEY_CALENDAR_INDEX +
-        " long );";
+            "CREATE TABLE " +
+                    DB_TABLE +
+                    " (" +
+                    KEY_ID +
+                    " integer primary key autoincrement, " +
+                    KEY_FIRST_RUN +
+                    " integer not null, " +
+                    KEY_ALARM_MOD +
+                    " integer, " +
+                    KEY_ALARM_VALUE +
+                    " integer, " +
+                    KEY_CALENDAR_INDEX +
+                    " long );";
     private static final String DB_TABLE_DROP =
-        "DROP TABLE IF EXISTS " +
-        DB_TABLE;
+            "DROP TABLE IF EXISTS " +
+                    DB_TABLE;
 
-    private static final String PREFS_NAME = "PG_VENUS_PREFS";
+    private static final String PREFS_NAME                   = "PG_VENUS_PREFS";
+    private static final String FIRST_TREATMENT_BOOL_PREF    = "isFirstTreatmentReminder";
+    private static final String MAINTENANCE_BOOL_PREF        = "hasSwitchedToMaintenence";
+    private static final String UA_BIKINI_TREATMENT_INT_PREF = "underarmBikiniTreatmentLength";
+    private static final String UL_LL_TREATMENT_INT_PREF     = "upperLowerLegTreatmentLength";
+    private static final String WHOLE_TREATMENT_INT_PREF     = "wholeBodyTreatmentLength";
 
+    /**
+     * Default database helper, modified onCreate()
+     * @author Jingran Wang
+     *
+     */
     private class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper( Context context ) {
             super(context, DB_NAME, null, DB_VERSION);
@@ -52,9 +62,9 @@ public class VenusDb {
             db.execSQL( DB_TABLE_CREATE );
             VenusDb.setFirstRun( db );
             ContentValues storedValues = new ContentValues();
-            storedValues.put( KEY_ALARM_MOD, 0 );
-            storedValues.put( KEY_ALARM_VALUE, 5 );
-            storedValues.put( KEY_CALENDAR_INDEX, -1 );
+            storedValues.put( KEY_ALARM_MOD, 0 );       //Currently unused
+            storedValues.put( KEY_ALARM_VALUE, 5 );     //Currently unused
+            storedValues.put( KEY_CALENDAR_INDEX, -1 );	//Index of -1 as invalid calendar ID
             db.insert( DB_TABLE, null, storedValues );
         }
         public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
@@ -68,17 +78,47 @@ public class VenusDb {
         }
     }
 
+    /**
+     * Creates a new DB instance
+     * @param c A Context
+     */
     public VenusDb( Context c ) {
         mContext = c;
         open();
     }
 
+    /**
+     * Helper, opens the DB
+     * @return This object
+     * @throws SQLException
+     */
+    public VenusDb open() throws SQLException {
+        mDbHelper = new DatabaseHelper( mContext );
+        mDatabase = mDbHelper.getWritableDatabase();
+        return this;
+    }
+
+    /**
+     * Closes the DB
+     */
+    public void close() {
+        mDbHelper.close();
+    }
+
+    /**
+     * Sets the calendar ID
+     * @param cal_id Calendar ID user wishes to use
+     */
     public void setCalendarId( Long cal_id ) {
         ContentValues storedValues = new ContentValues();
         storedValues.put( KEY_CALENDAR_INDEX, cal_id );
         mDatabase.update( DB_TABLE, storedValues, null, null );
     }
 
+    /**
+     * Queries the DB for the calendar ID
+     * @return int The calendar ID
+     */
     public int getCalendarId() {
         Cursor c = mDatabase.query( DB_TABLE,
                                     new String[] {KEY_CALENDAR_INDEX},
@@ -92,6 +132,11 @@ public class VenusDb {
         return c.getInt( 0 );
     }
 
+    /**
+     * Currently unused, is supposed to set the alarm.
+     * @param mod Mod value (min, hour, etc.)
+     * @param value The value
+     */
     public void setAlarm( int mod, int value ) {
         ContentValues storedValues = new ContentValues();
         storedValues.put( KEY_ALARM_MOD, mod );
@@ -99,6 +144,10 @@ public class VenusDb {
         mDatabase.update( DB_TABLE, storedValues, null, null );
     }
 
+    /**
+     * Currently unused, gets the mod of the alarm setting (min, hour, etc.)
+     * @return
+     */
     public int getAlarmMod() {
         Cursor c = mDatabase.query( DB_TABLE,
                                     new String[] {KEY_ALARM_MOD},
@@ -111,6 +160,11 @@ public class VenusDb {
         c.moveToFirst();
         return c.getInt( 0 );
     }
+
+    /**
+     * Currently unused, gets the alarm value.
+     * @return
+     */
     public int getAlarmValue() {
         Cursor c = mDatabase.query( DB_TABLE,
                                     new String[] {KEY_ALARM_VALUE},
@@ -124,29 +178,14 @@ public class VenusDb {
         return c.getInt( 0 );
     }
 
+    /**
+     * Debugging, sets the first run.
+     * @param db
+     */
     public static void setFirstRun( SQLiteDatabase db ) {
         ContentValues storedValues = new ContentValues();
         storedValues.put( KEY_FIRST_RUN, 0 );
         db.insert( DB_TABLE, null, storedValues );
-    }
-
-    public void setFirstRun() {
-        mDatabase.execSQL( DB_TABLE_DROP );
-        mDatabase.execSQL( DB_TABLE_CREATE );
-        ContentValues storedValues = new ContentValues();
-        storedValues.put( KEY_FIRST_RUN, 0 );
-
-        mDatabase.insert( DB_TABLE, null, storedValues );
-    }
-
-    public VenusDb open() throws SQLException {
-        mDbHelper = new DatabaseHelper( mContext );
-        mDatabase = mDbHelper.getWritableDatabase();
-        return this;
-    }
-
-    public void close() {
-        mDbHelper.close();
     }
 
     /**
@@ -181,73 +220,101 @@ public class VenusDb {
     }
 
     /**
-     *
+     * Gets the shared preferences
+     * @return SharedPreferences
      */
-
-    private SharedPreferences getSharedPreferences(Context ctx)
-    {
-      return ctx.getSharedPreferences(PREFS_NAME, 0);
+    private SharedPreferences getSharedPreferences() {
+        return mContext.getSharedPreferences(PREFS_NAME, 0);
     }
 
-    public void createDefaultPreferences(Context ctx) {
-      SharedPreferences settings = getSharedPreferences(ctx);
-      SharedPreferences.Editor editor = settings.edit();
+    /**
+     * Creates the default preferences
+     */
+    public void createDefaultPreferences() {
+        SharedPreferences settings = getSharedPreferences();
+        SharedPreferences.Editor editor = settings.edit();
 
-      editor.putBoolean("isFirstTreatmentReminder", true);
-      editor.putBoolean("hasSwitchedToMaintenence", false);
+        editor.putBoolean( FIRST_TREATMENT_BOOL_PREF, true);
+        editor.putBoolean( MAINTENANCE_BOOL_PREF, false);
 
-      editor.putInt("underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
-      editor.putInt("upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
-      editor.putInt("wholeBodyTreatmentLength", Constants.TWO_HOURS);
-      editor.commit();
+        editor.putInt( UA_BIKINI_TREATMENT_INT_PREF, Constants.TEN_MINUTES);
+        editor.putInt( UL_LL_TREATMENT_INT_PREF, Constants.FOURTY_FIVE_MINUTES);
+        editor.putInt( WHOLE_TREATMENT_INT_PREF, Constants.TWO_HOURS);
+
+        editor.commit();
     }
 
-    public void setBooleanPreference(Context ctx, String key, boolean value)
-    {
-      SharedPreferences settings = getSharedPreferences(ctx);
-      SharedPreferences.Editor editor = settings.edit();
-      editor.putBoolean(key, value);
-      editor.commit();
+    /**
+     * Sets a boolean preference
+     * @param key The key of the preference
+     * @param value The value to set
+     */
+    public void setBooleanPreference(String key, boolean value) {
+        SharedPreferences settings = getSharedPreferences();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(key, value);
+        editor.commit();
     }
 
-    public boolean isFirstTreatmentReminder(Context ctx)
-    {
-      SharedPreferences settings = getSharedPreferences(ctx);
-      return settings.getBoolean("isFirstTreatmentReminder", true);
-
+    /**
+     * Queries first treatment
+     * @return True if this is the first treatment, false otherwise
+     */
+    public boolean isFirstTreatmentReminder() {
+        return getSharedPreferences().getBoolean( FIRST_TREATMENT_BOOL_PREF, true);
     }
 
-    public void setIsNotFirstTreatmentReminder(Context ctx)
-    {
-      this.setBooleanPreference(ctx, "isFirstTreatmentReminder", false);
+    /**
+     * Sets the first treatment boolean to be false
+     */
+    public void setIsNotFirstTreatmentReminder(Context ctx) {
+        setBooleanPreference( FIRST_TREATMENT_BOOL_PREF, false);
     }
 
-    public void setIntegerPreference(Context ctx, String key, int value)
-    {
-      SharedPreferences settings = getSharedPreferences(ctx);
-      SharedPreferences.Editor editor = settings.edit();
-      editor.putInt(key, value);
-      editor.commit();
+    /**
+     * Sets an integer preference value
+     * @param key The key of the preference
+     * @param value The value to set
+     */
+    public void setIntegerPreference(String key, int value) {
+        SharedPreferences settings = getSharedPreferences();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt(key, value);
+        editor.commit();
     }
 
-    public int getIntegerPreference(Context ctx, String key, int default_value)
-    {
-      SharedPreferences settings = getSharedPreferences(ctx);
-      return settings.getInt(key, default_value);
+    /**
+     * Returns an integer preference
+     * @param key The preference to return
+     * @param default_value The default value if unset
+     * @return int The value
+     */
+    public int getIntegerPreference(String key, int default_value) {
+        return getSharedPreferences().getInt(key, default_value);
     }
 
-    public int getUnderarmBikiniTreatmentLength(Context ctx)
-    {
-      return this.getIntegerPreference(ctx, "underarmBikiniTreatmentLength", Constants.TEN_MINUTES);
+    /**
+     * Gets the Underarm and Bikini treatment length preference
+     * @return int The value
+     */
+    public int getUnderarmBikiniTreatmentLength() {
+        return getIntegerPreference( UA_BIKINI_TREATMENT_INT_PREF, Constants.TEN_MINUTES);
     }
 
-    public int getWholeBodyTreatmentLength(Context ctx)
-    {
-        return this.getIntegerPreference(ctx, "wholeBodyTreatmentLength", Constants.TWO_HOURS);
+    /**
+     * Gets the whole body treatment length preference
+     * @return int The value
+     */
+    public int getWholeBodyTreatmentLength() {
+        return this.getIntegerPreference( WHOLE_TREATMENT_INT_PREF, Constants.TWO_HOURS);
     }
 
-    public int getUpperLowerLegTreatmentLength(Context ctx)
-    {
-      return this.getIntegerPreference(ctx, "upperLowerLegTreatmentLength", Constants.FOURTY_FIVE_MINUTES);
+    /**
+     * Gets the upper and lower leg treatment lengths
+     * @return int The value
+     */
+    public int getUpperLowerLegTreatmentLength() {
+        return this.getIntegerPreference( UL_LL_TREATMENT_INT_PREF, Constants.FOURTY_FIVE_MINUTES);
     }
+
 }

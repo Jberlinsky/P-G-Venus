@@ -164,7 +164,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
     public void checkStartupMaintenenceAndProceed() {
         final Context ctx = this;
       // If this is after the first set of treatments, but we have not switched to the maintenence phase yet, warn
-            if (Integer.parseInt(startupNumber) >= 6 && (isStartup && !vdb.isFirstTreatmentReminder( this )) )
+            if (Integer.parseInt(startupNumber) >= 6 && (isStartup && !vdb.isFirstTreatmentReminder()) )
             {
 //              final ScheduleActivity self = this;
               // Prompt with option of switching to maintenence
@@ -285,60 +285,60 @@ public class ScheduleActivity extends Activity implements OnClickListener {
     public void onClick( View v ) {
         switch( v.getId() ) {
             case R.id.underarm:
-            	if (!wholebodySelected)
-            	{
-	                if( ua.isSelected ) {
-	                    ua.setUnselected();
-	                } else {
-	                    ua.setSelectedCustom();
-	                    ba.setUnselected();
-	                    ul.setUnselected();
-	                    ll.setUnselected();
-	                }
-	                this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength(getApplicationContext()));
-            	}
+                if (!wholebodySelected)
+                {
+                    if( ua.isSelected ) {
+                        ua.setUnselected();
+                    } else {
+                        ua.setSelectedCustom();
+                        ba.setUnselected();
+                        ul.setUnselected();
+                        ll.setUnselected();
+                    }
+                    this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
+                }
                 break;
             case R.id.bikiniarea:
-            	if (!wholebodySelected)
-            	{
-	                if( ba.isSelected ) {
-	                    ba.setUnselected();
-	                } else {
-	                    ba.setSelectedCustom();
-	                    ua.setUnselected();
-	                    ul.setUnselected();
-	                    ll.setUnselected();
-	                }
-	                this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength(getApplicationContext()));
-            	}
+                if (!wholebodySelected)
+                {
+                    if( ba.isSelected ) {
+                        ba.setUnselected();
+                    } else {
+                        ba.setSelectedCustom();
+                        ua.setUnselected();
+                        ul.setUnselected();
+                        ll.setUnselected();
+                    }
+                    this.prepopulateMinutes(vdb.getUnderarmBikiniTreatmentLength());
+                }
                 break;
             case R.id.upperleg:
-            	if (!wholebodySelected)
-            	{
-	                if( ul.isSelected ) {
-	                    ul.setUnselected();
-	                } else {
-	                    ul.setSelectedCustom();
-	                    ba.setUnselected();
-	                    ua.setUnselected();
-	                    ll.setUnselected();
-	                }
-	                this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
-            	}
+                if (!wholebodySelected)
+                {
+                    if( ul.isSelected ) {
+                        ul.setUnselected();
+                    } else {
+                        ul.setSelectedCustom();
+                        ba.setUnselected();
+                        ua.setUnselected();
+                        ll.setUnselected();
+                    }
+                    this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength());
+                }
                 break;
             case R.id.lowerleg:
-            	if (!wholebodySelected)
-            	{
-	                if( ll.isSelected ) {
-	                    ll.setUnselected();
-	                } else {
-	                    ll.setSelectedCustom();
-	                    ba.setUnselected();
-	                    ua.setUnselected();
-	                    ul.setUnselected();
-	                }
-	                this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength(getApplicationContext()));
-            	}
+                if (!wholebodySelected)
+                {
+                    if( ll.isSelected ) {
+                        ll.setUnselected();
+                    } else {
+                        ll.setSelectedCustom();
+                        ba.setUnselected();
+                        ua.setUnselected();
+                        ul.setUnselected();
+                    }
+                    this.prepopulateMinutes(vdb.getUpperLowerLegTreatmentLength());
+                }
                 break;
             case R.id.wholebutton:
                 if (wholebodySelected) {
@@ -354,7 +354,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                     ul.setSelectedCustom();
                     wholebodySelected = true;
                 }
-                this.prepopulateMinutes(vdb.getWholeBodyTreatmentLength(getApplicationContext()));
+                this.prepopulateMinutes(vdb.getWholeBodyTreatmentLength());
                 break;
             case R.id.startupButton:
                 isStartup = true;
@@ -400,7 +400,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
             setScheduleContent();
             break;
         case R.id.phaseProceed:
-        	if( 0 == Integer.parseInt( startupNumber ) && isStartup ) {
+            if( 0 == Integer.parseInt( startupNumber ) && isStartup ) {
                 isFirstTreatment = true;
                 showDialog( FIRST_DIALOG_ID );
             } else {
@@ -494,7 +494,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
             modifier = Calendar.MONTH;
         }
         if (i > 0)
-        	_calendar.add( modifier, 2 );
+            _calendar.add( modifier, 2 );
         for( ; i < 6; i++ ) {
             desc = null;
             if( isStartup ) {
@@ -504,7 +504,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                 desc = "Maintenance phase";
                 modifier = Calendar.MONTH;
             }
-            
+
             final Event e = new Event( "Naked Skin " + bodyPart + " treatment reminder",
                                        desc,
                                        _calendar.getTimeInMillis(),

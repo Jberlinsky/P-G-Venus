@@ -134,16 +134,16 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
         } catch( CursorIndexOutOfBoundsException cioobe ) {
             //error happened...
         } catch (NullPointerException npe ){
-        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        	builder.setMessage(Constants.TUTORIAL_CALENDAR_MISSING)
-        	.setCancelable(false)
-        	.setPositiveButton("Ok", new DialogInterface.OnClickListener(){
-        		public void onClick( DialogInterface dialog, int id){
-        			dialog.cancel();
-        		}
-        	});
-        	AlertDialog alert = builder.create();
-        	alert.show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(Constants.TUTORIAL_CALENDAR_MISSING)
+            .setCancelable(false)
+            .setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+                public void onClick( DialogInterface dialog, int id){
+                    dialog.cancel();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
 
@@ -215,13 +215,13 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
         VenusDb vdb = new VenusDb( this );
         int treatmentLength = -1;
         if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.UN ) ) {
-            treatmentLength = vdb.getUnderarmBikiniTreatmentLength( this );
+            treatmentLength = vdb.getUnderarmBikiniTreatmentLength();
         } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.BI ) ) {
-            treatmentLength = vdb.getUnderarmBikiniTreatmentLength( this );
+            treatmentLength = vdb.getUnderarmBikiniTreatmentLength();
         } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.UP ) ) {
-            treatmentLength = vdb.getUpperLowerLegTreatmentLength( this );
+            treatmentLength = vdb.getUpperLowerLegTreatmentLength();
         } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.LO ) ) {
-            treatmentLength = vdb.getUpperLowerLegTreatmentLength( this );
+            treatmentLength = vdb.getUpperLowerLegTreatmentLength();
         }
         vdb.close();
         return treatmentLength;

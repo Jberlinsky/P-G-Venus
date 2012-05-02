@@ -49,20 +49,20 @@ public class SettingActivity extends Activity implements OnClickListener {
         adapterBU.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
         Spinner sessionSpinnerBU = (Spinner)findViewById( R.id.daySpinner1 );
         sessionSpinnerBU.setAdapter(adapterBU);
-        int UABA = (new VenusDb(this)).getUnderarmBikiniTreatmentLength(this);
+        int UABA = (new VenusDb(this)).getUnderarmBikiniTreatmentLength();
         if (UABA == 10*60*1000)
-        	sessionSpinnerBU.setSelection(0);
+            sessionSpinnerBU.setSelection(0);
         else if (UABA == 15*60*1000)
-        	sessionSpinnerBU.setSelection(1);
+            sessionSpinnerBU.setSelection(1);
         else if (UABA == 30*60*1000)
-        	sessionSpinnerBU.setSelection(2);
+            sessionSpinnerBU.setSelection(2);
         else if (UABA == 45*60*1000)
-        	sessionSpinnerBU.setSelection(3);
+            sessionSpinnerBU.setSelection(3);
         else if (UABA == 60*60*1000)
-        	sessionSpinnerBU.setSelection(4);
+            sessionSpinnerBU.setSelection(4);
         else
-        	sessionSpinnerBU.setSelection(0);
-        
+            sessionSpinnerBU.setSelection(0);
+
         sessionSpinnerBU.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
         public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
             switch( pos ) {
@@ -100,21 +100,21 @@ public class SettingActivity extends Activity implements OnClickListener {
         adapterLU.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
         Spinner sessionSpinnerLU = (Spinner)findViewById( R.id.daySpinner2 );
         sessionSpinnerLU.setAdapter(adapterLU);
-        int LULU = (new VenusDb(this)).getUpperLowerLegTreatmentLength(this);
+        int LULU = (new VenusDb(this)).getUpperLowerLegTreatmentLength();
         if (LULU == 10*60*1000)
-        	sessionSpinnerLU.setSelection(0);
+            sessionSpinnerLU.setSelection(0);
         else if (LULU == 15*60*1000)
-        	sessionSpinnerLU.setSelection(1);
+            sessionSpinnerLU.setSelection(1);
         else if (LULU == 30*60*1000)
-        	sessionSpinnerLU.setSelection(2);
+            sessionSpinnerLU.setSelection(2);
         else if (LULU == 45*60*1000)
-        	sessionSpinnerLU.setSelection(3);
+            sessionSpinnerLU.setSelection(3);
         else if (LULU == 60*60*1000)
-        	sessionSpinnerLU.setSelection(4);
+            sessionSpinnerLU.setSelection(4);
         else
-        	sessionSpinnerLU.setSelection(0);
+            sessionSpinnerLU.setSelection(0);
         sessionSpinnerLU.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
-        
+
         public void onItemSelected( AdapterView<?> parent, View arg1, int pos, long id ) {
             switch( pos ) {
             case 0:
@@ -189,8 +189,8 @@ public class SettingActivity extends Activity implements OnClickListener {
             //TODO This part doesn't work, but I'm keeping the code here in case someone wants to see it
             //To bad it would have been nice so, New stuff instead
 
-            (new VenusDb(this)).setIntegerPreference(this,"underarmBikiniTreatmentLength", valueBU*60*1000);
-            (new VenusDb(this)).setIntegerPreference(this,"upperLowerLegTreatmentLength", valueLU*60*1000);
+            (new VenusDb(this)).setIntegerPreference("underarmBikiniTreatmentLength", valueBU*60*1000);
+            (new VenusDb(this)).setIntegerPreference("upperLowerLegTreatmentLength", valueLU*60*1000);
             Toast.makeText( this.getApplicationContext(), "Settings have been saved!", Toast.LENGTH_SHORT ).show();
             /*
             VenusDb vdb = new VenusDb( this );

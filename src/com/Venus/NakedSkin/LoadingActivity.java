@@ -50,11 +50,11 @@ public class LoadingActivity extends Activity {
         //vdb.setFirstRun();
         msg.what = (vdb.isFirstRun()) ? FIRST_RUN : RUN;
         if (vdb.isFirstRun())
-          vdb.createDefaultPreferences(getApplicationContext());
+          vdb.createDefaultPreferences();
         vdb.close();
         splashHandler.sendMessageDelayed( msg, 2000 );
         if (null == Utilities.queryForCalendars(this)){
-        	hasCalendars = false;
+            hasCalendars = false;
         }
     }
 }
