@@ -44,8 +44,6 @@
     <string name="underarm">Underarm</string>
     <string name="upper_leg">Upper Leg</string>
     <string name="lower_leg">Lower Leg</string>
-    <string name="schedule">Calendar View</string>
-    <string name="treatment">Treatment Area Scheduler</string>
     <string name="howtovideos">Videos</string>
     <string name="setting">Reminder Settings</string>
     <string name="buygel">Buy More Gel</string>
@@ -92,4 +90,10 @@
     <string name="reminder_startup_middle"> treatment number </string>
     <string name="reminder_maintenance_suffix"> have been set.</string>
     <string name="reminder_maintenance_prefix">Maintenance reminders for </string>
+    <string name="calendar_view">Calendar View</string>
+    <string name="schedule">Schedule</string>
+    <string name="treatment_area_scheduler">Treatment Area Scheduler</string>
+    <string name="treatment">Treatment</string>
+    <string name="howto">How to</string>
+    <string name="settings">Settings</string>
 </resources>

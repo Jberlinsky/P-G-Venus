@@ -4,7 +4,7 @@
     <item android:id="@+id/schedulemenu"
           android:icon="@+drawable/howitworks_icon"
           android:background="#000000"
-          android:title="@string/treatment" />
+          android:title="@string/treatment_area_scheduler" />
     <item android:id="@+id/homemenu"
           android:icon="@+drawable/ic_launcher"
           android:background="#000000"
@@ -12,7 +12,7 @@
     <item android:id="@+id/treatmentmenu"
           android:icon="@+drawable/calendar_icon"
           android:background="#000000"
-          android:title="@string/schedule" />
+          android:title="@string/calendar_view" />
     <item android:id="@+id/howtomenu"
           android:icon="@+drawable/howto_icon"
           android:background="#000000"

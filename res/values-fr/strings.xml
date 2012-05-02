@@ -44,8 +44,6 @@
     <string name="underarm">Aisselles</string>
     <string name="upper_leg">Cuisse</string>
     <string name="lower_leg">Demi-jambe</string>
-    <string name="schedule">Voir Calendrier</string>
-    <string name="treatment">Agenda des zones à traiter</string>
     <string name="howtovideos">Vidéos</string>
     <string name="setting">Programmation des rappels</string>
     <string name="buygel">Acheter du gel</string>
@@ -86,4 +84,6 @@
     <string name="reminder_startup_suffix"> a été programmé.</string>
     <string name="reminder_maintenance_suffix"> a été programmé.</string>
     <string name="reminder_maintenance_prefix">Rappel(s) pour l\'entretien de </string>
+    <string name="calendar_view">Voir Calendrier</string>
+    <string name="treatment_area_scheduler">Agenda des zones à traiter</string>
 </resources>

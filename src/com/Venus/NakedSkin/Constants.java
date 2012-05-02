@@ -16,6 +16,8 @@ public class Constants {
     public final static String CALENDAR_YEAR_EXTRA  = "year";
     public final static String CALENDAR_MONTH_EXTRA = "month";
     public final static String CALENDAR_DAY_EXTRA   = "day";
+    //Diary Activity
+    public final static String TAB_NUMBER_EXTRA = "tabNumber";
 
     //Times in ms
     public final static int TEN_MINUTES         = 1000 * 60 * 10;
@@ -63,9 +65,6 @@ public class Constants {
     public final static String TUTORIAL_CALENDAR_SELECT_TITLE = "Choisir un calendrier";
     public final static Spanned TUTORIAL_CALENDAR_SELECT_MESSAGE = Html.fromHtml( "Avant de commencer, vous devrez choisir un calendrier � utiliser avec Naked Skin<sup><small>�</small></sup>. Vous pouvez toujours le changer dans le menu." );
     public final static String TUTORIAL_CALENDAR_MISSING = "You don't have any calendars! This app won't work without a valid calendar on your device. Please double-check in the calendar app.";
-
-    //Shared variable names
-    public final static String TAB_NUMBER = "tabNumber";
 
     //Colors
     public final static int COLOR_SELECTED = Color.BLUE;

@@ -11,67 +11,67 @@
     android:paddingBottom="5dp"
     android:orientation="vertical"
     android:stretchColumns="0,1">
-	
-	<TableRow android:gravity="center"
-	    android:layout_weight="0.3">
+
+  <TableRow android:gravity="center"
+      android:layout_weight="0.3">
 
-		<ImageButton
-		    android:id="@+id/scheduleButton"
-		    android:layout_column="0"
-		    android:layout_weight="1"
-		    android:layout_gravity="center"
-		    android:scaleType = "centerInside"
-		    android:layout_height="150dp"
-		    android:background="#000000"
-		    android:src="@drawable/calendar" />
+    <ImageButton
+        android:id="@+id/scheduleButton"
+        android:layout_column="0"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:scaleType = "centerInside"
+        android:layout_height="150dp"
+        android:background="#000000"
+        android:src="@drawable/calendar" />
 
-		<ImageButton
-		    android:id="@+id/treatmentButton"
-		    android:layout_column="1"
-		    android:layout_weight="1"
-		    android:scaleType = "centerInside"
-		    android:layout_gravity="center"
-		    android:background="#000000"
-		    android:src="@drawable/howitworks" />
+    <ImageButton
+        android:id="@+id/treatmentButton"
+        android:layout_column="1"
+        android:layout_weight="1"
+        android:scaleType = "centerInside"
+        android:layout_gravity="center"
+        android:background="#000000"
+        android:src="@drawable/howitworks" />
 
     </TableRow>
     <TableRow android:gravity="center">
         <TextView
             android:layout_width="fill_parent"
-            android:text="@string/schedule"
+            android:text="@string/calendar_view"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
             />
         <TextView
             android:layout_width="fill_parent"
-            android:text="@string/treatment"
+            android:text="@string/treatment_area_scheduler"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"/>
     </TableRow>
-	
-	
+
+
     <TableRow android:gravity="center"
         android:layout_weight="0.3">
         <ImageButton
             android:id="@+id/howtoButton"
             android:layout_weight="1"
-		    android:background="#000000"
-		    android:scaleType = "centerInside"
-		    android:layout_gravity="center"
+        android:background="#000000"
+        android:scaleType = "centerInside"
+        android:layout_gravity="center"
             android:src="@drawable/howto" />
 
         <ImageButton
             android:id="@+id/settingButton"
             android:layout_weight="1"
-		    android:background="#000000"
-		    android:scaleType = "centerInside"
-		    android:layout_gravity="center"
+        android:background="#000000"
+        android:scaleType = "centerInside"
+        android:layout_gravity="center"
             android:src="@drawable/setting"/>
-        
+
     </TableRow>
-    
+
     <TableRow android:gravity="center">
         <TextView
             android:layout_column="0"
@@ -84,26 +84,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
     </TableRow>
-    
+
     <TableRow android:gravity="center"
         android:layout_weight="0.3">
         <ImageButton
             android:contentDescription="Click to get more Gel"
             android:id="@+id/buygelButton"
             android:layout_weight="1"
-		    android:background="#000000"
-		    android:scaleType = "centerInside"
-		    android:layout_gravity="center"
+        android:background="#000000"
+        android:scaleType = "centerInside"
+        android:layout_gravity="center"
             android:src="@drawable/buygel" />
         <ImageButton
             android:id="@+id/appStartButton"
             android:layout_weight="1"
-		    android:background="#000000"
-		    android:scaleType = "centerInside"
-		    android:layout_gravity="center"
+        android:background="#000000"
+        android:scaleType = "centerInside"
+        android:layout_gravity="center"
             android:src="@drawable/startfrench"/>
     </TableRow>
-    
+
     <TableRow android:gravity="center">
         <TextView
             android:layout_column="0"
