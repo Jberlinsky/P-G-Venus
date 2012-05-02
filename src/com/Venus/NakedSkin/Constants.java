@@ -8,13 +8,28 @@ public class Constants {
     //MIME Types
     public final static String MIME_TYPE_CALENDAR = "vnd.android.cursor.dir/vnd.exina.android.calendar.date";
 
-    //Extras
+    //Intent Extras
+    //Tutorial Activity
+    public final static String FIRST = "first";
     //Treatment Activity
-    public final static String CALENDAR_YEAR_EXTRA = "year";
+    public final static String CALENDAR_YEAR_EXTRA  = "year";
     public final static String CALENDAR_MONTH_EXTRA = "month";
-    public final static String CALENDAR_DAY_EXTRA = "day";
+    public final static String CALENDAR_DAY_EXTRA   = "day";
 
+    //Times in ms
+    public final static int TEN_MINUTES         = 1000 * 60 * 10;
+    public final static int FIFTEEN_MINUTES     = 1000 * 60 * 15;
+    public final static int THIRTY_MINUTES      = 1000 * 60 * 30;
+    public final static int FOURTY_FIVE_MINUTES = 1000 * 60 * 45;
+    public final static int ONE_HOUR            = 1000 * 60 * 60;
+    public final static int TWO_HOURS           = 1000 * 60 * 60 * 2;
 
+    //Preference Names
+    public final static String FIRST_TREATMENT_BOOL_PREF    = "isFirstTreatmentReminder";
+    public final static String MAINTENANCE_BOOL_PREF        = "hasSwitchedToMaintenence";
+    public final static String UA_BIKINI_TREATMENT_INT_PREF = "underarmBikiniTreatmentLength";
+    public final static String UL_LL_TREATMENT_INT_PREF     = "upperLowerLegTreatmentLength";
+    public final static String WHOLE_TREATMENT_INT_PREF     = "wholeBodyTreatmentLength";
 
 
 
@@ -61,11 +76,6 @@ public class Constants {
     public final static int COLOR_BG_UNSELECTED = Color.WHITE;
     public final static int COLOR_ALPHA_UNSELECTED = 0;
 
-    //Times in ms
-    public final static int ONE_HOUR = 1000 * 60 * 60;
-    public final static int TEN_MINUTES = 1000 * 60 * 10;
-    public final static int FOURTY_FIVE_MINUTES = 1000 * 60 * 45;
-    public final static int TWO_HOURS = 1000 * 60 * 60 * 2;
 
 
     //Enum for alarms

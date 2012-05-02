@@ -61,7 +61,7 @@
     <string name="set_bikini">Set bikini area treatment period</string>
     <string name="set_bikiniunderarm">Set bikini area/underarm treatment period</string>
     <string name="set_upperlowerleg">Set upper/lower leg treatment period</string>
-    <string name="choose">Choose Duration :</string>
+    <string name="choose">Choose Duration:</string>
     <string name="wholebody">Whole Body</string>
     <string name="tutorial_negative">Go Back</string>
     <string name="tutorial_positive">Okay</string>
@@ -81,4 +81,5 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+    <string name="settings_saved">Settings have been saved!</string>
 </resources>

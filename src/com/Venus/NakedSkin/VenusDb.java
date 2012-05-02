@@ -43,11 +43,6 @@ public class VenusDb {
                     DB_TABLE;
 
     private static final String PREFS_NAME                   = "PG_VENUS_PREFS";
-    private static final String FIRST_TREATMENT_BOOL_PREF    = "isFirstTreatmentReminder";
-    private static final String MAINTENANCE_BOOL_PREF        = "hasSwitchedToMaintenence";
-    private static final String UA_BIKINI_TREATMENT_INT_PREF = "underarmBikiniTreatmentLength";
-    private static final String UL_LL_TREATMENT_INT_PREF     = "upperLowerLegTreatmentLength";
-    private static final String WHOLE_TREATMENT_INT_PREF     = "wholeBodyTreatmentLength";
 
     /**
      * Default database helper, modified onCreate()
@@ -234,12 +229,12 @@ public class VenusDb {
         SharedPreferences settings = getSharedPreferences();
         SharedPreferences.Editor editor = settings.edit();
 
-        editor.putBoolean( FIRST_TREATMENT_BOOL_PREF, true);
-        editor.putBoolean( MAINTENANCE_BOOL_PREF, false);
+        editor.putBoolean( Constants.FIRST_TREATMENT_BOOL_PREF, true);
+        editor.putBoolean( Constants.MAINTENANCE_BOOL_PREF, false);
 
-        editor.putInt( UA_BIKINI_TREATMENT_INT_PREF, Constants.TEN_MINUTES);
-        editor.putInt( UL_LL_TREATMENT_INT_PREF, Constants.FOURTY_FIVE_MINUTES);
-        editor.putInt( WHOLE_TREATMENT_INT_PREF, Constants.TWO_HOURS);
+        editor.putInt( Constants.UA_BIKINI_TREATMENT_INT_PREF, Constants.TEN_MINUTES);
+        editor.putInt( Constants.UL_LL_TREATMENT_INT_PREF, Constants.FOURTY_FIVE_MINUTES);
+        editor.putInt( Constants.WHOLE_TREATMENT_INT_PREF, Constants.TWO_HOURS);
 
         editor.commit();
     }
@@ -261,14 +256,14 @@ public class VenusDb {
      * @return True if this is the first treatment, false otherwise
      */
     public boolean isFirstTreatmentReminder() {
-        return getSharedPreferences().getBoolean( FIRST_TREATMENT_BOOL_PREF, true);
+        return getSharedPreferences().getBoolean( Constants.FIRST_TREATMENT_BOOL_PREF, true);
     }
 
     /**
      * Sets the first treatment boolean to be false
      */
     public void setIsNotFirstTreatmentReminder(Context ctx) {
-        setBooleanPreference( FIRST_TREATMENT_BOOL_PREF, false);
+        setBooleanPreference( Constants.FIRST_TREATMENT_BOOL_PREF, false);
     }
 
     /**
@@ -298,7 +293,7 @@ public class VenusDb {
      * @return int The value
      */
     public int getUnderarmBikiniTreatmentLength() {
-        return getIntegerPreference( UA_BIKINI_TREATMENT_INT_PREF, Constants.TEN_MINUTES);
+        return getIntegerPreference( Constants.UA_BIKINI_TREATMENT_INT_PREF, Constants.TEN_MINUTES);
     }
 
     /**
@@ -306,7 +301,7 @@ public class VenusDb {
      * @return int The value
      */
     public int getWholeBodyTreatmentLength() {
-        return this.getIntegerPreference( WHOLE_TREATMENT_INT_PREF, Constants.TWO_HOURS);
+        return this.getIntegerPreference( Constants.WHOLE_TREATMENT_INT_PREF, Constants.TWO_HOURS);
     }
 
     /**
@@ -314,7 +309,7 @@ public class VenusDb {
      * @return int The value
      */
     public int getUpperLowerLegTreatmentLength() {
-        return this.getIntegerPreference( UL_LL_TREATMENT_INT_PREF, Constants.FOURTY_FIVE_MINUTES);
+        return this.getIntegerPreference( Constants.UL_LL_TREATMENT_INT_PREF, Constants.FOURTY_FIVE_MINUTES);
     }
 
 }
