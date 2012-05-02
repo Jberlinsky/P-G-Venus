@@ -5,8 +5,25 @@ import android.text.Html;
 import android.text.Spanned;
 
 public class Constants {
-	public final static String NAKED_SKIN = "Naked Skin ";
-	
+    //MIME Types
+    public final static String MIME_TYPE_CALENDAR = "vnd.android.cursor.dir/vnd.exina.android.calendar.date";
+
+    //Extras
+    //Treatment Activity
+    public final static String CALENDAR_YEAR_EXTRA = "year";
+    public final static String CALENDAR_MONTH_EXTRA = "month";
+    public final static String CALENDAR_DAY_EXTRA = "day";
+
+
+
+
+
+
+
+
+
+    public final static String NAKED_SKIN = "Naked Skin ";
+
     public final static int SPLASH_TIMEOUT = 1000; //1 second
 
     //Tutorial copy
@@ -14,23 +31,23 @@ public class Constants {
     public final static String TUTORIAL_NEGATIVE = "Retour";
 
     public final static Spanned TUTORIAL_MESSAGE =
-            Html.fromHtml("Bienvenue chère déesse! </br>Votre voyage vers Naked Skin<sup><small>®</small></sup> commence maintenant. Cliquez sur \"Ok\" pour découvrir comment cette application va faciliter votre voyage. Vous devez cliquer sur chaque icone pour avancer et terminer le séminaire.");
+            Html.fromHtml("Bienvenue chï¿½re dï¿½esse! </br>Votre voyage vers Naked Skin<sup><small>ï¿½</small></sup> commence maintenant. Cliquez sur \"Ok\" pour dï¿½couvrir comment cette application va faciliter votre voyage. Vous devez cliquer sur chaque icone pour avancer et terminer le sï¿½minaire.");
     public final static String TUTORIAL_MESSAGE_2 = "You must click through each icon to proceed and finish the tutorial.";
     public final static Spanned TUTORIAL_SCHEDULE_MESSAGE =
-        Html.fromHtml("Allez sur Voir Calendrier pour voir les traitements passés et à venir (entourés en bleu) ainsi que la date d'aujourd'hui (entourée en blanc). Cliquez sur n'importe quelle date entourée en bleu pour voir les détails de votre rendez-vous avec Naked Skin<sup><small>®</small></sup>.");
-    public final static String TUTORIAL_TREATMENT_MESSAGE = "Considérez le Programmateur des traitements comme votre assistant personnel. " +
-        "Sélectionnez la partie du corps que vous voulez rendre douce comme de la soie et la date à laquelle vous voulez démarrer votre traitement, et cela plannifiera automatiquement les traitements restants.";
-    public final static Spanned TUTORIAL_HOWTO_MESSAGE = Html.fromHtml("Regardez nos courtes vidéos pour savoir comment Naked Skin<sup><small>®</small></sup> fonctionne.");
+        Html.fromHtml("Allez sur Voir Calendrier pour voir les traitements passï¿½s et ï¿½ venir (entourï¿½s en bleu) ainsi que la date d'aujourd'hui (entourï¿½e en blanc). Cliquez sur n'importe quelle date entourï¿½e en bleu pour voir les dï¿½tails de votre rendez-vous avec Naked Skin<sup><small>ï¿½</small></sup>.");
+    public final static String TUTORIAL_TREATMENT_MESSAGE = "Considï¿½rez le Programmateur des traitements comme votre assistant personnel. " +
+        "Sï¿½lectionnez la partie du corps que vous voulez rendre douce comme de la soie et la date ï¿½ laquelle vous voulez dï¿½marrer votre traitement, et cela plannifiera automatiquement les traitements restants.";
+    public final static Spanned TUTORIAL_HOWTO_MESSAGE = Html.fromHtml("Regardez nos courtes vidï¿½os pour savoir comment Naked Skin<sup><small>ï¿½</small></sup> fonctionne.");
   //  public final static String TUTORIAL_PLAYLIST_MESSAGE = "CURRENTLY NOT IMPLEMENTED\n" +
   //      "Here, you'll be able to select a playlist to listen to while you treat yourself.";
-    public final static String TUTORIAL_SETTINGS_MESSAGE = "Vous pouvez changer le mode de rappel des traitements sous Programmation des rappels. Vous êtes maintenant prête à commencer.";
-    public final static String TUTORIAL_START_MESSAGE = "Dans la rubrique “Traitement du jour” vous pouvez facilement voir quels traitements sont prévus aujourd’hui.";
-    public final static String TREATMENT_OPTION_MESSAGE = "Souhaitez-vous continuer la première phase de traitement et programmer un rappel pour traiter dans deux semaines, ou êtes-vous prête pour la phase de suivi et programmer un rappel dans deux mois?";
+    public final static String TUTORIAL_SETTINGS_MESSAGE = "Vous pouvez changer le mode de rappel des traitements sous Programmation des rappels. Vous ï¿½tes maintenant prï¿½te ï¿½ commencer.";
+    public final static String TUTORIAL_START_MESSAGE = "Dans la rubrique ï¿½Traitement du jourï¿½ vous pouvez facilement voir quels traitements sont prï¿½vus aujourdï¿½hui.";
+    public final static String TREATMENT_OPTION_MESSAGE = "Souhaitez-vous continuer la premiï¿½re phase de traitement et programmer un rappel pour traiter dans deux semaines, ou ï¿½tes-vous prï¿½te pour la phase de suivi et programmer un rappel dans deux mois?";
 
     public final static String TUTORIAL_CALENDAR_SELECT_TITLE = "Choisir un calendrier";
-    public final static Spanned TUTORIAL_CALENDAR_SELECT_MESSAGE = Html.fromHtml( "Avant de commencer, vous devrez choisir un calendrier à utiliser avec Naked Skin<sup><small>®</small></sup>. Vous pouvez toujours le changer dans le menu." );
+    public final static Spanned TUTORIAL_CALENDAR_SELECT_MESSAGE = Html.fromHtml( "Avant de commencer, vous devrez choisir un calendrier ï¿½ utiliser avec Naked Skin<sup><small>ï¿½</small></sup>. Vous pouvez toujours le changer dans le menu." );
     public final static String TUTORIAL_CALENDAR_MISSING = "You don't have any calendars! This app won't work without a valid calendar on your device. Please double-check in the calendar app.";
-    
+
     //Shared variable names
     public final static String TAB_NUMBER = "tabNumber";
 
@@ -50,6 +67,7 @@ public class Constants {
     public final static int FOURTY_FIVE_MINUTES = 1000 * 60 * 45;
     public final static int TWO_HOURS = 1000 * 60 * 60 * 2;
 
+
     //Enum for alarms
     public final static int MINUTE = 0;
     public final static int HOUR = 1;
@@ -66,49 +84,36 @@ public class Constants {
     public final static int EVENT_START_INDEX = 2;
 
     //ScheduleActivity copy
-    public final static String FIRST_PICK_DIALOG = "Merci de sélectionner la date à laquelle vous souhaitez commencer.";
-    public final static String DATE_PICK_DIALOG = "Merci de sélectionner la date de votre traitement le plus récent.";
-    public final static String TIME_PICK_DIALOG = "Merci de sélectionner l'heure de votre rappel.";
+    public final static String FIRST_PICK_DIALOG = "Merci de sï¿½lectionner la date ï¿½ laquelle vous souhaitez commencer.";
+    public final static String DATE_PICK_DIALOG = "Merci de sï¿½lectionner la date de votre traitement le plus rï¿½cent.";
+    public final static String TIME_PICK_DIALOG = "Merci de sï¿½lectionner l'heure de votre rappel.";
     public final static String MAINTENANCE = "Suivi";
-    public final static String STARTUP = "Première phase de traitement";
-
-    public final static String december = "Décembre";
-    public final static String november = "Novembre";
-    public final static String october = "Octobre";
-    public final static String september = "Septembre";
-    public final static String august = "Août";
-    public final static String july = "Juillet";
-    public final static String june = "Juin";
-    public final static String may = "Mai";
-    public final static String april = "Avril";
-    public final static String march = "Mars";
-    public final static String february = "Février";
-    public final static String january = "Janvier";
+    public final static String STARTUP = "Premiï¿½re phase de traitement";
 
     //Intent extras for TutorialActivity
     public final static String TUTORIAL_INTENT_EXTRA_FIRSTRUN = "first";
-    
+
     public final static String REMINDER_FIRST = "Les rappels pour vos six premiers ";
-    public final static String REMINDER_SECOND = " traitements ont été programmés automatiquement.";
+    public final static String REMINDER_SECOND = " traitements ont ï¿½tï¿½ programmï¿½s automatiquement.";
     public final static String REMINDER_THIRD = "Le rappel du ";
     public final static String REMINDER_FOURTH = " nombre de traitements ";
-    public final static String REMINDER_FIFTH = " a été programmé.";
+    public final static String REMINDER_FIFTH = " a ï¿½tï¿½ programmï¿½.";
     public final static String REMINDER_SIXTH = "Rappel(s) pour l'entretien de ";
     public final static String TREATMENT_REMINDER = " Rappel(s) pour le traitements";
     public final static String THISISTREATMENTREMINDER = "Nombre de Traitements ";
     public final static String YES = "Oui";
     public final static String NO = "Non";
-    
-    
+
+
     public final static String WHOLE = "Corps";
     public final static String UNDER = "Aisselles";
     public final static String LOWER = "Demi";
     public final static String UPPER = "Cuisse";
     public final static String BIKINI = "Maillot";
-    
-    public final static String COMPLETED = "Terminé!";
+
+    public final static String COMPLETED = "Terminï¿½!";
     public final static String DONE = " Fait";
-    
+
     public final static String UN = "Ai";
     public final static String UNDERARM = "Aisselles";
     public final static String BI = "Ma";
@@ -120,5 +125,5 @@ public class Constants {
     public final static String WH = "Co";
     public final static String WHOLEBODY = "Corps entier";
     public final static String OTHER = "Autre";
-    
+
 }

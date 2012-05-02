@@ -19,7 +19,6 @@
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="apply">Apply</string>
-    
     <string-array name="sessions_array">
         <item>0</item>
         <item>1</item>
@@ -68,4 +67,18 @@
     <string name="tutorial_positive">Okay</string>
     <string name="todaysevents">Today\'s Treatments</string>
     <string name="treatmentcontentimage">Treatmente Image</string>
+    <string-array name="months_array">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 </resources>

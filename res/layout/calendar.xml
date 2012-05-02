@@ -6,56 +6,55 @@
     android:paddingRight="3dp"
     android:stretchColumns="0,1"
     android:background="@drawable/vbackground">
-    
-	<TableRow android:layout_weight="0.01"
-	    android:gravity="center|bottom">
 
-	    <TextView
-	        android:id="@+id/monthtext"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center|bottom"
-	        android:layout_span="2"
-	        android:text="Large Text"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
+  <TableRow android:layout_weight="0.01"
+      android:gravity="center|bottom">
 
-	  </TableRow>
+      <TextView
+          android:id="@+id/monthtext"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center|bottom"
+          android:layout_span="2"
+          android:textAppearance="?android:attr/textAppearanceLarge" />
 
-	  <TableRow android:layout_weight="0.7">
-		  <com.exina.android.calendar.CalendarView
-		      android:id="@+id/calendar"
-		      android:layout_width="fill_parent"
-		      android:layout_height="fill_parent"
-		      android:layout_span="2" />
+    </TableRow>
 
-	  </TableRow>
+    <TableRow android:layout_weight="0.7">
+      <com.exina.android.calendar.CalendarView
+          android:id="@+id/calendar"
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent"
+          android:layout_span="2" />
+
+    </TableRow>
   <TableRow>
-	    <Button
+      <Button
             android:id="@+id/calendarBack"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_gravity="left"
             android:text="@string/back"
             android:paddingTop="5dp"
-			 android:paddingBottom="5dp"
-			 android:paddingLeft="30dp"
-			 android:paddingRight="30dp"
-			 android:background="@drawable/buttonbackground"
-			 android:textColor="#FFFFFF"
-			 android:textSize="15sp"/>
-	    <Button
-		    android:id="@+id/calendarNext"
-		    android:layout_width="wrap_content"
-		    android:layout_height="50dp"
-		    android:layout_gravity="right"
-		    android:text="@string/next"
-		    android:paddingTop="5dp"
-			 android:paddingBottom="5dp"
-			 android:paddingLeft="30dp"
-			 android:paddingRight="30dp"
-			 android:background="@drawable/buttonbackground"
-			 android:textColor="#FFFFFF"
-			 android:textSize="15sp" />
-	</TableRow>
-    
+       android:paddingBottom="5dp"
+       android:paddingLeft="30dp"
+       android:paddingRight="30dp"
+       android:background="@drawable/buttonbackground"
+       android:textColor="#FFFFFF"
+       android:textSize="15sp"/>
+      <Button
+        android:id="@+id/calendarNext"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="right"
+        android:text="@string/next"
+        android:paddingTop="5dp"
+       android:paddingBottom="5dp"
+       android:paddingLeft="30dp"
+       android:paddingRight="30dp"
+       android:background="@drawable/buttonbackground"
+       android:textColor="#FFFFFF"
+       android:textSize="15sp" />
+  </TableRow>
+
 </TableLayout>
