@@ -86,4 +86,9 @@
     <string name="reminder_maintenance_prefix">Rappel(s) pour l\'entretien de </string>
     <string name="calendar_view">Voir Calendrier</string>
     <string name="treatment_area_scheduler">Agenda des zones à traiter</string>
+    <string name="lower">Demi</string>
+    <string name="bikini">Maillot</string>
+    <string name="under">Aisselles</string>
+    <string name="whole">Corps</string>
+    <string name="upper">Cuisse</string>
 </resources>

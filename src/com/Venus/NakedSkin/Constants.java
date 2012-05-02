@@ -104,11 +104,6 @@ public class Constants {
     public final static String NO = "Non";
 
 
-    public final static String WHOLE = "Corps";
-    public final static String UNDER = "Aisselles";
-    public final static String LOWER = "Demi";
-    public final static String UPPER = "Cuisse";
-    public final static String BIKINI = "Maillot";
 
     public final static String COMPLETED = "Termin�!";
     public final static String DONE = " Fait";

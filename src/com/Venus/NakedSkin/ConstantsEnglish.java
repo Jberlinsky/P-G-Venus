@@ -74,11 +74,6 @@ public class ConstantsEnglish {
 
     //Intent extras for TutorialActivity
 
-    public final static String WHOLE = "Whole";
-    public final static String UNDER = "Under";
-    public final static String LOWER = "Lower";
-    public final static String UPPER = "Upper";
-    public final static String BIKINI = "Bikini";
 
     public final static String COMPLETED = "Completed!";
     public final static String DONE = " Done";

@@ -24,31 +24,33 @@ public class EventArrayAdapter extends ArrayAdapter<String> {
     }
 
     @Override
+    /**
+     * Modified this to be more compact, but a lot less readable.
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
-        TextView textView = (TextView) rowView.findViewById(R.id.label);
-        TextView textTimeView = (TextView) rowView.findViewById(R.id.listtime);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        Date date = new Date(this.timeValues.get(position));
-        DateFormat df = DateFormat.getTimeInstance(DateFormat.SHORT);
-        textTimeView.setText(df.format(date));
-        textView.setText(values.get(position));
-        // Change the icon for Windows and iPhone
+        View rowView = ((LayoutInflater)context.getSystemService( Context.LAYOUT_INFLATER_SERVICE ))
+                                                   .inflate( R.layout.rowlayout, parent, false );
+
+        ((TextView)rowView.findViewById( R.id.label )).setText( values.get( position ) );
+        ((TextView)rowView.findViewById( R.id.listtime ))
+            .setText( DateFormat.getTimeInstance( DateFormat.SHORT )
+                    .format( new Date( timeValues.get( position ) ) ) );
+
         String s = values.get(position);
-        if (s.contains(Constants.WHOLE)) {
-            imageView.setImageResource(R.drawable.backgroundbody);
-        }else if (s.contains(Constants.UNDER)) {
-            imageView.setImageResource(R.drawable.underarm);
-        } else if (s.contains(Constants.LOWER)) {
-            imageView.setImageResource(R.drawable.lowerleg);
-        } else if (s.contains(Constants.UPPER)) {
-            imageView.setImageResource(R.drawable.upperleg);
-        } else if (s.contains(Constants.BIKINI)) {
-            imageView.setImageResource(R.drawable.bikiniarea);
-        } else{
-            imageView.setImageResource(R.drawable.backgroundbody);
+
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+        if( s.contains( context.getString( R.string.whole ) ) ) {
+            imageView.setImageResource( R.drawable.backgroundbody );
+        } else if( s.contains( context.getString( R.string.under ) ) ) {
+            imageView.setImageResource( R.drawable.underarm );
+        } else if( s.contains( context.getString( R.string.lower ) ) ) {
+            imageView.setImageResource( R.drawable.lowerleg );
+        } else if( s.contains( context.getString( R.string.upper ) ) ) {
+            imageView.setImageResource( R.drawable.upperleg );
+        } else if( s.contains( context.getString( R.string.bikini ) ) ) {
+            imageView.setImageResource( R.drawable.bikiniarea );
+        } else {
+            imageView.setImageResource( R.drawable.backgroundbody );
         }
 
         return rowView;

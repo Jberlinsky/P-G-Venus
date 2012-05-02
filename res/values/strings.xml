@@ -96,4 +96,9 @@
     <string name="treatment">Treatment</string>
     <string name="howto">How to</string>
     <string name="settings">Settings</string>
+    <string name="lower">Lower</string>
+    <string name="bikini">Bikini</string>
+    <string name="under">Under</string>
+    <string name="whole">Whole</string>
+    <string name="upper">Upper</string>
 </resources>
