@@ -2,7 +2,6 @@ package com.Venus.NakedSkin;
 
 import java.util.Calendar;
 
-import Utility.Event;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;

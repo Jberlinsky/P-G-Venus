@@ -19,7 +19,6 @@ package com.exina.android.calendar;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import Utility.Event;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -35,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.Venus.NakedSkin.Event;
 import com.Venus.NakedSkin.R;
 
 public class CalendarView extends ImageView {

@@ -1,7 +1,6 @@
 package com.Venus.NakedSkin;
 
 import java.util.ArrayList;
-import Utility.Event;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;

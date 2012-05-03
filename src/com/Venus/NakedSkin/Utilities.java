@@ -3,7 +3,6 @@ package com.Venus.NakedSkin;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import Utility.Event;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;

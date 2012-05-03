@@ -3,7 +3,6 @@ package com.Venus.NakedSkin;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import Utility.Event;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
