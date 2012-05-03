@@ -73,17 +73,6 @@ public class ConstantsEnglish {
     public final static String STARTUP = "Start Up";
 
 
-    public final static String UN = "Un";
-    public final static String UNDERARM = "Underarm";
-    public final static String BI = "Bi";
-    public final static String BIKINIAREA = "Bikini Area";
-    public final static String UP = "Up";
-    public final static String UPPERLEG = "Upper Leg";
-    public final static String LO = "Lo";
-    public final static String LOWERLEG = "Lower Leg";
-    public final static String WH = "Wh";
-    public final static String WHOLEBODY = "Whole Body";
-    public final static String OTHER = "Other";
 
 
 }

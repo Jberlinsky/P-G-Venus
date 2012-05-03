@@ -33,51 +33,70 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
     int lastItemClicked = -1;
     EventArrayAdapter _adapter;
 
+    /**
+     * Handles the refreshing when something is clicked.
+     * @author Jingran Wang
+     *
+     */
     class RefreshHandler extends Handler {
         public void handleMessage( Message msg ) {
             _adapter.update( lastItemClicked );
         }
     }
 
+    /**
+     * Lays out the view and populates the ArrayList
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.music);
+        setContentView(R.layout.start);
         _listView = (ListView) findViewById( android.R.id.list );
         _listView.setOnItemClickListener( this );
         refresh();
     }
 
+    /**
+     * Handles clicks on the adapter view.
+     * Sends the clicked item onto proceed()
+     */
     public void onItemClick( AdapterView<?> arg0, View arg1, final int arg2, long arg3 ) {
         String bodyPart = bodyParts.get( arg2 );
-        //Log.d( "Venus", bodyPart );
         if( bodyPart.contains( getString( R.string.done ) ) ) {
             return;
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder( this );
-            builder.setMessage( bodyPart + "?" )
+            builder.setMessage( bodyPart + getString( R.string.question_mark ) )
                    .setCancelable( false )
-                   .setPositiveButton( Constants.YES, new DialogInterface.OnClickListener() {
+                   .setPositiveButton( getString( R.string.yes ), new DialogInterface.OnClickListener() {
                        public void onClick( DialogInterface dialog, int id ) {
                            lastItemClicked = arg2;
                            proceed( bodyParts.get( arg2 ), treatmentNumbers.get( arg2 ), startTimes.get( arg2 ) );
                        } } )
-                   .setNegativeButton( Constants.NO, new DialogInterface.OnClickListener() {
+                   .setNegativeButton( getString( R.string.no ), new DialogInterface.OnClickListener() {
                        public void onClick( DialogInterface dialog, int id ) {
                            dialog.cancel();
                        } } );
-            AlertDialog alert = builder.create();
-            alert.show();
+            builder.create().show();
         }
     }
 
-    private void proceed( final CharSequence bodyPartTemp, Integer treatmentNumberTemp, final Long startTime ) { //only has to deal with one case.
-        if( -1 == treatmentNumberTemp ) {
+    /**
+     * Figures out if this is a "special case" and acts accordingly, and marks this event as complete
+     * Maintenance phase: No special actions
+     * Startup phase 12: Force into maintenance phase
+     * Startup phase 6-11: Ask if user wants to go into maintenance phase
+     * Startup phase 1-5: No special actions
+     * @param bodyPart
+     * @param treatmentNumber
+     * @param startTime
+     */
+    private void proceed( final CharSequence bodyPart, final Integer treatmentNumber, final Long startTime ) {
+        if( -1 == treatmentNumber ) {
             //Log.d( "Venus", "No action: in maintenance phase" );
-        } else if( 12 == treatmentNumberTemp ) {
-            scheduleMaintenance( bodyPartTemp, startTime );
+        } else if( 12 == treatmentNumber ) {
+            scheduleMaintenance( bodyPart, startTime );
             //Log.d( "Venus", "Forcing maintenance reminders" );
-        } else if( 6 <= treatmentNumberTemp ) {
-            final int treatmentNumber = treatmentNumberTemp;
+        } else if( 6 <= treatmentNumber ) {
             //Log.d( "Venus", "Dialog about maintenance or startup" );
             AlertDialog.Builder builder = new AlertDialog.Builder( this );
             builder.setMessage( getString( R.string.treatment_option_message) )
@@ -85,42 +104,42 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                    .setPositiveButton( getString( R.string.maintenance ),
                                        new DialogInterface.OnClickListener() {
                                            public void onClick( DialogInterface dialog, int id ) {
-                                               //Log.d( "Venus", "User chose maintenance" );
-                                               scheduleMaintenance( bodyPartTemp, startTime );
+                                               scheduleMaintenance( bodyPart, startTime );
                                            }
                                        } )
                    .setNegativeButton( getString( R.string.startup ),
                                        new DialogInterface.OnClickListener() {
                                            public void onClick( DialogInterface dialog, int id ) {
-                                               //Log.d( "Venus", "User chose startup" );
-                                               scheduleOneStartUp( bodyPartTemp, treatmentNumber, startTime );
+                                               scheduleOneStartUp( bodyPart, treatmentNumber, startTime );
                                            }
                                        } );
-            AlertDialog alert = builder.create();
-            alert.show();
+            builder.create().show();
         } else {
             //Log.d( "Venus", "No action: in startup phase" );
         }
         //for all treatments, mark as complete
-        Event e = new Event( bodyPartTemp, startTime );
+        Event e = new Event( bodyPart, startTime );
         Utilities.markAsComplete( this, e, new RefreshHandler() );
     }
 
+    /**
+     * Initializes the ArrayLists
+     */
     private void refresh() {
         Cursor eventCursor = Utilities.queryTodaysEvents( this );
         try {
             String desc = null;
-            int treatmentNumberTemp;
+            int treatmentNumber;
 
             while( eventCursor.moveToNext() ) {
                 startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
                 try { //try to get the treatment number (doesn't exist for maint)
                     desc = eventCursor.getString( Constants.EVENT_DESC_INDEX );
-                    treatmentNumberTemp = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
+                    treatmentNumber = Integer.parseInt( desc.substring( desc.length() - 2, desc.length() ).trim() );
                 } catch( NumberFormatException nfe ) { //this exception means maintenance, set to -1
-                    treatmentNumberTemp = -1;
+                    treatmentNumber = -1;
                 }
-                treatmentNumbers.add( treatmentNumberTemp );
+                treatmentNumbers.add( treatmentNumber );
                 if( desc.contains( getString( R.string.completed ) ) ) {
                     bodyParts.add( Utilities.getBodyPartString( this, eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + getString( R.string.done ) );
                 } else {
@@ -130,28 +149,34 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
 
             _adapter = new EventArrayAdapter( this, bodyParts, startTimes );
             setListAdapter( _adapter );
-
         } catch( CursorIndexOutOfBoundsException cioobe ) {
             //error happened...
-        } catch (NullPointerException npe ){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(Constants.TUTORIAL_CALENDAR_MISSING)
-            .setCancelable(false)
-            .setPositiveButton("Ok", new DialogInterface.OnClickListener(){
-                public void onClick( DialogInterface dialog, int id){
-                    dialog.cancel();
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
+        } catch( NullPointerException npe ) {
+            //This happens when no calendar exists
+            AlertDialog.Builder builder = new AlertDialog.Builder( this );
+            builder.setMessage( getString( R.string.calendar_missing ) )
+                   .setCancelable(false)
+                   .setPositiveButton( getString( R.string.okay ), new DialogInterface.OnClickListener(){
+                       public void onClick( DialogInterface dialog, int id ) {
+                           dialog.cancel();
+                       }
+                   });
+            builder.create().show();
         }
     }
 
-    public void onBackPressed(){
-        //This is to prevent user from accidently exiting the app
-        //pressing Home will exit the app
-    }
+    /**
+     * Prevents user from accidentally exiting the app.
+     * User needs to press "home"
+     * Could be changed to "Do you want to exit?" dialog.
+     */
+    public void onBackPressed(){ }
 
+    /**
+     * Schedules six maintenance events
+     * @param bodyPart
+     * @param startTime
+     */
     private void scheduleMaintenance( CharSequence bodyPart, Long startTime ) {
         int treatmentDuration = Utilities.getTreatmentLength( this, (String)bodyPart );
         Calendar _calendar = Calendar.getInstance();
@@ -159,7 +184,9 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
         final Context ctx = this;
         for( int i = 0; i < 6; i++ ) {
             _calendar.add( Calendar.MONTH, 2 );
-            final Event e = new Event( Constants.NAKED_SKIN + bodyPart + Constants.TREATMENT_REMINDER,
+            final Event e = new Event( getString( R.string.event_title_prefix ) +
+                                       bodyPart +
+                                       getString( R.string.event_title_suffix ),
                                        getString( R.string.maintenance ),
                                        _calendar.getTimeInMillis(),
                                        _calendar.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
@@ -170,6 +197,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                 }
             } ).start();
         }
+
         Toast.makeText( this,
                         getString( R.string.reminder_maintenance_prefix ) +
                         bodyPart +
@@ -177,14 +205,23 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                         Toast.LENGTH_LONG ).show();
     }
 
-    private void scheduleOneStartUp( CharSequence bodyPart, int treatmentNumber, Long startTime ) {
+    /**
+     * Schedules a single startup event
+     * @param bodyPart
+     * @param treatmentNumber
+     * @param startTime
+     */
+    private void scheduleOneStartUp( CharSequence bodyPart, Integer treatmentNumber, Long startTime ) {
         int treatmentDuration = Utilities.getTreatmentLength( this, (String)bodyPart );
         Calendar _calendar = Calendar.getInstance();
         _calendar.setTimeInMillis( startTime );
         final Context ctx = this;
         _calendar.add( Calendar.WEEK_OF_YEAR, 2 );
-        final Event e = new Event( Constants.NAKED_SKIN + bodyPart + Constants.TREATMENT_REMINDER,
-                                   Constants.THISISTREATMENTREMINDER + ( treatmentNumber + 1 ),
+        final Event e = new Event( getString( R.string.event_title_prefix ) +
+                                   bodyPart +
+                                   getString( R.string.event_title_suffix ),
+                                   getString( R.string.event_desc_startup_prefix ) +
+                                   ( treatmentNumber + 1 ),
                                    _calendar.getTimeInMillis(),
                                    _calendar.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
 
@@ -193,6 +230,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                 Utilities.addToCalendar( ctx, e );
             }
         } ).start();
+
         Toast.makeText( this,
                         getString( R.string.reminder_startup_prefix ) +
                         bodyPart +
@@ -202,42 +240,44 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                         Toast.LENGTH_LONG ).show();
     }
 
-
+    /**
+     * Creates the menu
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.layout.tabmenu, menu);
         return true;
     }
 
+    /**
+     * Handles menu selection
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
+        switch( item.getItemId() ) {
         case R.id.schedulemenu:
-            startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
+            startActivity( new Intent( this, ScheduleActivity.class ) );
             return true;
         case R.id.treatmentmenu:
-            startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
+            startActivity( new Intent( this, TreatmentActivity.class ) );
             finish();
             return true;
         case R.id.howtomenu:
-            startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
+            startActivity( new Intent( this, HowtoActivity.class ) );
             finish();
             return true;
         case R.id.settingmenu:
-            startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
+            startActivity( new Intent( this, SettingActivity.class ) );
             finish();
             return true;
         case R.id.homemenu:
-            Intent intent =  new Intent( getApplicationContext(), TutorialActivity.class );
-            intent.putExtra("first", false);
+            Intent intent =  new Intent( this, TutorialActivity.class );
+            intent.putExtra( Constants.FIRST, false);
             startActivity(intent);
             finish();
             return true;
-
         default:
             return super.onOptionsItemSelected(item);
         }
     }
-
 
 }

@@ -64,7 +64,6 @@ public class Constants {
 
     public final static String TUTORIAL_CALENDAR_SELECT_TITLE = "Choisir un calendrier";
     public final static Spanned TUTORIAL_CALENDAR_SELECT_MESSAGE = Html.fromHtml( "Avant de commencer, vous devrez choisir un calendrier � utiliser avec Naked Skin<sup><small>�</small></sup>. Vous pouvez toujours le changer dans le menu." );
-    public final static String TUTORIAL_CALENDAR_MISSING = "You don't have any calendars! This app won't work without a valid calendar on your device. Please double-check in the calendar app.";
 
     //Colors
     public final static int COLOR_SELECTED = Color.BLUE;
@@ -97,11 +96,6 @@ public class Constants {
     public final static String FIRST_PICK_DIALOG = "Merci de s�lectionner la date � laquelle vous souhaitez commencer.";
     public final static String DATE_PICK_DIALOG = "Merci de s�lectionner la date de votre traitement le plus r�cent.";
     public final static String TIME_PICK_DIALOG = "Merci de s�lectionner l'heure de votre rappel.";
-
-    public final static String TREATMENT_REMINDER = " Rappel(s) pour le traitements";
-    public final static String THISISTREATMENTREMINDER = "Nombre de Traitements ";
-    public final static String YES = "Oui";
-    public final static String NO = "Non";
 
 
 

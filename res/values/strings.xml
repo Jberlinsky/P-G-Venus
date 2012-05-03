@@ -56,8 +56,6 @@
     <string name="set_upperlowerleg">Set upper/lower leg treatment period</string>
     <string name="choose">Choose Duration:</string>
     <string name="wholebody">Whole Body</string>
-    <string name="tutorial_negative">Go Back</string>
-    <string name="tutorial_positive">Okay</string>
     <string name="todaysevents">Today\'s Treatments</string>
     <string name="treatmentcontentimage">Treatmente Image</string>
     <string-array name="months_array">
@@ -107,4 +105,10 @@
     <string name="howtovideo_url">http://www.youtube.com/watch?v=P-9Q1ppDVI8</string>
     <string name="trvideo_url">http://www.youtube.com/watch?v=YHWc1btzmr8</string>
     <string name="workvideo_url">http://www.youtube.com/watch?v=8YaO9RYPBaE</string>
+    <string name="question_mark">\?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="calendar_missing">You don\'t have any calendars! This app won\'t work without a valid calendar on your device. Please double-check in the calendar app.</string>
+    <string name="go_back">Go Back</string>
+    <string name="okay">Okay</string>
 </resources>

@@ -29,10 +29,10 @@ public class TutorialActivity extends Activity implements OnClickListener {
         firstUsage = this.getIntent().getBooleanExtra("first", false);
 
         if (firstUsage){
-        	openDialog(Constants.TUTORIAL_MESSAGE);
+            openDialog(Constants.TUTORIAL_MESSAGE);
         }
         hasCalendars = this.getIntent().getBooleanExtra("cals", true);
-        
+
         /*
         mBuilder = new AlertDialog.Builder( this );
         mBuilder.setMessage( Constants.TUTORIAL_MESSAGE )
@@ -69,33 +69,33 @@ public class TutorialActivity extends Activity implements OnClickListener {
                 openDialog(Constants.TUTORIAL_SETTINGS_MESSAGE);
                 break;
             case R.id.buygelButton:
-            	//French
+                //French
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.gillettevenus.fr/fr_FR/products/naked-skin-home-IPL-hair-removal/buy/index.jsp"));
                 //English
                 //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.gillettevenus.fr/fr_FR/products/naked-skin-home-IPL-hair-removal/buy/index.jsp"));
                 startActivity(browserIntent);
                 break;
             case R.id.appStartButton:
-            	if ( !hasCalendars){
-            		openDialog( Constants.TUTORIAL_CALENDAR_MISSING);
-            	} else
-            		this.startApp();
+                if ( !hasCalendars){
+                    openDialog( getString( R.string.calendar_missing ) );
+                } else
+                    this.startApp();
             }
-        } else if(!hasCalendars){ 
-        	 switch(v.getId()) {
+        } else if(!hasCalendars){
+             switch(v.getId()) {
              case R.id.scheduleButton:
              case R.id.treatmentButton:
              case R.id.howtoButton:
              case R.id.settingButton:
              case R.id.buygelButton:
-             	//French
+                 //French
                  Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.gillettevenus.fr/fr_FR/products/naked-skin-home-IPL-hair-removal/buy/index.jsp"));
                  //English
                  //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.gillettevenus.fr/fr_FR/products/naked-skin-home-IPL-hair-removal/buy/index.jsp"));
                  startActivity(browserIntent);
                  break;
              case R.id.appStartButton:
-            	 openDialog( Constants.TUTORIAL_CALENDAR_MISSING);
+                 openDialog( getString( R.string.calendar_missing ) );
                  break;
              default:
                  break;
@@ -119,7 +119,7 @@ public class TutorialActivity extends Activity implements OnClickListener {
                 finish();
                 break;
             case R.id.buygelButton:
-            	//French
+                //French
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.gillettevenus.fr/fr_FR/products/naked-skin-home-IPL-hair-removal/buy/index.jsp"));
                 //English
                 //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.gillettevenus.fr/fr_FR/products/naked-skin-home-IPL-hair-removal/buy/index.jsp"));
@@ -206,24 +206,24 @@ public void startApp() {
 
         } else {
             /*final Dialog dialog = new Dialog(this);
-	        dialog.setContentView(R.layout.customdialog);
-	        dialog.setTitle("App Tutorial");
-	        dialog.setCancelable(true);
-	        TextView dialogtext = (TextView) dialog.findViewById(R.id.contenttext);
-	        dialogtext.setText(Constants.TUTORIAL_START_MESSAGE);
-	        Button button = (Button) dialog.findViewById(R.id.okaybutton);
-	        button.setOnClickListener(new OnClickListener() {
-	        public void onClick(View v) {
-	            //startActivity( new Intent( getApplicationContext(), DiaryActivity.class ).putExtra( Constants.TAB_NUMBER, "1" ) );
-	
-	            }
-	        });
-	        dialog.show();*/
+            dialog.setContentView(R.layout.customdialog);
+            dialog.setTitle("App Tutorial");
+            dialog.setCancelable(true);
+            TextView dialogtext = (TextView) dialog.findViewById(R.id.contenttext);
+            dialogtext.setText(Constants.TUTORIAL_START_MESSAGE);
+            Button button = (Button) dialog.findViewById(R.id.okaybutton);
+            button.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                //startActivity( new Intent( getApplicationContext(), DiaryActivity.class ).putExtra( Constants.TAB_NUMBER, "1" ) );
+
+                }
+            });
+            dialog.show();*/
             startActivity( new Intent( getApplicationContext(), StartActivity.class ) );
             finish();
         }
     } catch( NullPointerException npe ) {
-        openDialog( Constants.TUTORIAL_CALENDAR_MISSING );
+        openDialog( getString( R.string.calendar_missing ) );
     }
 
 }
@@ -242,7 +242,7 @@ public void startApp() {
         button.setOnClickListener(new OnClickListener() {
         public void onClick(View v) {
             dialog.cancel();
-            
+
             }
         });
         dialog.show();

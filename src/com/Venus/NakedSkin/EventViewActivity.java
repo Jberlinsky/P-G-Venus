@@ -17,7 +17,7 @@ public class EventViewActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.treatment);
+        setContentView(R.layout.event_view);
 
         int year  = getIntent().getIntExtra( Constants.CALENDAR_YEAR_EXTRA, -1 );
         int month = getIntent().getIntExtra( Constants.CALENDAR_MONTH_EXTRA, -1 );

@@ -56,8 +56,6 @@
     <string name="set_upperlowerleg">Programmer la période de traitement du haut/bas des jambes</string>
     <string name="choose">Choisir la période:</string>
     <string name="wholebody">Corps entier</string>
-    <string name="tutorial_negative">Retour</string>
-    <string name="tutorial_positive">Ok</string>
     <string name="todaysevents">Traitements du jour</string>
     <string name="treatmentcontentimage">Treatmente Image</string>
     <string-array name="months_array">
@@ -97,4 +95,10 @@
     <string name="howtovideo_url">http://www.youtube.com/watch?v=J6LNzyn95mc</string>
     <string name="trvideo_url">http://www.youtube.com/watch?v=z9sD1gbFwhg</string>
     <string name="workvideo_url">http://www.youtube.com/watch?v=UZSXBZ_gmQk</string>
+    <string name="no">Non</string>
+    <string name="yes">Oui</string>
+    <string name="go_back">Retour</string>
+    <string name="okay">Ok</string>
+    <string name="event_title_suffix"> Rappel(s) pour le traitements</string>
+    <string name="event_desc_startup_prefix">Nombre de Traitements </string>
 </resources>
