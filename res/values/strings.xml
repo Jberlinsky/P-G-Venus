@@ -2,11 +2,7 @@
 <resources>
     <string name="app_name">NakedSkin</string>
     <string name="left_underarm">Left Underarm</string>
-    <string name="right_underarm">Right Underarm</string>
-    <string name="right_forearm">Right Forearm</string>
     <string name="bikini_area">Bikini Area</string>
-    <string name="right_upper_leg">Right Upper Leg</string>
-    <string name="right_lower_leg">Right Lower Leg</string>
     <string name="proceed">Proceed</string>
     <string name="view">View</string>
     <string name="whichphase">Which phase are you in?</string>
@@ -78,7 +74,6 @@
     <string name="startup">Start-up</string>
     <string name="event_desc_startup_suffix"> </string>
     <string name="event_desc_startup_prefix">This is treatment number </string>
-    <string name="maintenance_phase">Maintenance Phase</string>
     <string name="event_title_prefix">Naked Skin </string>
     <string name="event_title_suffix"> treatment reminder</string>
     <string name="reminder_first_startup_prefix">Reminders for your first six </string>

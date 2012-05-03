@@ -13,7 +13,6 @@
         android:id="@+id/eventcalendartitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -22,8 +21,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@android:color/transparent"
-		android:cacheColorHint="@android:color/transparent">
+    android:cacheColorHint="@android:color/transparent">
     </ListView>
-    
+
 </LinearLayout>
 

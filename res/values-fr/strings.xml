@@ -2,11 +2,7 @@
 <resources>
     <string name="app_name">NakedSkin</string>
     <string name="left_underarm">Aisselle gauche</string>
-    <string name="right_underarm">Aisselle droite</string>
-    <string name="right_forearm">Right Forearm</string>
     <string name="bikini_area">Maillot</string>
-    <string name="right_upper_leg">Right Upper Leg</string>
-    <string name="right_lower_leg">Right Lower Leg</string>
     <string name="proceed">Commencer</string>
     <string name="view">Voir</string>
     <string name="whichphase">Dans quelle phase êtes-vous?</string>

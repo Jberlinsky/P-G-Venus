@@ -405,7 +405,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                 desc += getString( R.string.event_desc_startup_suffix );
                 modifier = Calendar.WEEK_OF_YEAR;
             } else {
-                desc = getString( R.string.maintenance_phase );
+                desc = getString( R.string.maintenance );
                 modifier = Calendar.MONTH;
             }
             _calendar.add( modifier, 2 );
