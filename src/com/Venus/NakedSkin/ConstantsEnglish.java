@@ -72,11 +72,6 @@ public class ConstantsEnglish {
     public final static String MAINTENANCE = "Maintenance";
     public final static String STARTUP = "Start Up";
 
-    //Intent extras for TutorialActivity
-
-
-    public final static String COMPLETED = "Completed!";
-    public final static String DONE = " Done";
 
     public final static String UN = "Un";
     public final static String UNDERARM = "Underarm";

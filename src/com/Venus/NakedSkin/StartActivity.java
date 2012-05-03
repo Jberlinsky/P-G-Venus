@@ -50,7 +50,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
     public void onItemClick( AdapterView<?> arg0, View arg1, final int arg2, long arg3 ) {
         String bodyPart = bodyParts.get( arg2 );
         //Log.d( "Venus", bodyPart );
-        if( bodyPart.contains( Constants.DONE ) ) {
+        if( bodyPart.contains( getString( R.string.done ) ) ) {
             return;
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder( this );
@@ -121,10 +121,10 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                     treatmentNumberTemp = -1;
                 }
                 treatmentNumbers.add( treatmentNumberTemp );
-                if( desc.contains( Constants.COMPLETED ) ) {
-                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + Constants.DONE );
+                if( desc.contains( getString( R.string.completed ) ) ) {
+                    bodyParts.add( Utilities.getBodyPartString( this, eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + getString( R.string.done ) );
                 } else {
-                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) );
+                    bodyParts.add( Utilities.getBodyPartString( this, eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) );
                 }
             }
 
@@ -153,7 +153,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
     }
 
     private void scheduleMaintenance( CharSequence bodyPart, Long startTime ) {
-        int treatmentDuration = getTreatmentLength( (String) bodyPart );
+        int treatmentDuration = Utilities.getTreatmentLength( this, (String)bodyPart );
         Calendar _calendar = Calendar.getInstance();
         _calendar.setTimeInMillis( startTime );
         final Context ctx = this;
@@ -178,7 +178,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
     }
 
     private void scheduleOneStartUp( CharSequence bodyPart, int treatmentNumber, Long startTime ) {
-        int treatmentDuration = getTreatmentLength( (String) bodyPart );
+        int treatmentDuration = Utilities.getTreatmentLength( this, (String)bodyPart );
         Calendar _calendar = Calendar.getInstance();
         _calendar.setTimeInMillis( startTime );
         final Context ctx = this;
@@ -202,36 +202,6 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                         Toast.LENGTH_LONG ).show();
     }
 
-    private String getBodyPartString( String subString ) {
-        if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.UN ) ) {
-            return Constants.UNDERARM;
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.BI ) ) {
-            return Constants.BIKINIAREA;
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.UP ) ) {
-            return Constants.UPPERLEG;
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.LO ) ) {
-            return Constants.LOWERLEG;
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.WH ) ) {
-            return Constants.WHOLEBODY;
-        }
-        return null;
-    }
-
-    private int getTreatmentLength( String bodyPart ) {
-        VenusDb vdb = new VenusDb( this );
-        int treatmentLength = -1;
-        if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.UN ) ) {
-            treatmentLength = vdb.getUnderarmBikiniTreatmentLength();
-        } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.BI ) ) {
-            treatmentLength = vdb.getUnderarmBikiniTreatmentLength();
-        } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.UP ) ) {
-            treatmentLength = vdb.getUpperLowerLegTreatmentLength();
-        } else if( bodyPart.substring( 0, 2 ).equalsIgnoreCase( Constants.LO ) ) {
-            treatmentLength = vdb.getUpperLowerLegTreatmentLength();
-        }
-        vdb.close();
-        return treatmentLength;
-    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

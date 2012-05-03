@@ -12,7 +12,7 @@ public class Constants {
     //Tutorial Activity
     public final static String FIRST = "first";
     public final static String HAS_CALENDARS = "cals";
-    //Treatment Activity
+    //Treatment Activity and Event View Activity
     public final static String CALENDAR_YEAR_EXTRA  = "year";
     public final static String CALENDAR_MONTH_EXTRA = "month";
     public final static String CALENDAR_DAY_EXTRA   = "day";
@@ -105,19 +105,6 @@ public class Constants {
 
 
 
-    public final static String COMPLETED = "Termin�!";
-    public final static String DONE = " Fait";
 
-    public final static String UN = "Ai";
-    public final static String UNDERARM = "Aisselles";
-    public final static String BI = "Ma";
-    public final static String BIKINIAREA = "Maillot";
-    public final static String UP = "Cu";
-    public final static String UPPERLEG = "Cuisse";
-    public final static String LO = "De";
-    public final static String LOWERLEG = "Demi-jambe";
-    public final static String WH = "Co";
-    public final static String WHOLEBODY = "Corps entier";
-    public final static String OTHER = "Autre";
 
 }

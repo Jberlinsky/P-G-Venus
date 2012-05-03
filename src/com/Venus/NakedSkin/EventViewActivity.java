@@ -12,27 +12,27 @@ import android.os.Bundle;
 //import android.util.Log;
 import android.widget.TextView;
 
-public class EventViewActivity extends ListActivity{
+public class EventViewActivity extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.treatment);
 
-        int month = this.getIntent().getIntExtra("month",-1);
-        int day = this.getIntent().getIntExtra("day",-1);
-        int year = this.getIntent().getIntExtra("year",-1);
+        int year  = getIntent().getIntExtra( Constants.CALENDAR_YEAR_EXTRA, -1 );
+        int month = getIntent().getIntExtra( Constants.CALENDAR_MONTH_EXTRA, -1 );
+        int day   = getIntent().getIntExtra( Constants.CALENDAR_DAY_EXTRA, -1 );
 
-        TextView eventTitle = (TextView) findViewById(R.id.eventcalendartitle);
+        TextView eventTitle = (TextView)findViewById( R.id.eventcalendartitle );
 
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set( year, month, day );
         Date date = cal.getTime();
 
-        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        String timeText = "    " +  df.format(date);
-        eventTitle.setText( timeText);
+        DateFormat df = DateFormat.getDateInstance( DateFormat.MEDIUM );
+        String timeText = "    " +  df.format( date );
+        eventTitle.setText( timeText );
 
         //duplicate of StartActivity.refresh()
         ArrayList<String> bodyParts = new ArrayList<String>();
@@ -41,10 +41,14 @@ public class EventViewActivity extends ListActivity{
         try {
             while( eventCursor.moveToNext() ) {
                 startTimes.add( eventCursor.getLong( Constants.EVENT_START_INDEX ) );
-                if( eventCursor.getString( Constants.EVENT_DESC_INDEX ).contains( Constants.COMPLETED ) ) {
-                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + Constants.DONE );
+                if( eventCursor.getString( Constants.EVENT_DESC_INDEX ).contains( getString( R.string.completed ) ) ) {
+                    bodyParts.add( Utilities.getBodyPartString( this, eventCursor
+                                                                          .getString( Constants.EVENT_TITLE_INDEX )
+                                                                              .substring( 11 ) ) + getString( R.string.done ) );
                 } else {
-                    bodyParts.add( getBodyPartString( eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) );
+                    bodyParts.add( Utilities.getBodyPartString( this, eventCursor
+                                                                          .getString( Constants.EVENT_TITLE_INDEX )
+                                                                              .substring( 11 ) ) );
                 }
             }
 
@@ -57,23 +61,11 @@ public class EventViewActivity extends ListActivity{
         }
     }
 
-    public void onBackPressed(){
+    /**
+     * We want to exit the activity when the user presses back
+     */
+    public void onBackPressed() {
         finish();
     }
 
-    private String getBodyPartString( String subString ) {
-        if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.UN) ) {
-            return Constants.UNDERARM;
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.BI ) ) {
-            return Constants.BIKINIAREA;
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.UP ) ) {
-            return Constants.UPPERLEG;
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.LO ) ) {
-            return Constants.LOWERLEG;
-        } else if( subString.substring( 0, 2 ).equalsIgnoreCase( Constants.WH ) ) {
-            return Constants.WHOLEBODY;
-        } else {
-            return Constants.OTHER;
-        }
-    }
 }

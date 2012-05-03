@@ -269,4 +269,52 @@ public class Utilities {
             }
         } ).start();
     }
+
+    /**
+     * Parses the substring for a body part, and then returns that.
+     * @param subString
+     * @return Body part string associated with that substring
+     */
+    public static String getBodyPartString( Context c, String subString ) {
+        if( subString.substring( 0, 2 )
+                .equalsIgnoreCase( c.getString( R.string.underarm ).substring( 0, 2 ) ) ) {
+            return c.getString( R.string.underarm );
+        } else if( subString.substring( 0, 2 )
+                .equalsIgnoreCase( c.getString( R.string.bikini ).substring( 0, 2 ) ) ) {
+            return c.getString( R.string.bikini );
+        } else if( subString.substring( 0, 2 )
+                .equalsIgnoreCase( c.getString( R.string.upper_leg ).substring( 0, 2 ) ) ) {
+            return c.getString( R.string.upper_leg );
+        } else if( subString.substring( 0, 2 )
+                .equalsIgnoreCase( c.getString( R.string.lower_leg ).substring( 0, 2 ) ) ) {
+            return c.getString( R.string.lower_leg );
+        } else if( subString.substring( 0, 2 )
+                .equalsIgnoreCase( c.getString( R.string.wholebody ).substring( 0, 2 ) ) ) {
+            return c.getString( R.string.wholebody );
+        } else {
+            return c.getString( R.string.other );
+        }
+    }
+
+    /**
+     * Parses the string for a body part, and returns the treatment length associated with it
+     * @param bodyPart
+     * @return
+     */
+    public static int getTreatmentLength( Context c, String bodyPart ) {
+        VenusDb vdb = new VenusDb( c );
+        int treatmentLength = -1;
+        if( bodyPart.equalsIgnoreCase( c.getString( R.string.underarm ) ) ) {
+            treatmentLength = vdb.getUnderarmBikiniTreatmentLength();
+        } else if( bodyPart.equalsIgnoreCase( c.getString( R.string.bikini ) ) ) {
+            treatmentLength = vdb.getUnderarmBikiniTreatmentLength();
+        } else if( bodyPart.equalsIgnoreCase( c.getString( R.string.upper_leg ) ) ) {
+            treatmentLength = vdb.getUpperLowerLegTreatmentLength();
+        } else if( bodyPart.equalsIgnoreCase( c.getString( R.string.lower_leg ) ) ) {
+            treatmentLength = vdb.getUpperLowerLegTreatmentLength();
+        }
+        vdb.close();
+        return treatmentLength;
+    }
+
 }

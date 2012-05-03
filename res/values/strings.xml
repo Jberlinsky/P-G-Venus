@@ -101,4 +101,7 @@
     <string name="under">Under</string>
     <string name="whole">Whole</string>
     <string name="upper">Upper</string>
+    <string name="done">Done</string>
+    <string name="completed">Completed!</string>
+    <string name="other">Other</string>
 </resources>

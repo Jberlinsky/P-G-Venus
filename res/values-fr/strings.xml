@@ -91,4 +91,7 @@
     <string name="under">Aisselles</string>
     <string name="whole">Corps</string>
     <string name="upper">Cuisse</string>
+    <string name="done">Fait</string>
+    <string name="completed">Terminé!</string>
+    <string name="other">Autre</string>
 </resources>
