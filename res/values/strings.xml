@@ -121,4 +121,5 @@
     <string name="calendar_select_text">"Now before we get started, you will have to choose a calendar to use with Naked Skin<sup><small>®</small></sup>.  You can always change this in the settings menu."</string>
     <string name="calendar_select_title">Choose a calendar</string>
     <string name="tutorial_start">Here, under \"Today\'s Treatments,\" you can easily check what treatments are scheduled for today.</string>
+    <string name="event_title_match">Naked%</string>
 </resources>

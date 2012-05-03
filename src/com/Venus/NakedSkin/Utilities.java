@@ -11,49 +11,61 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 
+/**
+ * A collection of utility functions that are used by more than one class
+ * @author Jingran Wang
+ *
+ */
 public class Utilities {
 
+    /**
+     * Tries to find the calendars installed on the device
+     * @param c A Context
+     * @return A Cursor to the calendars
+     */
     public static Cursor queryForCalendars( Context c ) {
-        Cursor cursor;
         ContentResolver cr = c.getContentResolver();
         String uri, displayName;
         if( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 14 ) {
-            uri         = "content://com.android.calendar/calendars";
-            displayName = "calendar_displayName";
+            uri         = Constants.URI_CALENDAR_ICS;
+            displayName = Constants.DISPLAY_NAME_ICS;
         } else if( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) {
-            uri         = "content://com.android.calendar/calendars";
-            displayName = "displayName";
+            uri         = Constants.URI_CALENDAR_FROYO;
+            displayName = Constants.DISPLAY_NAME_FROYO;
         } else {
-            uri         = "content://calendar/calendars";
-            displayName = "displayName";
+            uri         = Constants.URI_CALENDAR_OLD;
+            displayName = Constants.DISPLAY_NAME_FROYO;
         }
 
         try {
-            cursor = cr.query( Uri.parse( uri ),
-                               new String[]{ "_id", displayName },
-                               "(account_type = ?)",
-                               new String[] { "com.google" },
-                               null );
-            return cursor;
+            return cr.query( Uri.parse( uri ),
+                             new String[]{ Constants.CALENDAR_ID, displayName },
+                             "(account_type = ?)",
+                             new String[] { "com.google" },
+                             null );
         } catch( SQLiteException e ) {
             //Log.d( "Venus", e.getMessage() );
-            cursor = cr.query( Uri.parse( uri ),
-                               new String[]{ "_id", displayName },
-                               null,
-                               null,
-                               null );
-            return cursor;
+            return cr.query( Uri.parse( uri ),
+                             new String[]{ Constants.CALENDAR_ID, displayName },
+                             null,
+                             null,
+                             null );
         }
     }
 
+    /**
+     * Tries to find the events between -6mo and +1y for the calendar
+     * @param c A Context
+     * @return A Cursor to the events
+     */
     public static Cursor queryEvents( Context c ) {
         VenusDb vdb = new VenusDb( c );
         ContentResolver cr = c.getContentResolver();
         Cursor cursor;
 
         String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
-                     "content://com.android.calendar/events" :
-                     "content://calendar/events";
+                     Constants.URI_EVENT_FROYO :
+                     Constants.URI_EVENT_OLD;
         Uri.Builder builder = Uri.parse( uri ).buildUpon();
 
         Calendar cal = Calendar.getInstance();
@@ -69,7 +81,7 @@ public class Utilities {
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%" },
+                                              c.getString( R.string.event_title_match ) },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
@@ -81,21 +93,27 @@ public class Utilities {
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%" },
+                                              c.getString( R.string.event_title_match ) },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
         }
     }
 
+    /**
+     * Tries to get the events for a specific day
+     * @param c A Context
+     * @param day The day to search
+     * @return A Cursor to the events
+     */
     public static Cursor queryDayEvents( Context c, Calendar day) {
         VenusDb vdb = new VenusDb( c );
         ContentResolver cr = c.getContentResolver();
         Cursor cursor;
 
         String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
-                     "content://com.android.calendar/events" :
-                     "content://calendar/events";
+                     Constants.URI_EVENT_FROYO :
+                     Constants.URI_EVENT_OLD;
         Uri.Builder builder = Uri.parse( uri ).buildUpon();
 
         Calendar cal = day;
@@ -115,7 +133,7 @@ public class Utilities {
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%" },
+                                              c.getString( R.string.event_title_match ) },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
@@ -127,21 +145,26 @@ public class Utilities {
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%" },
+                                              c.getString( R.string.event_title_match ) },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
         }
     }
 
+    /**
+     * Tries to query the events for today.
+     * @param c A Context
+     * @return A Cursor to the events
+     */
     public static Cursor queryTodaysEvents( Context c ) {
         VenusDb vdb = new VenusDb( c );
         ContentResolver cr = c.getContentResolver();
         Cursor cursor;
 
         String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
-                     "content://com.android.calendar/events" :
-                     "content://calendar/events";
+                     Constants.URI_EVENT_FROYO :
+                     Constants.URI_EVENT_OLD;
         Uri.Builder builder = Uri.parse( uri ).buildUpon();
 
         Calendar cal = Calendar.getInstance();
@@ -161,7 +184,7 @@ public class Utilities {
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%" },
+                                              c.getString( R.string.event_title_match ) },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
@@ -173,18 +196,22 @@ public class Utilities {
                                new String[] { Long.toString( vdb.getCalendarId() ),
                                               Long.toString( start ),
                                               Long.toString( end ),
-                                              "Naked%" },
+                                              c.getString( R.string.event_title_match ) },
                                "dtstart ASC" );
             vdb.close();
             return cursor;
         }
     }
 
+    /**
+     * Adds an Event to the calendar
+     * @param c A Context
+     * @param e The Event to add
+     */
     public static void addToCalendar( Context c, Event e ) {
         VenusDb vdb = new VenusDb( c );
         ContentResolver cr = c.getContentResolver();
         ContentValues cv = new ContentValues();
-        String uri;
 
         cv.put( "calendar_id", vdb.getCalendarId() );
         cv.put( "title", e.title );
@@ -195,11 +222,9 @@ public class Utilities {
 
         vdb.close();
 
-        if( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8) {
-            uri = "content://com.android.calendar/events";
-        } else {
-            uri = "content://calendar/events";
-        }
+        String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
+                     Constants.URI_EVENT_FROYO :
+                     Constants.URI_EVENT_OLD;
         cr.insert( Uri.parse( uri ), cv );
     }
 
@@ -220,8 +245,8 @@ public class Utilities {
         Cursor cursor;
 
         String uri = ( Integer.parseInt( android.os.Build.VERSION.SDK ) >= 8 ) ?
-                     "content://com.android.calendar/events" :
-                     "content://calendar/events";
+                     Constants.URI_EVENT_FROYO :
+                     Constants.URI_EVENT_OLD;
         Uri.Builder builder = Uri.parse( uri ).buildUpon();
 
         try {
@@ -247,7 +272,7 @@ public class Utilities {
 
         //now we have a cursor to the one event, hopefully
         cursor.moveToFirst();
-        e.description = cursor.getString( 1 ) + " Completed!";
+        e.description = cursor.getString( 1 ) + " " + c.getString( R.string.completed );
         e.end = cursor.getLong( 3 );
 
         try {

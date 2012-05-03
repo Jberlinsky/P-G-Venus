@@ -1,8 +1,6 @@
 package com.Venus.NakedSkin;
 
 import android.graphics.Color;
-import android.text.Html;
-import android.text.Spanned;
 
 public class Constants {
     //MIME Types
@@ -33,6 +31,35 @@ public class Constants {
     public final static String UA_BIKINI_TREATMENT_INT_PREF = "underarmBikiniTreatmentLength";
     public final static String UL_LL_TREATMENT_INT_PREF     = "upperLowerLegTreatmentLength";
     public final static String WHOLE_TREATMENT_INT_PREF     = "wholeBodyTreatmentLength";
+
+    //Content URIs for calendars
+    public final static String URI_CALENDAR_ICS = "content://com.android.calendar/calendars";
+    public final static String URI_CALENDAR_FROYO = "content://com.android.calendar/calendars";
+    public final static String URI_CALENDAR_OLD = "content://calendar/calendars";
+
+    //Display Name for calendars
+    public final static String DISPLAY_NAME_ICS = "calendar_displayName";
+    public final static String DISPLAY_NAME_FROYO = "displayName";
+
+    //ID for calendars
+    public final static String CALENDAR_ID = "_id";
+
+    //Content URIs for events
+    public final static String URI_EVENT_FROYO = "content://com.android.calendar/events";
+    public final static String URI_EVENT_OLD = "content://calendar/events";
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
