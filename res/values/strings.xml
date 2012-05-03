@@ -111,4 +111,14 @@
     <string name="calendar_missing">You don\'t have any calendars! This app won\'t work without a valid calendar on your device. Please double-check in the calendar app.</string>
     <string name="go_back">Go Back</string>
     <string name="okay">Okay</string>
+    <string name="tutorial_message">"Hi there, goddess!<br></br> Your journey to Naked Skin<sup><small>®</small></sup> starts now. Click \"Okay\" to learn how this app is going to make your journey easier.You must click through each icon to proceed and finish the tutorial."</string>
+    <string name="tutorial_schedule">"Simply go to the Calendar View to view both past and upcoming treatments (circled in blue) as well as today's date (circled in white). Click on any blue circled date to see the details of your appointment with Naked Skin<sup><small>®</small></sup>."</string>
+    <string name="tutorial_treatment">"Treat the Treatment Area Scheduler like your personal assistant. Simply select the body part you want to become silky smooth and the date you want your first treatment, and it will automatically schedule the remaining treatments."</string>
+    <string name="tutorial_howto">"Check out short videos to learn how Naked Skin<sup><small>®</small></sup> works."</string>
+    <string name="tutorial_settings">"You can change how you want to be reminded under Reminder Settings.  Now you're ready to get started."</string>
+    <string name="gel_url">http://www.gillettevenus.com/</string>
+    <string name="app_tutorial">App Tutorial</string>
+    <string name="calendar_select_text">"Now before we get started, you will have to choose a calendar to use with Naked Skin<sup><small>®</small></sup>.  You can always change this in the settings menu."</string>
+    <string name="calendar_select_title">Choose a calendar</string>
+    <string name="tutorial_start">Here, under \"Today\'s Treatments,\" you can easily check what treatments are scheduled for today.</string>
 </resources>

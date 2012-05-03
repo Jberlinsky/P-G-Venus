@@ -101,4 +101,13 @@
     <string name="okay">Ok</string>
     <string name="event_title_suffix"> Rappel(s) pour le traitements</string>
     <string name="event_desc_startup_prefix">Nombre de Traitements </string>
+    <string name="tutorial_message">"Bienvenue chère déesse! <br></br>Votre voyage vers Naked Skin<sup><small>®</small></sup> commence maintenant. Cliquez sur \"Ok\" pour découvrir comment cette application va faciliter votre voyage. Vous devez cliquer sur chaque icone pour avancer et terminer le séminaire."</string>
+    <string name="tutorial_schedule">"Allez sur Voir Calendrier pour voir les traitements passés et à venir (entourés en bleu) ainsi que la date d'aujourd'hui (entourée en blanc). Cliquez sur n'importe quelle date entourée en bleu pour voir les détails de votre rendez-vous avec Naked Skin<sup><small>®</small></sup>."</string>
+    <string name="tutorial_treatment">"Considérez le Programmateur des traitements comme votre assistant personnel. Sélectionnez la partie du corps que vous voulez rendre douce comme de la soie et la date à laquelle vous voulez démarrer votre traitement, et cela plannifiera automatiquement les traitements restants."</string>
+    <string name="tutorial_howto">"Regardez nos courtes vidéos pour savoir comment Naked Skin<sup><small>®</small></sup> fonctionne."</string>
+    <string name="tutorial_settings">"Vous pouvez changer le mode de rappel des traitements sous Programmation des rappels. Vous êtes maintenant prête à commencer."</string>
+    <string name="gel_url">http://www.gillettevenus.fr/fr_FR/products/naked-skin-home-IPL-hair-removal/buy/index.jsp</string>
+    <string name="calendar_select_text">Avant de commencer, vous devrez choisir un calendrier à utiliser avec Naked Skin<sup><small>®</small></sup>. Vous pouvez toujours le changer dans le menu."</string>
+    <string name="calendar_select_title">Choisir un calendrier</string>
+    <string name="tutorial_start">Dans la rubrique \"Traitement du jour\" vous pouvez facilement voir quels traitements sont prévus aujourd\'hui.</string>
 </resources>

@@ -48,22 +48,8 @@ public class Constants {
     public final static String TUTORIAL_POSITIVE = "Ok";
     public final static String TUTORIAL_NEGATIVE = "Retour";
 
-    public final static Spanned TUTORIAL_MESSAGE =
-            Html.fromHtml("Bienvenue ch�re d�esse! </br>Votre voyage vers Naked Skin<sup><small>�</small></sup> commence maintenant. Cliquez sur \"Ok\" pour d�couvrir comment cette application va faciliter votre voyage. Vous devez cliquer sur chaque icone pour avancer et terminer le s�minaire.");
-    public final static String TUTORIAL_MESSAGE_2 = "You must click through each icon to proceed and finish the tutorial.";
-    public final static Spanned TUTORIAL_SCHEDULE_MESSAGE =
-        Html.fromHtml("Allez sur Voir Calendrier pour voir les traitements pass�s et � venir (entour�s en bleu) ainsi que la date d'aujourd'hui (entour�e en blanc). Cliquez sur n'importe quelle date entour�e en bleu pour voir les d�tails de votre rendez-vous avec Naked Skin<sup><small>�</small></sup>.");
-    public final static String TUTORIAL_TREATMENT_MESSAGE = "Consid�rez le Programmateur des traitements comme votre assistant personnel. " +
-        "S�lectionnez la partie du corps que vous voulez rendre douce comme de la soie et la date � laquelle vous voulez d�marrer votre traitement, et cela plannifiera automatiquement les traitements restants.";
-    public final static Spanned TUTORIAL_HOWTO_MESSAGE = Html.fromHtml("Regardez nos courtes vid�os pour savoir comment Naked Skin<sup><small>�</small></sup> fonctionne.");
-  //  public final static String TUTORIAL_PLAYLIST_MESSAGE = "CURRENTLY NOT IMPLEMENTED\n" +
-  //      "Here, you'll be able to select a playlist to listen to while you treat yourself.";
-    public final static String TUTORIAL_SETTINGS_MESSAGE = "Vous pouvez changer le mode de rappel des traitements sous Programmation des rappels. Vous �tes maintenant pr�te � commencer.";
-    public final static String TUTORIAL_START_MESSAGE = "Dans la rubrique �Traitement du jour� vous pouvez facilement voir quels traitements sont pr�vus aujourd�hui.";
 
 
-    public final static String TUTORIAL_CALENDAR_SELECT_TITLE = "Choisir un calendrier";
-    public final static Spanned TUTORIAL_CALENDAR_SELECT_MESSAGE = Html.fromHtml( "Avant de commencer, vous devrez choisir un calendrier � utiliser avec Naked Skin<sup><small>�</small></sup>. Vous pouvez toujours le changer dans le menu." );
 
     //Colors
     public final static int COLOR_SELECTED = Color.BLUE;
