@@ -14,9 +14,6 @@
             </intent-filter>
         </activity>
         <activity android:label="@string/app_name"
-            android:name=".DiaryActivity"
-            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
-        <activity android:label="@string/app_name"
             android:name=".EventViewActivity"
             android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:label="@string/app_name"
@@ -29,17 +26,13 @@
             android:name=".HowtoActivity"
             android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:label="@string/app_name"
-            android:name=".MusicActivity"
-            android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
-        <activity android:label="@string/app_name"
             android:name=".TutorialActivity"
             android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:label="@string/app_name"
             android:name=".SettingActivity"
             android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:label="@string/app_name"
-            android:name=".VideoPlayer"
+            android:name=".StartActivity"
             android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"/>
-        <activity android:name=".StartActivity"/>
     </application>
 </manifest>

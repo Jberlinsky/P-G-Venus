@@ -22,10 +22,9 @@ public class LoadingActivity extends Activity {
      */
     private Handler splashHandler = new Handler() {
         public void handleMessage( Message msg ) {
-            Intent intent = new Intent( getApplicationContext(), TutorialActivity.class );
-            intent.putExtra( Constants.FIRST, (FIRST_RUN == msg.what) ? true : false );
-            intent.putExtra( Constants.HAS_CALENDARS, hasCalendars );
-            startActivity( intent );
+            startActivity( new Intent( getApplicationContext(), TutorialActivity.class )
+                .putExtra( Constants.FIRST, (FIRST_RUN == msg.what) ? true : false )
+                .putExtra( Constants.HAS_CALENDARS, hasCalendars ) );
             super.handleMessage( msg );
             finish();
          }

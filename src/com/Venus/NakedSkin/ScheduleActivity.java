@@ -27,6 +27,11 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+/**
+ * The ScheduleActivity is the largest.  It schedules treatments for a user the first time they run the app.
+ * @author Jingran Wang
+ *
+ */
 public class ScheduleActivity extends Activity implements OnClickListener {
 
     private boolean isStartup;
@@ -159,20 +164,21 @@ public class ScheduleActivity extends Activity implements OnClickListener {
         if( Integer.parseInt( startupNumber ) >= 6 &&
             (isStartup && !vdb.isFirstTreatmentReminder()) ) {
             // Prompt with option of switching to maintenance
-            AlertDialog.Builder builder = new AlertDialog.Builder( this );
-            builder.setMessage( getString( R.string.treatment_option_message ) )
-                   .setPositiveButton( getString( R.string.maintenance ), new DialogInterface.OnClickListener() {
-                       public void onClick(DialogInterface dialog, int id) {
-                           // Change to maintenance
-                           vdb.setIsNotFirstTreatmentReminder( ctx );
-                           isStartup = false;
-                           setUpEvent();
-                       } } )
-                   .setNegativeButton( getString( R.string.startup ), new DialogInterface.OnClickListener() {
-                       public void onClick(DialogInterface dialog, int id) {
-                           setUpEvent();
-                       } } );
-            builder.create().show();
+            new AlertDialog.Builder( this )
+                .setMessage( getString( R.string.treatment_option_message ) )
+                .setPositiveButton( getString( R.string.maintenance ), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Change to maintenance
+                        vdb.setIsNotFirstTreatmentReminder( ctx );
+                        isStartup = false;
+                        setUpEvent();
+                    } } )
+                .setNegativeButton( getString( R.string.startup ), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        setUpEvent();
+                    } } )
+                .create()
+                .show();
         } else {
             setUpEvent();
         }

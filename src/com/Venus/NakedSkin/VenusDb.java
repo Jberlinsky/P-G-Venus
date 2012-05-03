@@ -8,6 +8,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * The Database class for this app.
+ * Handles preferences and a DB.
+ * @author Jingran Wang
+ *
+ */
 public class VenusDb {
 
     private DatabaseHelper mDbHelper;
@@ -42,7 +48,7 @@ public class VenusDb {
             "DROP TABLE IF EXISTS " +
                     DB_TABLE;
 
-    private static final String PREFS_NAME                   = "PG_VENUS_PREFS";
+    private static final String PREFS_NAME = "PG_VENUS_PREFS";
 
     /**
      * Default database helper, modified onCreate()
@@ -117,52 +123,6 @@ public class VenusDb {
     public int getCalendarId() {
         Cursor c = mDatabase.query( DB_TABLE,
                                     new String[] {KEY_CALENDAR_INDEX},
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    "1" );
-        c.moveToFirst();
-        return c.getInt( 0 );
-    }
-
-    /**
-     * Currently unused, is supposed to set the alarm.
-     * @param mod Mod value (min, hour, etc.)
-     * @param value The value
-     */
-    public void setAlarm( int mod, int value ) {
-        ContentValues storedValues = new ContentValues();
-        storedValues.put( KEY_ALARM_MOD, mod );
-        storedValues.put( KEY_ALARM_VALUE, value );
-        mDatabase.update( DB_TABLE, storedValues, null, null );
-    }
-
-    /**
-     * Currently unused, gets the mod of the alarm setting (min, hour, etc.)
-     * @return
-     */
-    public int getAlarmMod() {
-        Cursor c = mDatabase.query( DB_TABLE,
-                                    new String[] {KEY_ALARM_MOD},
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    "1" );
-        c.moveToFirst();
-        return c.getInt( 0 );
-    }
-
-    /**
-     * Currently unused, gets the alarm value.
-     * @return
-     */
-    public int getAlarmValue() {
-        Cursor c = mDatabase.query( DB_TABLE,
-                                    new String[] {KEY_ALARM_VALUE},
                                     null,
                                     null,
                                     null,
@@ -293,7 +253,7 @@ public class VenusDb {
      * @return int The value
      */
     public int getUnderarmBikiniTreatmentLength() {
-        return getIntegerPreference( Constants.UA_BIKINI_TREATMENT_INT_PREF, Constants.TEN_MINUTES);
+        return getIntegerPreference( Constants.UA_BIKINI_TREATMENT_INT_PREF, Constants.TEN_MINUTES );
     }
 
     /**
@@ -301,7 +261,7 @@ public class VenusDb {
      * @return int The value
      */
     public int getWholeBodyTreatmentLength() {
-        return this.getIntegerPreference( Constants.WHOLE_TREATMENT_INT_PREF, Constants.TWO_HOURS);
+        return getIntegerPreference( Constants.WHOLE_TREATMENT_INT_PREF, Constants.TWO_HOURS );
     }
 
     /**
@@ -309,7 +269,7 @@ public class VenusDb {
      * @return int The value
      */
     public int getUpperLowerLegTreatmentLength() {
-        return this.getIntegerPreference( Constants.UL_LL_TREATMENT_INT_PREF, Constants.FOURTY_FIVE_MINUTES);
+        return getIntegerPreference( Constants.UL_LL_TREATMENT_INT_PREF, Constants.FOURTY_FIVE_MINUTES );
     }
 
 }

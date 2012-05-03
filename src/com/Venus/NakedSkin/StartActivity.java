@@ -23,6 +23,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+/**
+ * StartActivity lists all of the treatments that are going on today, and allows user to mark them as complete
+ * @author Jingran Wang
+ *
+ */
 public class StartActivity extends ListActivity implements OnItemClickListener {
 
     ListView _listView;
@@ -49,7 +54,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
-        _listView = (ListView) findViewById( android.R.id.list );
+        _listView = (ListView)findViewById( android.R.id.list );
         _listView.setOnItemClickListener( this );
         refresh();
     }
@@ -63,19 +68,20 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
         if( bodyPart.contains( getString( R.string.done ) ) ) {
             return;
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder( this );
-            builder.setMessage( bodyPart + getString( R.string.question_mark ) )
-                   .setCancelable( false )
-                   .setPositiveButton( getString( R.string.yes ), new DialogInterface.OnClickListener() {
-                       public void onClick( DialogInterface dialog, int id ) {
-                           lastItemClicked = arg2;
-                           proceed( bodyParts.get( arg2 ), treatmentNumbers.get( arg2 ), startTimes.get( arg2 ) );
-                       } } )
-                   .setNegativeButton( getString( R.string.no ), new DialogInterface.OnClickListener() {
-                       public void onClick( DialogInterface dialog, int id ) {
-                           dialog.cancel();
-                       } } );
-            builder.create().show();
+            new AlertDialog.Builder( this )
+                .setMessage( bodyPart + getString( R.string.question_mark ) )
+                .setCancelable( false )
+                .setPositiveButton( getString( R.string.yes ), new DialogInterface.OnClickListener() {
+                    public void onClick( DialogInterface dialog, int id ) {
+                        lastItemClicked = arg2;
+                        proceed( bodyParts.get( arg2 ), treatmentNumbers.get( arg2 ), startTimes.get( arg2 ) );
+                    } } )
+                .setNegativeButton( getString( R.string.no ), new DialogInterface.OnClickListener() {
+                    public void onClick( DialogInterface dialog, int id ) {
+                        dialog.cancel();
+                    } } )
+                .create()
+                .show();
         }
     }
 
@@ -97,27 +103,28 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
             //Log.d( "Venus", "Forcing maintenance reminders" );
         } else if( 6 <= treatmentNumber ) {
             //Log.d( "Venus", "Dialog about maintenance or startup" );
-            AlertDialog.Builder builder = new AlertDialog.Builder( this );
-            builder.setMessage( getString( R.string.treatment_option_message) )
-                   .setCancelable( false )
-                   .setPositiveButton( getString( R.string.maintenance ),
-                                       new DialogInterface.OnClickListener() {
-                                           public void onClick( DialogInterface dialog, int id ) {
-                                               scheduleMaintenance( bodyPart, startTime );
-                                           }
-                                       } )
-                   .setNegativeButton( getString( R.string.startup ),
-                                       new DialogInterface.OnClickListener() {
-                                           public void onClick( DialogInterface dialog, int id ) {
-                                               scheduleOneStartUp( bodyPart, treatmentNumber, startTime );
-                                           }
-                                       } );
-            builder.create().show();
+            new AlertDialog.Builder( this )
+                .setMessage( getString( R.string.treatment_option_message) )
+                .setCancelable( false )
+                .setPositiveButton( getString( R.string.maintenance ),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick( DialogInterface dialog, int id ) {
+                                            scheduleMaintenance( bodyPart, startTime );
+                                        }
+                                    } )
+                .setNegativeButton( getString( R.string.startup ),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick( DialogInterface dialog, int id ) {
+                                            scheduleOneStartUp( bodyPart, treatmentNumber, startTime );
+                                        }
+                                    } )
+                .create()
+                .show();
         } else {
             //Log.d( "Venus", "No action: in startup phase" );
         }
         //for all treatments, mark as complete
-        Event e = new Event( bodyPart, startTime );
+        Event e = new Event( this, bodyPart, startTime );
         Utilities.markAsComplete( this, e, new RefreshHandler() );
     }
 
@@ -152,15 +159,17 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
             //error happened...
         } catch( NullPointerException npe ) {
             //This happens when no calendar exists
-            AlertDialog.Builder builder = new AlertDialog.Builder( this );
-            builder.setMessage( getString( R.string.calendar_missing ) )
-                   .setCancelable(false)
-                   .setPositiveButton( getString( R.string.okay ), new DialogInterface.OnClickListener(){
-                       public void onClick( DialogInterface dialog, int id ) {
-                           dialog.cancel();
-                       }
-                   });
-            builder.create().show();
+            new AlertDialog.Builder( this )
+                .setMessage( getString( R.string.calendar_missing ) )
+                .setCancelable(false)
+                .setPositiveButton( getString( R.string.okay ),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick( DialogInterface dialog, int id ) {
+                                dialog.cancel();
+                            }
+                        } )
+                .create()
+                .show();
         }
     }
 
@@ -269,9 +278,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
             finish();
             return true;
         case R.id.homemenu:
-            Intent intent =  new Intent( this, TutorialActivity.class );
-            intent.putExtra( Constants.FIRST, false);
-            startActivity(intent);
+            startActivity( new Intent( this, TutorialActivity.class ).putExtra( Constants.FIRST, false ) );
             finish();
             return true;
         default:

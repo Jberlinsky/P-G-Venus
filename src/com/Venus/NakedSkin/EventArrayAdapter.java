@@ -12,6 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * This is an adapter for the Event View Activity
+ * @author Jingran Wang
+ *
+ */
 public class EventArrayAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final ArrayList<String> values;
@@ -23,7 +28,6 @@ public class EventArrayAdapter extends ArrayAdapter<String> {
         this.timeValues = time;
     }
 
-    @Override
     /**
      * Modified this to be more compact, but a lot less readable.
      */
@@ -56,6 +60,11 @@ public class EventArrayAdapter extends ArrayAdapter<String> {
         return rowView;
     }
 
+    /**
+     * Handles updates when an event is marked as complete
+     * This is done because the delay by waiting for the actual calendar to refresh is too long
+     * @param index
+     */
     public void update( int index ) {
         String original = values.get( index );
         remove( original );

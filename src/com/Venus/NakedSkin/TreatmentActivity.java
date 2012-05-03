@@ -15,6 +15,13 @@ import android.widget.TextView;
 import com.exina.android.calendar.CalendarView;
 import com.exina.android.calendar.Cell;
 
+/**
+ * Treatment Activity that shows a calendar view.
+ * Blue circle means a treatment is scheduled
+ * White circle is today.
+ * @author Jingran Wang
+ *
+ */
 public class TreatmentActivity extends Activity implements CalendarView.OnCellTouchListener {
 
     CalendarView mView = null;
@@ -29,7 +36,7 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar);
         mView = (CalendarView)findViewById(R.id.calendar);
-        mView.setEvent(this.getEvents());
+        mView.setEvent( getEvents() );
         mView.setOnCellTouchListener(this);
         findViewById(R.id.calendarBack).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -84,24 +91,21 @@ public class TreatmentActivity extends Activity implements CalendarView.OnCellTo
      * Handle menu selection
      */
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
         case R.id.schedulemenu:
-            startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
+            startActivity( new Intent( this, ScheduleActivity.class ) );
             finish();
             return true;
         case R.id.howtomenu:
-            startActivity( new Intent( getApplicationContext(), HowtoActivity.class ) );
+            startActivity( new Intent( this, HowtoActivity.class ) );
             finish();
             return true;
         case R.id.settingmenu:
-            startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
+            startActivity( new Intent( this, SettingActivity.class ) );
             finish();
             return true;
         case R.id.homemenu:
-            Intent intent =  new Intent( getApplicationContext(), TutorialActivity.class );
-            intent.putExtra("first", false);
-            startActivity(intent);
+            startActivity( new Intent( this, TutorialActivity.class ).putExtra( Constants.FIRST, false) );
             finish();
             return true;
         default:

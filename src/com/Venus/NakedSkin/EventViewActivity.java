@@ -12,9 +12,16 @@ import android.os.Bundle;
 //import android.util.Log;
 import android.widget.TextView;
 
+/**
+ * Allows one to view all events for a particular day
+ * @author Jingran Wang
+ *
+ */
 public class EventViewActivity extends ListActivity {
 
-    @Override
+    /**
+     * Sets everything up
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_view);

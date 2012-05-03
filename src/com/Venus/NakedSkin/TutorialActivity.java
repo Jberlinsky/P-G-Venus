@@ -17,6 +17,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * The Tutorial Activity actually shows the main "start" view.
+ * It also deals with the first-run tutorial
+ * @author Jingran Wang
+ *
+ */
 public class TutorialActivity extends Activity implements OnClickListener {
 
     boolean firstUsage = true;
@@ -161,18 +167,18 @@ public class TutorialActivity extends Activity implements OnClickListener {
                 final AlertDialog alert = builder.create();
 
                 //Build the calendar select dialog that goes second
-                final Dialog dialog = new Dialog( this );
+                final Dialog dialog2 = new Dialog( this );
                 TextView dialogtext;
                 Button button;
-                dialog.setContentView( R.layout.customdialog );
-                dialog.setTitle( getString( R.string.app_tutorial ) );
-                dialog.setCancelable( true );
-                dialogtext = (TextView)dialog.findViewById( R.id.contenttext );
+                dialog2.setContentView( R.layout.customdialog );
+                dialog2.setTitle( getString( R.string.app_tutorial ) );
+                dialog2.setCancelable( true );
+                dialogtext = (TextView)dialog2.findViewById( R.id.contenttext );
                 dialogtext.setText( Html.fromHtml( getString( R.string.calendar_select_text ) ) );
-                button = (Button)dialog.findViewById( R.id.okaybutton );
+                button = (Button)dialog2.findViewById( R.id.okaybutton );
                 button.setOnClickListener( new OnClickListener() {
                     public void onClick(View v) {
-                        dialog.cancel();
+                        dialog2.cancel();
                         alert.show();
                     }
                 } );
@@ -190,7 +196,7 @@ public class TutorialActivity extends Activity implements OnClickListener {
                 button1.setOnClickListener( new OnClickListener() {
                     public void onClick( View v ) {
                         dialog1.cancel();
-                        dialog.show();
+                        dialog2.show();
                     }
                 } );
                 dialog1.show();

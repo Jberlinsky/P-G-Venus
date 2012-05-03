@@ -14,6 +14,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+/**
+ * This Activity allows the user to change options and settings
+ * Currently only two options, and tutorial view
+ * @author Jingran Wang
+ *
+ */
 public class SettingActivity extends Activity implements OnClickListener {
 
     int valueBU; //Bikini and underarm
@@ -28,6 +34,9 @@ public class SettingActivity extends Activity implements OnClickListener {
 
     private VenusDb vdb;
 
+    /**
+     * Sets up all of the views
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
@@ -126,7 +135,6 @@ public class SettingActivity extends Activity implements OnClickListener {
      * Handle menu selection
      */
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
         case R.id.schedulemenu:
             startActivity( new Intent( this, ScheduleActivity.class ) );
@@ -141,9 +149,7 @@ public class SettingActivity extends Activity implements OnClickListener {
             finish();
             return true;
         case R.id.homemenu:
-            Intent intent =  new Intent( this, TutorialActivity.class );
-            intent.putExtra( Constants.FIRST, false );
-            startActivity(intent);
+            startActivity( new Intent( this, TutorialActivity.class ).putExtra( Constants.FIRST, false ) );
             finish();
             return true;
         default:
@@ -162,9 +168,7 @@ public class SettingActivity extends Activity implements OnClickListener {
             Toast.makeText( this, getString( R.string.settings_saved ), Toast.LENGTH_SHORT ).show();
             break;
         case R.id.viewTutorialButton :
-            Intent intent = new Intent( this, TutorialActivity.class );
-            intent.putExtra( Constants.FIRST, true );
-            startActivity( intent );
+            startActivity( new Intent( this, TutorialActivity.class ).putExtra( Constants.FIRST, true ) );
             finish();
             break;
         default:

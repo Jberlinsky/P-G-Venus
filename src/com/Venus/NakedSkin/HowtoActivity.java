@@ -10,7 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class HowtoActivity extends Activity implements View.OnClickListener{
+/**
+ * Links to How-To Videos on YouTube
+ * @author Jingran Wang
+ *
+ */
+public class HowtoActivity extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.howto);
@@ -47,9 +52,7 @@ public class HowtoActivity extends Activity implements View.OnClickListener{
             finish();
             return true;
         case R.id.homemenu:
-            Intent intent =  new Intent( this, TutorialActivity.class );
-            intent.putExtra( Constants.FIRST, false);
-            startActivity(intent);
+            startActivity( new Intent( this, TutorialActivity.class ).putExtra( Constants.FIRST, false ) );
             finish();
             return true;
         default:
