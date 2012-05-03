@@ -62,7 +62,7 @@ public class Event {
      * @param startTime
      */
     public Event( Context c, CharSequence bodyPart, Long startTime ) {
-        title = c.getString( R.string.event_title_prefix ) + bodyPart + c.getString( R.string.event_title_suffix );
+        title = c.getString( R.string.event_title_prefix ) + " " + bodyPart + " " + c.getString( R.string.event_title_suffix );
         start = startTime;
     }
 

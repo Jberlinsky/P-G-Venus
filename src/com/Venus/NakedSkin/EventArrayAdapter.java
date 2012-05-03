@@ -68,6 +68,6 @@ public class EventArrayAdapter extends ArrayAdapter<String> {
     public void update( int index ) {
         String original = values.get( index );
         remove( original );
-        insert( original + context.getString( R.string.done ), index );
+        insert( original + " " + context.getString( R.string.done ), index );
     }
 }

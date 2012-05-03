@@ -400,9 +400,11 @@ public class ScheduleActivity extends Activity implements OnClickListener {
              i++ ) {
             String desc = null;
             if( isStartup ) {
-                desc =  getString( R.string.event_desc_startup_prefix );
-                desc += (i + 1);
-                desc += getString( R.string.event_desc_startup_suffix );
+                desc = getString( R.string.event_desc_startup_prefix ) +
+                       " " +
+                       (i + 1) +
+                       " " +
+                       getString( R.string.event_desc_startup_suffix );
                 modifier = Calendar.WEEK_OF_YEAR;
             } else {
                 desc = getString( R.string.maintenance );
@@ -411,7 +413,9 @@ public class ScheduleActivity extends Activity implements OnClickListener {
             _calendar.add( modifier, 2 );
 
             final Event e = new Event( getString( R.string.event_title_prefix ) +
+                                       " " +
                                        bodyPart +
+                                       " " +
                                        getString( R.string.event_title_suffix ),
                                        desc,
                                        _calendar.getTimeInMillis(),
@@ -426,17 +430,25 @@ public class ScheduleActivity extends Activity implements OnClickListener {
         String toastText = "";
         if( isStartup && isFirstTreatment ) {
             toastText = getString( R.string.reminder_first_startup_prefix ) +
+                        " " +
                         bodyPart +
+                        " " +
                         getString( R.string.reminder_first_startup_suffix );
         } else if( isStartup ) {
             toastText = getString( R.string.reminder_startup_prefix ) +
+                        " " +
                         bodyPart +
+                        " " +
                         getString( R.string.reminder_startup_middle ) +
+                        " " +
                         startupNumber +
+                        " " +
                         getString( R.string.reminder_startup_suffix );
         } else {
             toastText = getString( R.string.reminder_maintenance_prefix ) +
+                        " " +
                         bodyPart +
+                        " " +
                         getString( R.string.reminder_maintenance_suffix );
         }
         Toast.makeText( this, toastText, Toast.LENGTH_LONG ).show();

@@ -147,7 +147,7 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
                 }
                 treatmentNumbers.add( treatmentNumber );
                 if( desc.contains( getString( R.string.completed ) ) ) {
-                    bodyParts.add( Utilities.getBodyPartString( this, eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + getString( R.string.done ) );
+                    bodyParts.add( Utilities.getBodyPartString( this, eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) + " " + getString( R.string.done ) );
                 } else {
                     bodyParts.add( Utilities.getBodyPartString( this, eventCursor.getString( Constants.EVENT_TITLE_INDEX ).substring( 11 ) ) );
                 }
@@ -193,7 +193,9 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
         for( int i = 0; i < 6; i++ ) {
             _calendar.add( Calendar.MONTH, 2 );
             final Event e = new Event( getString( R.string.event_title_prefix ) +
+                                       " " +
                                        bodyPart +
+                                       " " +
                                        getString( R.string.event_title_suffix ),
                                        getString( R.string.maintenance ),
                                        _calendar.getTimeInMillis(),
@@ -208,7 +210,9 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
 
         Toast.makeText( this,
                         getString( R.string.reminder_maintenance_prefix ) +
+                        " " +
                         bodyPart +
+                        " " +
                         getString( R.string.reminder_maintenance_suffix ),
                         Toast.LENGTH_LONG ).show();
     }
@@ -226,9 +230,12 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
         final Context ctx = this;
         _calendar.add( Calendar.WEEK_OF_YEAR, 2 );
         final Event e = new Event( getString( R.string.event_title_prefix ) +
+                                   " " +
                                    bodyPart +
+                                   " " +
                                    getString( R.string.event_title_suffix ),
                                    getString( R.string.event_desc_startup_prefix ) +
+                                   " " +
                                    ( treatmentNumber + 1 ),
                                    _calendar.getTimeInMillis(),
                                    _calendar.getTimeInMillis() + ( ( -1 == treatmentDuration ) ? Constants.ONE_HOUR : treatmentDuration ) );
@@ -241,9 +248,13 @@ public class StartActivity extends ListActivity implements OnItemClickListener {
 
         Toast.makeText( this,
                         getString( R.string.reminder_startup_prefix ) +
+                        " " +
                         bodyPart +
+                        " " +
                         getString( R.string.reminder_startup_middle ) +
+                        " " +
                         ( treatmentNumber + 1 ) +
+                        " " +
                         getString( R.string.reminder_startup_suffix ),
                         Toast.LENGTH_LONG ).show();
     }
