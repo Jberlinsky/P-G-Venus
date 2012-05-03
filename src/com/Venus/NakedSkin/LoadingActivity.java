@@ -17,29 +17,23 @@ public class LoadingActivity extends Activity {
     private final int FIRST_RUN = 100;
     private final int RUN = 500;
 
+    /**
+     * A handler to start TutorialActivity when the timer runs out
+     */
     private Handler splashHandler = new Handler() {
         public void handleMessage( Message msg ) {
-            Intent intent = null;
-            switch( msg.what ) {
-            case FIRST_RUN:
-                intent = new Intent( getApplicationContext(), TutorialActivity.class );
-                intent.putExtra( Constants.FIRST, true );
-                intent.putExtra( Constants.HAS_CALENDARS, (false == hasCalendars) ? false : true );
-                break;
-            case RUN:
-                intent = new Intent( getApplicationContext(), TutorialActivity.class );
-                intent.putExtra( Constants.FIRST, false );
-                intent.putExtra( Constants.HAS_CALENDARS, (false == hasCalendars) ? false : true );
-                break;
-            default:
-                break;
-            }
+            Intent intent = new Intent( getApplicationContext(), TutorialActivity.class );
+            intent.putExtra( Constants.FIRST, (FIRST_RUN == msg.what) ? true : false );
+            intent.putExtra( Constants.HAS_CALENDARS, hasCalendars );
             startActivity( intent );
             super.handleMessage( msg );
             finish();
          }
     };
 
+    /**
+     * Checks the DB for a calendar, and sends it to the splashHandler
+     */
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.loading );
