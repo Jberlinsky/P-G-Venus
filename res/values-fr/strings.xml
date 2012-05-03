@@ -94,4 +94,7 @@
     <string name="done">Fait</string>
     <string name="completed">Terminé!</string>
     <string name="other">Autre</string>
+    <string name="howtovideo_url">http://www.youtube.com/watch?v=J6LNzyn95mc</string>
+    <string name="trvideo_url">http://www.youtube.com/watch?v=z9sD1gbFwhg</string>
+    <string name="workvideo_url">http://www.youtube.com/watch?v=UZSXBZ_gmQk</string>
 </resources>

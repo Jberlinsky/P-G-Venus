@@ -19,71 +19,70 @@ public class HowtoActivity extends Activity implements View.OnClickListener{
         ((ImageButton)findViewById( R.id.trVideoButton )).setOnClickListener( this );
         ((ImageButton)findViewById( R.id.workVideoButton )).setOnClickListener( this );
     }
-    
+
+    /**
+     * Create the menu
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.layout.tabmenu, menu);
         return true;
     }
+
+    /**
+     * Handle menu clicks
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
         case R.id.schedulemenu:
-        	startActivity( new Intent( getApplicationContext(), ScheduleActivity.class ) );
-        	finish();
+            startActivity( new Intent( this, ScheduleActivity.class ) );
+            finish();
             return true;
         case R.id.treatmentmenu:
-        	startActivity( new Intent( getApplicationContext(), TreatmentActivity.class ) );
-        	finish();
+            startActivity( new Intent( this, TreatmentActivity.class ) );
+            finish();
             return true;
         case R.id.settingmenu:
-        	startActivity( new Intent( getApplicationContext(), SettingActivity.class ) );
-        	finish();
+            startActivity( new Intent( this, SettingActivity.class ) );
+            finish();
             return true;
         case R.id.homemenu:
-        	Intent intent =  new Intent( getApplicationContext(), TutorialActivity.class );
-        	intent.putExtra("first", false);
-        	startActivity(intent);
-        	finish();
+            Intent intent =  new Intent( this, TutorialActivity.class );
+            intent.putExtra( Constants.FIRST, false);
+            startActivity(intent);
+            finish();
             return true;
         default:
             return super.onOptionsItemSelected(item);
         }
     }
 
-    public void onBackPressed(){
-    	//This is to prevent user from accidently exiting the app
-    	//pressing Home will exit the app
-    }
-    
+    /**
+     * Prevents user from accidentally exiting the app.
+     * User needs to press "home"
+     * Could be changed to "Do you want to exit?" dialog.
+     */
+    public void onBackPressed(){ }
+
+    /**
+     * Handles clicks for the how-to videos
+     */
     public void onClick( View v ) {
-    	Intent browserIntent;
+        String url = "";
         switch( v.getId() ) {
-        
         case R.id.howtoVideoButton :
-        	//French
-        	browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=J6LNzyn95mc"));
-        	//English
-        	//browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=P-9Q1ppDVI8"));
-            startActivity(browserIntent);
+            url = getString( R.string.howtovideo_url );
             break;
         case R.id.trVideoButton :
-        	//French
-        	browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=z9sD1gbFwhg "));
-        	//English
-        	//browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=YHWc1btzmr8"));
-            startActivity(browserIntent);
+            url = getString( R.string.trvideo_url );
             break;
         case R.id.workVideoButton :
-        	//French
-        	browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=UZSXBZ_gmQk"));
-        	//English
-        	//browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=8YaO9RYPBaE"));
-            startActivity(browserIntent);
+            url = getString( R.string.workvideo_url );
             break;
         default :
             break;
         }
+        startActivity( new Intent( Intent.ACTION_VIEW,
+                                   Uri.parse( url ) ) );
     }
-    
 }
