@@ -48,53 +48,14 @@ public class Constants {
     public final static String URI_EVENT_FROYO = "content://com.android.calendar/events";
     public final static String URI_EVENT_OLD = "content://calendar/events";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public final static String NAKED_SKIN = "Naked Skin ";
-
-    public final static int SPLASH_TIMEOUT = 1000; //1 second
-
-    //Tutorial copy
-    public final static String TUTORIAL_POSITIVE = "Ok";
-    public final static String TUTORIAL_NEGATIVE = "Retour";
-
-
-
-
     //Colors
     public final static int COLOR_SELECTED = Color.BLUE;
     public final static int COLOR_UNSELECTED = Color.WHITE;
-
 
     public final static int COLOR_BG_SELECTED = Color.argb(250, 0, 153, 203);
     public final static int COLOR_ALPHA_SELECTED = 150;
     public final static int COLOR_BG_UNSELECTED = Color.WHITE;
     public final static int COLOR_ALPHA_UNSELECTED = 0;
-
-
-
-    //Enum for alarms
-    public final static int MINUTE = 0;
-    public final static int HOUR = 1;
-    public final static int DAY = 2;
-    public final static int WEEK = 3;
 
     //Calendar index values
     public final static int PROJECTION_ID_INDEX = 0;
@@ -104,14 +65,5 @@ public class Constants {
     public final static int EVENT_TITLE_INDEX = 0;
     public final static int EVENT_DESC_INDEX = 1;
     public final static int EVENT_START_INDEX = 2;
-
-    //ScheduleActivity copy
-    public final static String FIRST_PICK_DIALOG = "Merci de s�lectionner la date � laquelle vous souhaitez commencer.";
-    public final static String DATE_PICK_DIALOG = "Merci de s�lectionner la date de votre traitement le plus r�cent.";
-    public final static String TIME_PICK_DIALOG = "Merci de s�lectionner l'heure de votre rappel.";
-
-
-
-
 
 }

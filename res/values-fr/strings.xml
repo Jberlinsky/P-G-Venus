@@ -110,4 +110,7 @@
     <string name="calendar_select_text">Avant de commencer, vous devrez choisir un calendrier à utiliser avec Naked Skin<sup><small>®</small></sup>. Vous pouvez toujours le changer dans le menu."</string>
     <string name="calendar_select_title">Choisir un calendrier</string>
     <string name="tutorial_start">Dans la rubrique \"Traitement du jour\" vous pouvez facilement voir quels traitements sont prévus aujourd\'hui.</string>
+    <string name="pick_start">Merci de sélectionner la date à laquelle vous souhaitez commencer.</string>
+    <string name="pick_date">Merci de sélectionner la date de votre traitement le plus récent.</string>
+    <string name="pick_time">Merci de sélectionner l\'heure de votre rappel.</string>
 </resources>

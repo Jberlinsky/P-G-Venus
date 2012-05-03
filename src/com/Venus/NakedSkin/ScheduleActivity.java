@@ -326,7 +326,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                                                          _calendar.get( Calendar.YEAR ),
                                                          _calendar.get( Calendar.MONTH ),
                                                          _calendar.get( Calendar.DATE ) );
-            fpd.setTitle( Constants.FIRST_PICK_DIALOG );
+            fpd.setTitle( getString( R.string.pick_start ) );
             return fpd;
         case DATE_DIALOG_ID:
             DatePickerDialog dpd = new DatePickerDialog( this,
@@ -341,7 +341,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                                                          _calendar.get( Calendar.YEAR ),
                                                          _calendar.get( Calendar.MONTH ),
                                                          _calendar.get( Calendar.DATE ) );
-            dpd.setTitle( Constants.DATE_PICK_DIALOG );
+            dpd.setTitle( getString( R.string.pick_date ) );
             return dpd;
         case TIME_DIALOG_ID:
             TimePickerDialog tpd = new TimePickerDialog( this,
@@ -356,7 +356,7 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                                                              _calendar.get( Calendar.HOUR_OF_DAY ),
                                                              _calendar.get( Calendar.MINUTE ),
                                                              false );
-            tpd.setTitle( Constants.TIME_PICK_DIALOG );
+            tpd.setTitle( getString( R.string.pick_time ) );
             return tpd;
         default:
             return null;

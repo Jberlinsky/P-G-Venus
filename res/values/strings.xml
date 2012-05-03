@@ -122,4 +122,7 @@
     <string name="calendar_select_title">Choose a calendar</string>
     <string name="tutorial_start">Here, under \"Today\'s Treatments,\" you can easily check what treatments are scheduled for today.</string>
     <string name="event_title_match">Naked%</string>
+    <string name="pick_start">Please select the date you want to start.</string>
+    <string name="pick_date">Please select the date of your most recent treatment.</string>
+    <string name="pick_time">Please set the time for your reminder.</string>
 </resources>
